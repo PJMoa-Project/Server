@@ -1,6 +1,7 @@
 {
-    "editor.formatOnSave": true,
-    "editor.tabSize": 2,
-    "javascript.preferences.quoteStyle": "single",
-    "typescript.preferences.quoteStyle": "single"
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "prettier.singleQuote": true
 }
