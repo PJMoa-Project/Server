@@ -5,6 +5,9 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": ">=16.13.0"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -27,7 +30,7 @@
     "@nestjs/jwt": "^8.0.0",
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.0.0",
-    "aws-sdk": "^2.1092.0",
+    "aws-sdk": "^2.1105.0",
     "multer": "^1.4.4",
     "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",
