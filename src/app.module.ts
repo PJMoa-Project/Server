@@ -6,9 +6,12 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 
 const ENV = process.env;
-
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: [`environment/.${ENV.NODE_ENV}.env`],
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: ENV.DB_HOST,
@@ -19,10 +22,6 @@ const ENV = process.env;
       entities: [],
       synchronize: true,
       logging: true,
-    }),
-    ConfigModule.forRoot({
-      envFilePath: [`environments/.${ENV.NODE_ENV}.env`],
-      isGlobal: true,
     }),
     UserModule,
     AuthModule,
