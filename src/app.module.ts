@@ -20,7 +20,7 @@ const ENV = process.env;
       password: ENV.DB_PASSWORD,
       database: ENV.DB_NAME,
       entities: [],
-      synchronize: true,
+      synchronize: ENV.NODE_ENV !== 'prod',
       logging: true,
     }),
     UserModule,
