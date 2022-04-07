@@ -20,6 +20,7 @@ export class AuthController {
   @JwtAuth()
   @Get('profile')
   getProfile(@User() user: UserRequestDto) {
+    console.log(test);
     return user;
   }
 }
