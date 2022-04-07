@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { JwtModule } from '@app/jwt';
+
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 
@@ -25,6 +27,7 @@ const ENV = process.env;
     }),
     UserModule,
     AuthModule,
+    JwtModule,
   ],
   controllers: [],
   providers: [],

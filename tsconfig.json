@@ -36,6 +36,12 @@
       "@api/shared/*": [
         "src/shared/*"
       ],
+      "@app/jwt": [
+        "libs/jwt/src"
+      ],
+      "@app/jwt/*": [
+        "libs/jwt/src/*"
+      ]
     }
   }
 }
