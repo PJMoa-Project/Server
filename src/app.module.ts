@@ -6,6 +6,7 @@ import { JwtModule } from '@app/jwt';
 
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { User } from './user/user.entity';
 
 const ENV = process.env;
 @Module({
@@ -21,7 +22,7 @@ const ENV = process.env;
       username: ENV.DB_USERNAME,
       password: ENV.DB_PASSWORD,
       database: ENV.DB_NAME,
-      entities: [],
+      entities: [User],
       synchronize: ENV.NODE_ENV !== 'prod',
       logging: true,
     }),
