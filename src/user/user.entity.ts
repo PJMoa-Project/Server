@@ -20,5 +20,5 @@ export class User {
     length: 10,
   })
   @Index({ unique: true })
-  phoneNumber: string;
+  mobile: string;
 }
