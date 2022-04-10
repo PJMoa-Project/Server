@@ -1,10 +1,4 @@
-import {
-  Column,
-  PrimaryGeneratedColumn,
-  Entity,
-  Index,
-  BaseEntity,
-} from 'typeorm';
+import { Column, PrimaryGeneratedColumn, Entity, Index } from 'typeorm';
 
 @Entity()
 export class User {
@@ -12,6 +6,7 @@ export class User {
   id: number;
 
   @Column()
+  @Index({ unique: true })
   email: string;
 
   @Column('text')
@@ -23,7 +18,7 @@ export class User {
   name: string;
 
   @Column({
-    length: 10,
+    length: 11,
   })
   @Index({ unique: true })
   mobile: string;

@@ -12,20 +12,20 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  async createUser(@Body() createUserRequestDto: CreateUserRequestDto) {
+  public createUser(@Body() createUserRequestDto: CreateUserRequestDto) {
     return this.authService.createUser(createUserRequestDto);
   }
 
   @LocalAuth()
   @Post('login')
-  async login(@Request() req) {
+  public async login(@Request() req) {
     const result = await this.authService.loginUser(req.user);
     return result;
   }
 
   @JwtAuth()
   @Get('profile')
-  getProfile(@User() user: UserRequestDto) {
+  public getProfile(@User() user: UserRequestDto) {
     return user;
   }
 }
