@@ -13,7 +13,7 @@ export class AuthController {
 
   @Post('register')
   async createUser(@Body() createUserRequestDto: CreateUserRequestDto) {
-    return createUserRequestDto;
+    return this.authService.createUser(createUserRequestDto);
   }
 
   @LocalAuth()
