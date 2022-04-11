@@ -13,6 +13,8 @@ export class CreateUserRequestDto {
 
   @IsString()
   @IsNotEmpty()
+  @MinLength(8)
+  @MaxLength(20)
   readonly password: string;
 
   @IsString()

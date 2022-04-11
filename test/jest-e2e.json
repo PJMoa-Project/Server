@@ -16,6 +16,8 @@
     "@app/utils/(.*)": "<rootDir>/../libs/utils/src/$1",
     "@app/utils": "<rootDir>/../libs/utils/src",
     "@app/jwt/(.*)": "<rootDir>/../libs/jwt/src/$1",
-    "@app/jwt": "<rootDir>/../libs/jwt/src"
+    "@app/jwt": "<rootDir>/../libs/jwt/src",
+    "@app/config/(.*)": "<rootDir>/../libs/config/src/$1",
+    "@app/config": "<rootDir>/../libs/config/src"
   }
 }

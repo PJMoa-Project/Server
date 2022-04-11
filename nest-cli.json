@@ -28,6 +28,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/jwt/tsconfig.lib.json"
       }
+    },
+    "config": {
+      "type": "library",
+      "root": "libs/config",
+      "entryFile": "index",
+      "sourceRoot": "libs/config/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/config/tsconfig.lib.json"
+      }
     }
   },
   "compilerOptions": {
