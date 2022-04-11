@@ -1,13 +1,14 @@
-import { Body, Controller, Get, Post, Request } from '@nestjs/common';
+import { Body, Get, Post, Request } from '@nestjs/common';
 
 import { User } from '@app/utils';
 import { LocalAuth, JwtAuth } from '@app/utils/guards';
 import { UserRequestDto } from '@api/shared/dto/user-request.dto';
 
+import { AuthController as Controller } from './auth.controller.decorator';
 import { AuthService } from './auth.service';
 import { CreateUserRequestDto } from './dto/create-user.dto';
 
-@Controller('auth')
+@Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
