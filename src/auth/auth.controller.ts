@@ -1,4 +1,4 @@
-import { Body, Get, Post, Request } from '@nestjs/common';
+import { Body, Get, Post, Request, Version } from '@nestjs/common';
 
 import { User } from '@app/utils';
 import { LocalAuth, JwtAuth } from '@app/utils/guards';
@@ -12,20 +12,20 @@ import { CreateUserRequestDto } from './dto/create-user.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('register')
+  @Post('/register')
   public createUser(@Body() createUserRequestDto: CreateUserRequestDto) {
     return this.authService.createUser(createUserRequestDto);
   }
 
   @LocalAuth()
-  @Post('login')
+  @Post('/login')
   public async login(@Request() req) {
     const result = await this.authService.loginUser(req.user);
     return result;
   }
 
   @JwtAuth()
-  @Get('profile')
+  @Get('/profile')
   public getProfile(@User() user: UserRequestDto) {
     return user;
   }

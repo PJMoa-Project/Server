@@ -9,15 +9,18 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  cors(app);
+
+  app.useGlobalPipes(new ValidationPipe());
+
+  app.enableVersioning();
+
   swaggerBuilder(app, {
     title: '프젝모아 API 문서',
     description: '',
     version: '0.0.1',
   });
 
-  cors(app);
-
-  app.useGlobalPipes(new ValidationPipe());
   await app.listen(3000);
 }
 bootstrap();
