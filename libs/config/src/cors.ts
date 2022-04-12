@@ -14,4 +14,4 @@ export default (app: INestApplication) => {
     ],
     credentials: true,
   });
-}
+};

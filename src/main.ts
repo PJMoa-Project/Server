@@ -11,8 +11,6 @@ async function bootstrap() {
 
   cors(app);
 
-  app.useGlobalPipes(new ValidationPipe());
-
   app.enableVersioning();
 
   swaggerBuilder(app, {
@@ -20,6 +18,8 @@ async function bootstrap() {
     description: '',
     version: '0.0.1',
   });
+
+  app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(3000);
 }
