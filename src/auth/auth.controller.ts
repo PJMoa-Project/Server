@@ -1,10 +1,14 @@
-import { Body, Get, Post, Request, Version } from '@nestjs/common';
+import { Body, Get, Post, Request } from '@nestjs/common';
 
 import { User } from '@app/utils';
-import { LocalAuth, JwtAuth } from '@app/utils/guards';
 import { UserRequestDto } from '@api/shared/dto/user-request.dto';
 
-import { AuthController as Controller } from './auth.controller.decorator';
+import {
+  AuthController as Controller,
+  CreateUser,
+  Login,
+  GetProfile,
+} from './auth.controller.decorator';
 import { AuthService } from './auth.service';
 import { CreateUserRequestDto } from './dto/create-user.dto';
 
@@ -12,20 +16,18 @@ import { CreateUserRequestDto } from './dto/create-user.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('/register')
+  @CreateUser()
   public createUser(@Body() createUserRequestDto: CreateUserRequestDto) {
     return this.authService.createUser(createUserRequestDto);
   }
 
-  @LocalAuth()
-  @Post('/login')
+  @Login()
   public async login(@Request() req) {
     const result = await this.authService.loginUser(req.user);
     return result;
   }
 
-  @JwtAuth()
-  @Get('/profile')
+  @GetProfile()
   public getProfile(@User() user: UserRequestDto) {
     return user;
   }
