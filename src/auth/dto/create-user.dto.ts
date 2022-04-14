@@ -6,6 +6,8 @@ import {
   MaxLength,
 } from 'class-validator';
 
+import { Bcrypt } from '@app/utils';
+
 export class CreateUserRequestDto {
   @IsEmail()
   @IsNotEmpty()

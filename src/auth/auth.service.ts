@@ -6,6 +6,8 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Connection } from 'typeorm';
 
+import { Bcrypt } from '@app/utils';
+
 import { UserService } from '../user/user.service';
 import { UserRepository } from '../user/user.repository';
 import { CreateUserRequestDto } from './dto/create-user.dto';
@@ -21,11 +23,17 @@ export class AuthService {
     this.userRepository = this.connection.getCustomRepository(UserRepository);
   }
 
-  public createUser = async (createUserRequestDto: CreateUserRequestDto) => {
+  public createUser = async ({ password, ...rest }: CreateUserRequestDto) => {
     try {
-      return await this.userRepository.createUser(createUserRequestDto);
+      const hashedPassword = await Bcrypt.generateHash(password);
+      return await this.userRepository.createUser({
+        password: hashedPassword,
+        ...rest,
+      });
     } catch (error) {
-      throw new InternalServerErrorException(error?.sqlMessage);
+      throw new InternalServerErrorException(
+        error?.sqlMessage ? error.sqlMessage : error,
+      );
     }
   };
 
