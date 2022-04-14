@@ -9,6 +9,6 @@ export class Bcrypt {
   }
 
   static isMatch(password: string, hash: string): Promise<boolean> {
-    return bcrypt.compare(password, hash);
+    return bcrypt.compare(hash, password);
   }
 }

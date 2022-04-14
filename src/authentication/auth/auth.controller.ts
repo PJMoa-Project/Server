@@ -12,6 +12,7 @@ import {
 } from './auth.controller.decorator';
 import { AuthService } from './auth.service';
 import { CreateUserRequestDto } from './dto/create-user.dto';
+import { LoginUserResponseDto } from './dto/login-user.dto';
 
 @Controller()
 export class AuthController {
@@ -24,8 +25,9 @@ export class AuthController {
 
   @Login()
   public async login(@Req() { user }: Request) {
-    const result = await this.authService.loginUser(user);
-    return result;
+    return new LoginUserResponseDto({
+      accessToken: await this.authService.loginUser(user),
+    });
   }
 
   @GetProfile()

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
 
 import { User } from './user.entity';
-import { CreateUserRequestDto } from '../auth/dto/create-user.dto';
+import { CreateUserRequestDto } from '../authentication/auth/dto/create-user.dto';
 
 @Injectable()
 @EntityRepository(User)
@@ -22,8 +22,11 @@ export class UserRepository extends Repository<User> {
     return this.save(user);
   };
 
-  public findUser = (email: string): Promise<User> => {
-    const result = this.findOne({ email });
+  public findUserByEmail = (email: string): Promise<User> => {
+    const result = this.createQueryBuilder('user')
+      .where('user.email = :email', { email })
+      .getOne();
+
     return result;
   };
 }

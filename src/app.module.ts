@@ -5,8 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@app/jwt';
 
 import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
 import { User } from './user/user.entity';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { TokenModule } from './authentication/token/token.module';
 
 const ENV = process.env;
 @Module({
@@ -26,9 +27,9 @@ const ENV = process.env;
       synchronize: ENV.NODE_ENV !== 'prod',
       logging: true,
     }),
-    UserModule,
-    AuthModule,
     JwtModule,
+    AuthenticationModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

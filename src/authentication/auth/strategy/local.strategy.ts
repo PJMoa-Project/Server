@@ -1,6 +1,8 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+
+import { User } from '../../../user/user.entity';
 import { AuthService } from '../auth.service';
 
 @Injectable()
@@ -10,11 +12,13 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   }
 
   public async validate(email: string, password: string): Promise<any> {
-    const user: { userId: number; email: string } =
-      await this.authService.validatorUser(email, password);
+    const user: User | null = await this.authService.validatorUser(
+      email,
+      password,
+    );
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('비밀번호 인증 실패');
     }
-    return { userId: user.userId };
+    return { userId: user.id };
   }
 }

@@ -1,24 +1,19 @@
-import {
-  Inject,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Connection } from 'typeorm';
 
 import { Bcrypt } from '@app/utils';
 
-import { UserService } from '../user/user.service';
-import { UserRepository } from '../user/user.repository';
+import { AccessTokenService } from '../token/access-token.service';
+import { UserRepository } from '../../user/user.repository';
+import { User } from '../../user/user.entity';
 import { CreateUserRequestDto } from './dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly connection: Connection,
-    private readonly userService: UserService,
     private readonly userRepository: UserRepository,
-    @Inject('JwtService') private readonly jwtService: JwtService,
+    private readonly accessTokenService: AccessTokenService,
   ) {
     this.userRepository = this.connection.getCustomRepository(UserRepository);
   }
@@ -37,19 +32,19 @@ export class AuthService {
     }
   };
 
-  public validatorUser = async (email: string, pass: string) => {
-    const user = await this.userService.findOne(email);
-    if (user && user.password === pass) {
-      const { password, ...result } = user;
-      return result;
+  public async validatorUser(
+    email: string,
+    pass: string,
+  ): Promise<User | null> {
+    const user: User = await this.userRepository.findUserByEmail(email);
+    if (user && (await Bcrypt.isMatch(user.password, pass))) {
+      return user;
     }
     return null;
-  };
+  }
 
-  public loginUser = async (user: any) => {
+  public async loginUser(user: any) {
     const payload = { userId: user.userId };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
-  };
+    return this.accessTokenService.generateAccessToken(payload);
+  }
 }
