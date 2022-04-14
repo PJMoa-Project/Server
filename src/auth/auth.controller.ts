@@ -1,4 +1,5 @@
-import { Body, Request } from '@nestjs/common';
+import { Body, Req } from '@nestjs/common';
+import { Request } from 'express';
 
 import { User } from '@app/utils';
 import { UserRequestDto } from '@api/shared/dto/user-request.dto';
@@ -22,8 +23,8 @@ export class AuthController {
   }
 
   @Login()
-  public async login(@Request() req: any) {
-    const result = await this.authService.loginUser(req.user);
+  public async login(@Req() { user }: Request) {
+    const result = await this.authService.loginUser(user);
     return result;
   }
 
