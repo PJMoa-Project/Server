@@ -40,6 +40,7 @@
     "cross-env": "^7.0.3",
     "eslint-config-airbnb-typescript": "^16.2.0",
     "express": "^4.17.3",
+    "lodash": "^4.17.21",
     "multer": "^1.4.4",
     "mysql2": "^2.3.3",
     "passport": "^0.5.2",

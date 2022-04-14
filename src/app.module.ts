@@ -1,13 +1,17 @@
-import { Module } from '@nestjs/common';
+import {
+  Module,
+  ClassSerializerInterceptor,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 
 import { JwtModule } from '@app/jwt';
 
 import { UserModule } from './user/user.module';
 import { User } from './user/user.entity';
 import { AuthenticationModule } from './authentication/authentication.module';
-import { TokenModule } from './authentication/token/token.module';
 
 const ENV = process.env;
 @Module({
@@ -31,7 +35,19 @@ const ENV = process.env;
     AuthenticationModule,
     UserModule,
   ],
-  controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_PIPE,
+      useValue: new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+      }),
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
+  ],
 })
 export class AppModule {}

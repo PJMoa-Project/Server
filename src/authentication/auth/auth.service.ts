@@ -6,7 +6,7 @@ import { Bcrypt } from '@app/utils';
 import { AccessTokenService } from '../token/access-token.service';
 import { UserRepository } from '../../user/user.repository';
 import { User } from '../../user/user.entity';
-import { CreateUserRequestDto } from './dto/create-user.dto';
+import { CreateUserRequestDto } from './dto';
 
 @Injectable()
 export class AuthService {
@@ -35,10 +35,11 @@ export class AuthService {
   public async validatorUser(
     email: string,
     pass: string,
-  ): Promise<User | null> {
+  ): Promise<Omit<User, 'password'> | null> {
     const user: User = await this.userRepository.findUserByEmail(email);
     if (user && (await Bcrypt.isMatch(user.password, pass))) {
-      return user;
+      const { password, ...result } = user;
+      return result;
     }
     return null;
   }
