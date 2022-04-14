@@ -43,8 +43,8 @@ export class AuthService {
     return null;
   }
 
-  public async loginUser(user: any) {
-    const payload = { userId: user.userId };
+  public async loginUser(userId: string) {
+    const payload = { userId };
     return this.accessTokenService.generateAccessToken(payload);
   }
 }

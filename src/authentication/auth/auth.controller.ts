@@ -24,9 +24,11 @@ export class AuthController {
   }
 
   @Login()
-  public async login(@Req() { user }: Request) {
+  public async login(
+    @Req() { user: { userId } }: { user: { userId: string } },
+  ) {
     return new LoginUserResponseDto({
-      accessToken: await this.authService.loginUser(user),
+      accessToken: await this.authService.loginUser(userId),
     });
   }
 

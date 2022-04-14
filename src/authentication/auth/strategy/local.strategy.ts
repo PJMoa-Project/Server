@@ -12,10 +12,8 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   }
 
   public async validate(email: string, password: string): Promise<any> {
-    const user: User | null = await this.authService.validatorUser(
-      email,
-      password,
-    );
+    const user: Omit<User, 'password'> | null =
+      await this.authService.validatorUser(email, password);
     if (!user) {
       throw new UnauthorizedException('비밀번호 인증 실패');
     }
