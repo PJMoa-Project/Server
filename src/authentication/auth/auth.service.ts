@@ -18,7 +18,7 @@ export class AuthService {
     this.userRepository = this.connection.getCustomRepository(UserRepository);
   }
 
-  public createUser = async ({ password, ...rest }: CreateUserRequestDto) => {
+  public async createUser({ password, ...rest }: CreateUserRequestDto) {
     try {
       const hashedPassword = await Bcrypt.generateHash(password);
       return await this.userRepository.createUser({
@@ -30,7 +30,7 @@ export class AuthService {
         error?.sqlMessage ? error.sqlMessage : error,
       );
     }
-  };
+  }
 
   public async validatorUser(
     email: string,
@@ -44,7 +44,7 @@ export class AuthService {
     return null;
   }
 
-  public async loginUser(userId: string) {
+  public async loginUser(userId: number) {
     const payload = { userId };
     return this.accessTokenService.generateAccessToken(payload);
   }

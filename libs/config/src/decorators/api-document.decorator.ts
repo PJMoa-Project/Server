@@ -23,7 +23,7 @@ export const ApiDoc = ({
   deprecated,
   okRes = {},
   createdRes,
-  bodyOptions,
+  bodyOptions = {},
 }: ApiDocumentInterface) =>
   applyDecorators(
     ApiOperation({ summary, description, deprecated }),
