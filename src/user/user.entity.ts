@@ -22,4 +22,9 @@ export class User {
   })
   @Index({ unique: true })
   mobile: string;
+
+  @Column({
+    nullable: true,
+  })
+  gitUrl: string;
 }
