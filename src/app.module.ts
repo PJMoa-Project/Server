@@ -12,6 +12,7 @@ import { JwtModule } from '@app/jwt';
 import { UserModule } from './user/user.module';
 import { User } from './user/user.entity';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { ProjectsModule } from './projects/projects.module';
 
 const ENV = process.env;
 @Module({
@@ -34,6 +35,7 @@ const ENV = process.env;
     JwtModule,
     AuthenticationModule,
     UserModule,
+    ProjectsModule,
   ],
   providers: [
     {
