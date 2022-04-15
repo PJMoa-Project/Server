@@ -53,6 +53,12 @@
       ],
       "@app/constants/*": [
         "libs/constants/src/*"
+      ],
+      "@app/entity": [
+        "src/entities"
+      ],
+      "@app/entity/*": [
+        "src/entities/*"
       ]
     }
   }

@@ -2,11 +2,11 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Connection } from 'typeorm';
 
 import { Bcrypt } from '@app/utils';
+import { User } from '@app/entity';
 
 import { AccessTokenService } from '../token/access-token.service';
 import { UserService } from '../../user/user.service';
 import { UserRepository } from '../../user/user.repository';
-import { User } from '../../user/user.entity';
 import { CreateUserRequestDto } from './dto';
 
 @Injectable()
