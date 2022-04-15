@@ -1,6 +1,6 @@
 import { Column, PrimaryGeneratedColumn, Entity, Index } from 'typeorm';
 
-@Entity()
+@Entity('user')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -27,4 +27,10 @@ export class User {
     nullable: true,
   })
   gitUrl: string;
+
+  @Column({
+    nullable: true,
+    length: 50,
+  })
+  aboutMe: string;
 }
