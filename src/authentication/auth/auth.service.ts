@@ -4,6 +4,7 @@ import { Connection } from 'typeorm';
 import { Bcrypt } from '@app/utils';
 
 import { AccessTokenService } from '../token/access-token.service';
+import { UserService } from '../../user/user.service';
 import { UserRepository } from '../../user/user.repository';
 import { User } from '../../user/user.entity';
 import { CreateUserRequestDto } from './dto';
@@ -12,6 +13,7 @@ import { CreateUserRequestDto } from './dto';
 export class AuthService {
   constructor(
     private readonly connection: Connection,
+    private readonly userService: UserService,
     private readonly userRepository: UserRepository,
     private readonly accessTokenService: AccessTokenService,
   ) {
@@ -36,7 +38,7 @@ export class AuthService {
     email: string,
     pass: string,
   ): Promise<Omit<User, 'password'> | null> {
-    const user: User = await this.userRepository.findUserByEmail(email);
+    const user: User = await this.userService.findUserByEmail(email);
     if (user && (await Bcrypt.isMatch(user.password, pass))) {
       const { password, ...result } = user;
       return result;
