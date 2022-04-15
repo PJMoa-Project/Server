@@ -10,7 +10,7 @@ interface SwaggerBuilderConfig {
 export default (
   app: INestApplication,
   { title, description, version }: SwaggerBuilderConfig,
-) => {
+): void => {
   const ENV = process.env.NODE_ENV;
 
   if (ENV !== 'prod') {
