@@ -5,6 +5,9 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column('boolean', { default: true })
+  status: boolean;
+
   @Column()
   @Index({ unique: true })
   email: string;

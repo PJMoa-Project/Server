@@ -5,6 +5,9 @@ export class Projects {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column('boolean', { default: true })
+  status: boolean;
+
   @Column({
     length: 50,
   })
