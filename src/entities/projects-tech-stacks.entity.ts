@@ -1,8 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 // NOTE: projects --< ProjectTechStacks
-@Entity('ProjectTechStacks')
-export class ProjectTechStacks {
+@Entity('ProjectsTechStacks')
+export class ProjectsTechStacks {
   @PrimaryGeneratedColumn()
   id: number;
 

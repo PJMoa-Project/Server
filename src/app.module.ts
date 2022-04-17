@@ -15,6 +15,8 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { ProjectsModule } from './projects/projects.module';
 
 const ENV = process.env;
+const entities = [User, Projects];
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -28,7 +30,7 @@ const ENV = process.env;
       username: ENV.DB_USERNAME,
       password: ENV.DB_PASSWORD,
       database: ENV.DB_NAME,
-      entities: [User, Projects],
+      entities,
       synchronize: ENV.NODE_ENV !== 'prod',
       logging: true,
     }),
