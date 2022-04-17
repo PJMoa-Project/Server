@@ -12,6 +12,14 @@ export enum OnOffLine {
   ONOFFLINE = 'onoffline',
 }
 
+export enum ProjectType {
+  APP = 'app',
+  WEB = 'web',
+  GAME = 'game',
+  ROBOT = 'robot',
+  ETC = 'etc',
+}
+
 @Entity('Projects')
 export class Projects {
   @PrimaryGeneratedColumn()
@@ -33,6 +41,12 @@ export class Projects {
     enum: OnOffLine,
   })
   onOffLine: OnOffLine;
+
+  @Column({
+    type: 'enum',
+    enum: ProjectType,
+  })
+  type: ProjectType;
 
   @Column()
   maxPeople: number;
