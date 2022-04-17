@@ -1,8 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-// NOTE: projects --< techStacks
-@Entity('TechStacks')
-export class TechStacks {
+// NOTE: projects --< ProjectTechStacks
+@Entity('ProjectTechStacks')
+export class ProjectTechStacks {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -12,5 +12,5 @@ export class TechStacks {
   @Column({
     length: 25,
   })
-  techStack: string;
+  name: string;
 }
