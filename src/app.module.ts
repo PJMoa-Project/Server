@@ -8,9 +8,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 
 import { JwtModule } from '@app/jwt';
+import { User, Projects } from '@app/entity';
 
 import { UserModule } from './user/user.module';
-import { User } from './user/user.entity';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ProjectsModule } from './projects/projects.module';
 
@@ -28,7 +28,7 @@ const ENV = process.env;
       username: ENV.DB_USERNAME,
       password: ENV.DB_PASSWORD,
       database: ENV.DB_NAME,
-      entities: [User],
+      entities: [User, Projects],
       synchronize: ENV.NODE_ENV !== 'prod',
       logging: true,
     }),

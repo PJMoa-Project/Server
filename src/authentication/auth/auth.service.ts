@@ -2,16 +2,19 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Connection } from 'typeorm';
 
 import { Bcrypt } from '@app/utils';
+import { User } from '@app/entity';
 
 import { AccessTokenService } from '../token/access-token.service';
+import { UserService } from '../../user/user.service';
 import { UserRepository } from '../../user/user.repository';
-import { User } from '../../user/user.entity';
 import { CreateUserRequestDto } from './dto';
 
+// https://www.inflearn.com/questions/248618 - transaction 참고
 @Injectable()
 export class AuthService {
   constructor(
     private readonly connection: Connection,
+    private readonly userService: UserService,
     private readonly userRepository: UserRepository,
     private readonly accessTokenService: AccessTokenService,
   ) {
@@ -19,8 +22,8 @@ export class AuthService {
   }
 
   public async createUser({ password, ...rest }: CreateUserRequestDto) {
+    const hashedPassword = await Bcrypt.generateHash(password);
     try {
-      const hashedPassword = await Bcrypt.generateHash(password);
       return await this.userRepository.createUser({
         password: hashedPassword,
         ...rest,
@@ -36,7 +39,7 @@ export class AuthService {
     email: string,
     pass: string,
   ): Promise<Omit<User, 'password'> | null> {
-    const user: User = await this.userRepository.findUserByEmail(email);
+    const user: User = await this.userService.findUserByEmail(email);
     if (user && (await Bcrypt.isMatch(user.password, pass))) {
       const { password, ...result } = user;
       return result;
@@ -48,4 +51,12 @@ export class AuthService {
     const payload = { userId };
     return this.accessTokenService.generateAccessToken(payload);
   }
+
+  // public async test() {
+  //   const queryRunner = this.connection.createQueryRunner();
+  //   await queryRunner.connect();
+
+  //   const userRepository =
+  //     queryRunner.manager.getCustomRepository(UserRepository);
+  // }
 }

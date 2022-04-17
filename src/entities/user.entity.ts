@@ -1,9 +1,12 @@
 import { Column, PrimaryGeneratedColumn, Entity, Index } from 'typeorm';
 
-@Entity()
+@Entity('user')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column('boolean', { default: true })
+  status: boolean;
 
   @Column()
   @Index({ unique: true })
@@ -22,4 +25,15 @@ export class User {
   })
   @Index({ unique: true })
   mobile: string;
+
+  @Column({
+    nullable: true,
+  })
+  gitUrl: string;
+
+  @Column({
+    nullable: true,
+    length: 50,
+  })
+  aboutMe: string;
 }
