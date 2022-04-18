@@ -5,17 +5,23 @@ import {
 } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 
 import { JwtModule } from '@app/jwt';
-import { User, Projects, ProjectsTechStacks } from '@app/entity';
+import {
+  User,
+  Projects,
+  ProjectsTechStacks,
+  ProjectsMembers,
+} from '@app/entity';
+import { AllExceptionsFilter } from '@app/utils/filters';
 
 import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ProjectsModule } from './projects/projects.module';
 
 const ENV = process.env;
-const entities = [User, Projects, ProjectsTechStacks];
+const entities = [User, Projects, ProjectsTechStacks, ProjectsMembers];
 
 @Module({
   imports: [
@@ -51,6 +57,10 @@ const entities = [User, Projects, ProjectsTechStacks];
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
     },
   ],
 })
