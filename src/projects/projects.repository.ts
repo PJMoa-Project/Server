@@ -17,6 +17,7 @@ export class ProjectsRepository extends Repository<Projects> {
       maxPeople,
       startDate,
       endDate,
+      region,
     }: CreateProjects,
     userId: number,
   ) {
@@ -29,6 +30,7 @@ export class ProjectsRepository extends Repository<Projects> {
     projects.maxPeople = maxPeople;
     projects.startDate = startDate;
     projects.endDate = endDate;
+    projects.region = region;
 
     return this.save(projects);
   }

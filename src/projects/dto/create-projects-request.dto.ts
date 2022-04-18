@@ -38,7 +38,7 @@ export class CreateProjects {
 
   @IsOptional()
   @IsString()
-  readonly region: string;
+  readonly region?: string;
 }
 
 export class CreateProjectsBodyRequestDto extends CreateProjects {

@@ -1,5 +1,11 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { Connection } from 'typeorm';
+
+import { OnOffLine } from '@app/entity';
 
 import { ProjectsRepository } from './projects.repository';
 import { ProjectsTechStacksRepository } from './projects-tech-stacks.repository';
@@ -15,12 +21,24 @@ export class ProjectsService {
       this.connection.getCustomRepository(ProjectsRepository);
   }
 
+  private validateRegion(onOffLine: OnOffLine, region?: string): void {
+    if (
+      (onOffLine === OnOffLine.ONLINE || onOffLine === OnOffLine.ONOFFLINE) &&
+      !region
+    ) {
+      throw new ForbiddenException(
+        '온라인과 온오프라인은 반드시 지역을 기입해야 합니다',
+      );
+    }
+  }
+
   public async createProject(
     createProjectsBodyRequestDto: CreateProjectsBodyRequestDto,
     userId: number,
   ) {
-    const { techStack, ...rest } = createProjectsBodyRequestDto;
-    // offline, onoffline 일 경우 region 이 필수 값이다.
+    const { techStack, onOffLine, region, ...rest } =
+      createProjectsBodyRequestDto;
+    this.validateRegion(onOffLine, region);
 
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
@@ -31,7 +49,10 @@ export class ProjectsService {
     const projectsTechStacksRepository =
       queryRunner.manager.getCustomRepository(ProjectsTechStacksRepository);
     try {
-      const projects = await projectsRepository.createProject(rest, userId);
+      const projects = await projectsRepository.createProject(
+        { onOffLine, region, ...rest },
+        userId,
+      );
 
       await projectsTechStacksRepository.createTechStacks(
         projects.id,
