@@ -19,6 +19,7 @@ import { AllExceptionsFilter } from '@app/utils/filters';
 import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ProjectsModule } from './projects/projects.module';
+import { ParticipationModule } from './participation/participation.module';
 
 const ENV = process.env;
 const entities = [User, Projects, ProjectsTechStacks, ProjectsMembers];
@@ -44,6 +45,7 @@ const entities = [User, Projects, ProjectsTechStacks, ProjectsMembers];
     AuthenticationModule,
     UserModule,
     ProjectsModule,
+    ParticipationModule,
   ],
   providers: [
     {
