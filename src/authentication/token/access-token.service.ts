@@ -10,6 +10,6 @@ export class AccessTokenService {
     if (!payload) {
       throw new BadRequestException('잘못된 accessToken');
     }
-    return this.jwtService.sign({ payload });
+    return this.jwtService.sign(payload);
   }
 }
