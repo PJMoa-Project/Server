@@ -22,4 +22,9 @@ export class ProjectsParticipationManagement {
 
   @Column({ type: 'enum', enum: ParticipationStatus })
   participationStatus: ParticipationStatus;
+
+  @Column({
+    length: 100,
+  })
+  reason: string;
 }

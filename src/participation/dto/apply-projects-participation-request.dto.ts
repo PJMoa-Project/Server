@@ -1,7 +1,5 @@
-import { IsNotEmpty, IsNumber, IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-
-import { ParticipationStatus } from '@app/entity';
+import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
 
 export class ApplyProjectsParticipationRequestDto {
   @ApiProperty()
@@ -11,11 +9,7 @@ export class ApplyProjectsParticipationRequestDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsNumber()
-  readonly userId: number;
-
-  @ApiProperty({ enum: [ParticipationStatus] })
-  @IsNotEmpty()
-  @IsEnum(ParticipationStatus)
-  readonly participationStatus: ParticipationStatus;
+  @IsString()
+  @MaxLength(100)
+  readonly reason: string;
 }
