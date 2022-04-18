@@ -24,8 +24,8 @@ export class UserRepository extends Repository<User> {
   }
 
   public findUserByEmail(email: string): Promise<User> {
-    return this.createQueryBuilder('user')
-      .where('user.email = :email', { email })
+    return this.createQueryBuilder('User')
+      .where('User.email = :email', { email })
       .getOne();
   }
 }

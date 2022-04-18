@@ -2,6 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Connection } from 'typeorm';
 
 import { ProjectsRepository } from './projects.repository';
+import { ProjectsTechStacksRepository } from './projects-tech-stacks.repository';
 import { CreateProjectsBodyRequestDto } from './dto/create-projects-request.dto';
 
 @Injectable()
@@ -27,15 +28,18 @@ export class ProjectsService {
 
     const projectsRepository =
       queryRunner.manager.getCustomRepository(ProjectsRepository);
-    // 프로젝트 생성 후, 프로젝트 id 를 통해서 tech 스택을 추가해야한다.
+    const projectsTechStacksRepository =
+      queryRunner.manager.getCustomRepository(ProjectsTechStacksRepository);
     try {
-      const { id: projectId } = await projectsRepository.createProject(
-        rest,
-        userId,
+      const projects = await projectsRepository.createProject(rest, userId);
+
+      await projectsTechStacksRepository.createTechStacks(
+        projects.id,
+        techStack,
       );
 
       await queryRunner.commitTransaction();
-      return projectId;
+      return projects;
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw new InternalServerErrorException(error);
