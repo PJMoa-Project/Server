@@ -1,13 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-export enum ParticipationStatus {
+export enum ApplicationStatus {
   APPROVAL = 'approval',
   CHECKING = 'checking',
   REJECT = 'reject',
 }
 
-@Entity('ProjectsParticipationManagement')
-export class ProjectsParticipationManagement {
+@Entity('ProjectsApplication')
+export class ProjectsApplication {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,8 +20,8 @@ export class ProjectsParticipationManagement {
   @Column()
   userId: number;
 
-  @Column({ type: 'enum', enum: ParticipationStatus })
-  participationStatus: ParticipationStatus;
+  @Column({ type: 'enum', enum: ApplicationStatus })
+  applicationStatus: ApplicationStatus;
 
   @Column({
     length: 100,

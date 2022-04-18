@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
 
-export class ApplyProjectsParticipationRequestDto {
+export class AddProjectApplicationDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsNumber()

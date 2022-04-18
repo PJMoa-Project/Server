@@ -13,14 +13,14 @@ import {
   Projects,
   ProjectsTechStacks,
   ProjectsMembers,
-  ProjectsParticipationManagement,
+  ProjectsApplication,
 } from '@app/entity';
 import { AllExceptionsFilter } from '@app/utils/filters';
 
 import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ProjectsModule } from './projects/projects.module';
-import { ParticipationModule } from './participation/participation.module';
+import { ApplicationsModule } from './applications/applications.module';
 
 const ENV = process.env;
 const entities = [
@@ -28,7 +28,7 @@ const entities = [
   Projects,
   ProjectsTechStacks,
   ProjectsMembers,
-  ProjectsParticipationManagement,
+  ProjectsApplication,
 ];
 
 @Module({
@@ -52,7 +52,7 @@ const entities = [
     AuthenticationModule,
     UserModule,
     ProjectsModule,
-    ParticipationModule,
+    ApplicationsModule,
   ],
   providers: [
     {

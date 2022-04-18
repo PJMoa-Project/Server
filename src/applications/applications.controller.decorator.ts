@@ -10,4 +10,4 @@ export const ParticipationController = () =>
   );
 
 export const ApplyProjectsParticipation = () =>
-  applyDecorators(Post('/participation/application'), JwtAuth());
+  applyDecorators(Post('/application'), JwtAuth());
