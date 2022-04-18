@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { Connection } from 'typeorm';
 
 import { ProjectsApplicationRepository } from './repository';
@@ -17,13 +21,26 @@ export class ApplicationsService {
     );
   }
 
-  private validateApplication(userId: number, projectId: number) {}
+  private async validateApplication(
+    userId: number,
+    projectId: number,
+  ): Promise<void> {
+    const result =
+      await this.projectsApplicationRepository.findProjectApplicationByUser(
+        userId,
+        projectId,
+      );
+    if (result) {
+      throw new BadRequestException('이미 신청된 프로젝트입니다');
+    }
+  }
 
   public async addProjectApplication(
     userId: number,
     { projectId, reason }: AddProjectApplicationDto,
   ) {
     await this.projectsService.validateProject(projectId);
+    await this.validateApplication(userId, projectId);
     try {
       await this.projectsApplicationRepository.addProjectApplication(
         userId,

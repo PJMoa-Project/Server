@@ -18,4 +18,12 @@ export class ProjectsApplicationRepository extends Repository<ProjectsApplicatio
       reason,
     });
   }
+
+  public findProjectApplicationByUser(userId: number, projectId: number) {
+    return this.createQueryBuilder('ProjectsApplication')
+      .where('ProjectsApplication.userId = :userId', { userId })
+      .andWhere('ProjectsApplication.projectId = :projectId', { projectId })
+      .andWhere('ProjectsApplication.status = :status', { status: true })
+      .getOne();
+  }
 }
