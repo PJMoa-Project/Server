@@ -34,4 +34,11 @@ export class ProjectsRepository extends Repository<Projects> {
 
     return this.save(projects);
   }
+
+  public findById(projectId: number) {
+    return this.createQueryBuilder('Projects')
+      .where('Projects.id = :projectId', { projectId })
+      .andWhere('Projects.status = :status', { status: true })
+      .getOne();
+  }
 }

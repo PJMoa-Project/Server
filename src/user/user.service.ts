@@ -3,7 +3,7 @@ import { Connection } from 'typeorm';
 
 import { User } from '@app/entity';
 
-import { UserRepository } from './user.repository';
+import { UserRepository } from './repository';
 
 @Injectable()
 export class UserService {
