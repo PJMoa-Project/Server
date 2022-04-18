@@ -8,6 +8,7 @@ import { Connection } from 'typeorm';
 import { OnOffLine } from '@app/entity';
 
 import { ProjectsRepository, ProjectsTechStacksRepository } from './repository';
+import { ProjectsMembersRepository } from './members/projects-members.repository';
 import { CreateProjectsBodyRequestDto } from './dto';
 
 @Injectable()
@@ -47,6 +48,9 @@ export class ProjectsService {
       queryRunner.manager.getCustomRepository(ProjectsRepository);
     const projectsTechStacksRepository =
       queryRunner.manager.getCustomRepository(ProjectsTechStacksRepository);
+    const projectsMembersRepository = queryRunner.manager.getCustomRepository(
+      ProjectsMembersRepository,
+    );
     try {
       const projects = await projectsRepository.createProject(
         { onOffLine, region, ...rest },
@@ -57,6 +61,8 @@ export class ProjectsService {
         projects.id,
         techStack,
       );
+
+      await projectsMembersRepository.addProjectMember(projects.id, userId);
 
       await queryRunner.commitTransaction();
       return projects;
