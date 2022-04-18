@@ -1,5 +1,5 @@
 import {
-  ForbiddenException,
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
@@ -26,7 +26,7 @@ export class ProjectsService {
       (onOffLine === OnOffLine.ONLINE || onOffLine === OnOffLine.ONOFFLINE) &&
       !region
     ) {
-      throw new ForbiddenException(
+      throw new BadRequestException(
         '온라인과 온오프라인은 반드시 지역을 기입해야 합니다',
       );
     }
