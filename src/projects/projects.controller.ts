@@ -8,20 +8,22 @@ import {
   ProjectsController as Controller,
   CreateProject,
 } from './projects.controller.decorator';
-import { CreateProjectsBodyRequestDto } from './dto/create-projects-request.dto';
+import { CreateProjectsBodyRequestDto, CreateProjectsResponseDto } from './dto';
 
 @Controller()
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
   @CreateProject()
-  public createProject(
+  public async createProject(
     @Body() createProjectsBodyRequestDto: CreateProjectsBodyRequestDto,
     @User() { userId }: UserRequestDto,
   ) {
-    return this.projectsService.createProject(
+    const result = await this.projectsService.createProject(
       createProjectsBodyRequestDto,
       userId,
     );
+
+    return new CreateProjectsResponseDto(result);
   }
 }

@@ -7,9 +7,8 @@ import { Connection } from 'typeorm';
 
 import { OnOffLine } from '@app/entity';
 
-import { ProjectsRepository } from './projects.repository';
-import { ProjectsTechStacksRepository } from './projects-tech-stacks.repository';
-import { CreateProjectsBodyRequestDto } from './dto/create-projects-request.dto';
+import { ProjectsRepository, ProjectsTechStacksRepository } from './repository';
+import { CreateProjectsBodyRequestDto } from './dto';
 
 @Injectable()
 export class ProjectsService {

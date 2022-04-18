@@ -3,7 +3,7 @@ import { EntityRepository, Repository } from 'typeorm';
 
 import { Projects } from '@app/entity';
 
-import { CreateProjects } from './dto/create-projects-request.dto';
+import { CreateProjects } from '../dto/create-projects-request.dto';
 
 @Injectable()
 @EntityRepository(Projects)
