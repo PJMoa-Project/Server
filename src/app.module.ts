@@ -13,6 +13,7 @@ import {
   Projects,
   ProjectsTechStacks,
   ProjectsMembers,
+  ProjectsParticipationManagement,
 } from '@app/entity';
 import { AllExceptionsFilter } from '@app/utils/filters';
 
@@ -22,7 +23,13 @@ import { ProjectsModule } from './projects/projects.module';
 import { ParticipationModule } from './participation/participation.module';
 
 const ENV = process.env;
-const entities = [User, Projects, ProjectsTechStacks, ProjectsMembers];
+const entities = [
+  User,
+  Projects,
+  ProjectsTechStacks,
+  ProjectsMembers,
+  ProjectsParticipationManagement,
+];
 
 @Module({
   imports: [

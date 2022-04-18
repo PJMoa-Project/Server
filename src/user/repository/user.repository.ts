@@ -3,7 +3,7 @@ import { EntityRepository, Repository } from 'typeorm';
 
 import { User } from '@app/entity';
 
-import { CreateUserRequestDto } from '../authentication/auth/dto';
+import { CreateUserRequestDto } from '../../authentication/auth/dto';
 
 @Injectable()
 @EntityRepository(User)
