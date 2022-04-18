@@ -8,7 +8,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 
 import { JwtModule } from '@app/jwt';
-import { User, Projects, ProjectsTechStacks, ProjectsMembers } from '@app/entity';
+import {
+  User,
+  Projects,
+  ProjectsTechStacks,
+  ProjectsMembers,
+} from '@app/entity';
 
 import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
