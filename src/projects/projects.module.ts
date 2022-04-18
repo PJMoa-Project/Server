@@ -13,5 +13,6 @@ import { ProjectsMembersModule } from './members/projects-members.module';
     ProjectsRepository,
     ProjectsTechStacksRepository,
   ],
+  exports: [ProjectsService],
 })
 export class ProjectsModule {}

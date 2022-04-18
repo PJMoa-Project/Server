@@ -15,15 +15,13 @@ export class ApplicationsController {
   constructor(private readonly applicationsService: ApplicationsService) {}
 
   @ApplyProjectsParticipation()
-  public async applyProjectsParticipation(
+  public applyProjectsParticipation(
     @Body() applyProjectsRequestDto: AddProjectApplicationDto,
     @User() { userId }: UserRequestDto,
   ) {
-    const result = await this.applicationsService.addProjectApplication(
+    return this.applicationsService.addProjectApplication(
       userId,
       applyProjectsRequestDto,
     );
-
-    return result;
   }
 }
