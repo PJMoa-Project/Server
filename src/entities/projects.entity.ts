@@ -28,6 +28,9 @@ export class Projects {
   @Column('boolean', { default: true })
   status: boolean;
 
+  @Column()
+  userId: number;
+
   @Column({
     length: 50,
   })
@@ -50,6 +53,11 @@ export class Projects {
 
   @Column()
   maxPeople: number;
+
+  @Column({
+    nullable: true,
+  })
+  region?: string;
 
   @Column({ type: 'timestamp' })
   startDate: Date;

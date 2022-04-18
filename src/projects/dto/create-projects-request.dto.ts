@@ -3,14 +3,13 @@ import {
   IsNumber,
   IsNotEmpty,
   IsEnum,
-  IsDate,
   IsArray,
-  ValidateNested,
+  IsOptional,
 } from 'class-validator';
 
 import { OnOffLine, ProjectType } from '@app/entity';
 
-export class CreateProjectsRequestDto {
+export class CreateProjects {
   @IsNotEmpty()
   @IsString()
   readonly title: string;
@@ -32,16 +31,19 @@ export class CreateProjectsRequestDto {
   readonly maxPeople: number;
 
   @IsNotEmpty()
-  @IsDate()
   readonly startDate: Date;
 
   @IsNotEmpty()
-  @IsDate()
   readonly endDate: Date;
 
+  @IsOptional()
+  @IsString()
+  readonly region: string;
+}
+
+export class CreateProjectsBodyRequestDto extends CreateProjects {
   @IsNotEmpty()
   @IsArray()
-  @IsString()
-  @ValidateNested({ each: true })
+  @IsString({ each: true })
   readonly techStack: string[];
 }

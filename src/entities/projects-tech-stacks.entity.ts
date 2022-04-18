@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-// NOTE: projects --< ProjectTechStacks
+// projects --< ProjectTechStacks
 @Entity('ProjectsTechStacks')
 export class ProjectsTechStacks {
   @PrimaryGeneratedColumn()

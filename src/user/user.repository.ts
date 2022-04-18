@@ -8,12 +8,12 @@ import { CreateUserRequestDto } from '../authentication/auth/dto';
 @Injectable()
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-  public createUser = ({
+  public createUser({
     email,
     password,
     name,
     mobile,
-  }: CreateUserRequestDto): Promise<User> => {
+  }: CreateUserRequestDto): Promise<User> {
     const user = new User();
     user.email = email;
     user.password = password;
@@ -21,11 +21,11 @@ export class UserRepository extends Repository<User> {
     user.mobile = mobile;
 
     return this.save(user);
-  };
+  }
 
-  public findUserByEmail = (email: string): Promise<User> => {
+  public findUserByEmail(email: string): Promise<User> {
     return this.createQueryBuilder('user')
       .where('user.email = :email', { email })
       .getOne();
-  };
+  }
 }

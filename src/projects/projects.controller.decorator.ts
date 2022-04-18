@@ -9,4 +9,4 @@ export const ProjectsController = () =>
     ApiTags('projects'),
   );
 
-export const CreateProjects = () => applyDecorators(Post(), JwtAuth());
+export const CreateProject = () => applyDecorators(Post(), JwtAuth());
