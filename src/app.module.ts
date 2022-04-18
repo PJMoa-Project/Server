@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 
 import { JwtModule } from '@app/jwt';
 import {
@@ -14,6 +14,7 @@ import {
   ProjectsTechStacks,
   ProjectsMembers,
 } from '@app/entity';
+import { AllExceptionsFilter } from '@app/utils/filters';
 
 import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
@@ -56,6 +57,10 @@ const entities = [User, Projects, ProjectsTechStacks, ProjectsMembers];
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
     },
   ],
 })
