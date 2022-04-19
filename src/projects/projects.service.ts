@@ -29,6 +29,20 @@ export class ProjectsService {
     return result;
   }
 
+  public async validateProjectOwner(
+    userId: number,
+    projectId: number,
+  ): Promise<void> {
+    const { userId: projectUserId } = await this.findProjectWithValidate(
+      projectId,
+    );
+    if (userId !== projectUserId) {
+      throw new BadRequestException(
+        '프로젝트 소유자가 아니므로 승인할 수 없습니다',
+      );
+    }
+  }
+
   private validateRegion(onOffLine: OnOffLine, region?: string): void {
     if (
       (onOffLine === OnOffLine.ONLINE || onOffLine === OnOffLine.ONOFFLINE) &&

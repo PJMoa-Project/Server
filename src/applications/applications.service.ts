@@ -62,20 +62,7 @@ export class ApplicationsService {
     }
   }
 
-  private async validateProjectOwner(
-    userId: number,
-    projectId: number,
-  ): Promise<void> {
-    const { userId: projectUserId } =
-      await this.projectsService.findProjectWithValidate(projectId);
-    if (userId !== projectUserId) {
-      throw new BadRequestException(
-        '프로젝트 소유자가 아니므로 승인할 수 없습니다',
-      );
-    }
-  }
-
-  private async findApplicationUserIdWithValidate(applicationId: number) {
+  private async findApplicationWithValidate(applicationId: number) {
     const result =
       await this.projectsApplicationRepository.findApproveApplication(
         applicationId,
@@ -103,10 +90,9 @@ export class ApplicationsService {
     { projectId, applicationId }: ApproveApplicationsParamRequestDto,
     userId: number,
   ) {
-    await this.validateProjectOwner(userId, projectId);
-
+    await this.projectsService.validateProjectOwner(userId, projectId);
     const { userId: applicationUserId } =
-      await this.findApplicationUserIdWithValidate(applicationId);
+      await this.findApplicationWithValidate(applicationId);
     await this.projectsMembersService.validateExistedMember(
       projectId,
       applicationUserId,
@@ -121,6 +107,7 @@ export class ApplicationsService {
     const projectsMemberRepository = queryRunner.manager.getCustomRepository(
       ProjectsMembersRepository,
     );
+
     try {
       await projectsApplicationRepository.approveApplication(applicationId);
       await projectsMemberRepository.addProjectMember(
