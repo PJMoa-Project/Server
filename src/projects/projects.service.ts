@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { Connection } from 'typeorm';
 
-import { OnOffLine } from '@app/entity';
+import { OnOffLine, Projects } from '@app/entity';
 
 import { ProjectsRepository, ProjectsTechStacksRepository } from './repository';
 import { ProjectsMembersRepository } from './members/projects-members.repository';
@@ -21,11 +21,12 @@ export class ProjectsService {
       this.connection.getCustomRepository(ProjectsRepository);
   }
 
-  public async validateProject(projectId: number): Promise<void> {
+  public async validateProject(projectId: number): Promise<Projects> {
     const result = await this.projectsRepository.findById(projectId);
     if (!result) {
       throw new BadRequestException('존재하지 않는 프로젝트입니다.');
     }
+    return result;
   }
 
   private validateRegion(onOffLine: OnOffLine, region?: string): void {

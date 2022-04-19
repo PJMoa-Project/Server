@@ -6,8 +6,12 @@ import {
 import { Connection } from 'typeorm';
 
 import { ProjectsApplicationRepository } from './repository';
-import { AddProjectApplicationDto } from './dto';
+import {
+  AddProjectApplicationDto,
+  ApproveApplicationsParamRequestDto,
+} from './dto';
 import { ProjectsService } from '../projects/projects.service';
+import { ProjectsMembersRepository } from '../projects/members/projects-members.repository';
 
 @Injectable()
 export class ApplicationsService {
@@ -51,6 +55,54 @@ export class ApplicationsService {
       return null;
     } catch (error) {
       throw new InternalServerErrorException();
+    }
+  }
+
+  private async validateProjectOwner(
+    userId: number,
+    projectId: number,
+  ): Promise<void> {
+    const { userId: projectUserId } =
+      await this.projectsService.validateProject(projectId);
+    if (userId !== projectUserId) {
+      throw new BadRequestException(
+        '프로젝트 소유자가 아니므로 승인할 수 없습니다',
+      );
+    }
+  }
+
+  public async approveApplication(
+    { projectId, applicationId }: ApproveApplicationsParamRequestDto,
+    userId: number,
+  ) {
+    await this.validateProjectOwner(userId, projectId);
+    const { userId: applicationUserId } =
+      await this.projectsApplicationRepository.findApproveApplication(
+        applicationId,
+      );
+
+    const queryRunner = this.connection.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    const projectsApplicationRepository =
+      queryRunner.manager.getCustomRepository(ProjectsApplicationRepository);
+    const projectsMemberRepository = queryRunner.manager.getCustomRepository(
+      ProjectsMembersRepository,
+    );
+    try {
+      await projectsApplicationRepository.approveApplication(applicationId);
+      await projectsMemberRepository.addProjectMember(
+        projectId,
+        applicationUserId,
+      );
+      await queryRunner.commitTransaction();
+      return null;
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw new InternalServerErrorException(error);
+    } finally {
+      await queryRunner.release();
     }
   }
 }

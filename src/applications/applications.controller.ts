@@ -33,7 +33,11 @@ export class ApplicationsController {
   public approveApplications(
     @Param()
     approveApplicationsParamRequestDto: ApproveApplicationsParamRequestDto,
+    @User() { userId }: UserRequestDto,
   ) {
-    return approveApplicationsParamRequestDto;
+    return this.applicationsService.approveApplication(
+      approveApplicationsParamRequestDto,
+      userId,
+    );
   }
 }
