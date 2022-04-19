@@ -12,6 +12,7 @@ import {
 } from './dto';
 import { ProjectsService } from '../projects/projects.service';
 import { ProjectsMembersRepository } from '../projects/members/projects-members.repository';
+import { ProjectsMembersService } from '../projects/members/projects-members.service';
 
 @Injectable()
 export class ApplicationsService {
@@ -19,6 +20,7 @@ export class ApplicationsService {
     private readonly connection: Connection,
     private readonly projectsApplicationRepository: ProjectsApplicationRepository,
     private readonly projectsService: ProjectsService,
+    private readonly projectsMembersService: ProjectsMembersService,
   ) {
     this.projectsApplicationRepository = this.connection.getCustomRepository(
       ProjectsApplicationRepository,
@@ -80,6 +82,10 @@ export class ApplicationsService {
       await this.projectsApplicationRepository.findApproveApplication(
         applicationId,
       );
+    await this.projectsMembersService.validateExistedMember(
+      projectId,
+      applicationUserId,
+    );
 
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();

@@ -39,7 +39,7 @@ export class ProjectsApplicationRepository extends Repository<ProjectsApplicatio
     applicationId: number,
   ): Promise<ProjectsApplication> {
     return this.createQueryBuilder('ProjectsApplication')
-      .where('id = :applicationId', { applicationId })
+      .where('ProjectsApplication.id = :applicationId', { applicationId })
       .getOne();
   }
 }

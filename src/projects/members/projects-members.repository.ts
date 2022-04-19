@@ -9,4 +9,12 @@ export class ProjectsMembersRepository extends Repository<ProjectsMembers> {
   public addProjectMember(projectId: number, userId: number) {
     return this.insert({ projectId, userId });
   }
+
+  public findProjectMemberByUserId(projectId: number, userId: number) {
+    return this.createQueryBuilder('ProjectsMembers')
+      .where('ProjectsMembers.projectId = :projectId', { projectId })
+      .andWhere('ProjectsMembers.userId = :userId', { userId })
+      .andWhere('ProjectsMembers.status = :status', { status: true })
+      .getOne();
+  }
 }
