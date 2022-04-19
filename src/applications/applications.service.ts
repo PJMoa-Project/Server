@@ -5,12 +5,13 @@ import {
 } from '@nestjs/common';
 import { Connection } from 'typeorm';
 
-import { ApplicationStatus } from '@app/entity';
+import { ApplicationStatus, ProjectsApplication } from '@app/entity';
 
 import { ProjectsApplicationRepository } from './repository';
 import {
   AddProjectApplicationDto,
   ApproveApplicationsParamRequestDto,
+  CancelApplicationsRequestDto,
 } from './dto';
 import { ProjectsService } from '../projects/projects.service';
 import { ProjectsMembersRepository } from '../projects/members/projects-members.repository';
@@ -29,17 +30,21 @@ export class ApplicationsService {
     );
   }
 
-  private async validateApplication(
+  private async validateAddApplication(
     userId: number,
+    projectUserId: number,
     projectId: number,
   ): Promise<void> {
+    if (userId === projectUserId) {
+      throw new BadRequestException('프로젝트의 신청자와 소유자가 같습니다');
+    }
     const result =
       await this.projectsApplicationRepository.findProjectApplicationByUser(
         userId,
         projectId,
       );
     if (result) {
-      throw new BadRequestException('이미 신청된 프로젝트입니다');
+      throw new BadRequestException('이미 신청한 프로젝트입니다');
     }
   }
 
@@ -47,8 +52,9 @@ export class ApplicationsService {
     userId: number,
     { projectId, reason }: AddProjectApplicationDto,
   ) {
-    await this.projectsService.findProjectWithValidate(projectId);
-    await this.validateApplication(userId, projectId);
+    const { userId: ProjectUserId } =
+      await this.projectsService.findProjectWithValidate(projectId);
+    await this.validateAddApplication(userId, ProjectUserId, projectId);
     try {
       await this.projectsApplicationRepository.addProjectApplication(
         userId,
@@ -62,28 +68,22 @@ export class ApplicationsService {
     }
   }
 
-  private async findApplicationWithValidate(applicationId: number) {
-    const result =
-      await this.projectsApplicationRepository.findApproveApplication(
-        applicationId,
-      );
-
-    if (!result) {
+  private validateApplication(application?: ProjectsApplication) {
+    if (!application) {
       throw new BadRequestException('존재하지 않는 프로젝트 신청입니다');
     }
 
-    const { applicationStatus } = result;
+    const { applicationStatus } = application;
 
-    if (applicationStatus === ApplicationStatus.REJECT) {
-      throw new BadRequestException(
-        '이미 거절한 프로젝트 신청이기에 승인할 수 없습니다.',
-      );
+    if (
+      applicationStatus === ApplicationStatus.REJECT ||
+      applicationStatus === ApplicationStatus.CANCEL
+    ) {
+      throw new BadRequestException('이미 취소/거절된 프로젝트 신청입니다');
     }
     if (applicationStatus === ApplicationStatus.APPROVAL) {
-      throw new BadRequestException('이미 승인되었습니다');
+      throw new BadRequestException('승인된 상태입니다');
     }
-
-    return result;
   }
 
   public async approveApplication(
@@ -91,8 +91,14 @@ export class ApplicationsService {
     userId: number,
   ) {
     await this.projectsService.validateProjectOwner(userId, projectId);
-    const { userId: applicationUserId } =
-      await this.findApplicationWithValidate(applicationId);
+
+    const applicationResult =
+      await this.projectsApplicationRepository.findApproveApplication(
+        applicationId,
+      );
+    await this.validateApplication(applicationResult);
+
+    const { userId: applicationUserId } = applicationResult;
     await this.projectsMembersService.validateExistedMember(
       projectId,
       applicationUserId,
@@ -122,5 +128,31 @@ export class ApplicationsService {
     } finally {
       await queryRunner.release();
     }
+  }
+
+  private validateCancelApplication(
+    userId: number,
+    application?: ProjectsApplication,
+  ) {
+    this.validateApplication(application);
+    const { userId: applicationUserId } = application;
+
+    if (userId !== applicationUserId) {
+      throw new BadRequestException('신청자가 아닙니다');
+    }
+  }
+
+  public async cancelApplication(
+    { applicationId }: CancelApplicationsRequestDto,
+    userId: number,
+  ) {
+    const applicationResult =
+      await this.projectsApplicationRepository.findApproveApplication(
+        applicationId,
+      );
+    this.validateCancelApplication(userId, applicationResult);
+
+    await this.projectsApplicationRepository.cancelApplication(applicationId);
+    return null;
   }
 }
