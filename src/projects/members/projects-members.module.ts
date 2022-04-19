@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 
+import { ProjectsMembersService } from './projects-members.service';
 import { ProjectsMembersRepository } from './projects-members.repository';
 
 @Module({
-  providers: [ProjectsMembersRepository],
-  exports: [ProjectsMembersRepository],
+  providers: [ProjectsMembersService, ProjectsMembersRepository],
+  exports: [ProjectsMembersService, ProjectsMembersRepository],
 })
 export class ProjectsMembersModule {}

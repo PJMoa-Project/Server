@@ -20,7 +20,7 @@ export class ProjectsRepository extends Repository<Projects> {
       region,
     }: CreateProjects,
     userId: number,
-  ) {
+  ): Promise<Projects> {
     const projects = new Projects();
     projects.userId = userId;
     projects.title = title;
@@ -35,7 +35,7 @@ export class ProjectsRepository extends Repository<Projects> {
     return this.save(projects);
   }
 
-  public findById(projectId: number) {
+  public findById(projectId: number): Promise<Projects> {
     return this.createQueryBuilder('Projects')
       .where('Projects.id = :projectId', { projectId })
       .andWhere('Projects.status = :status', { status: true })

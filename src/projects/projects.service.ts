@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { Connection } from 'typeorm';
 
-import { OnOffLine } from '@app/entity';
+import { OnOffLine, Projects } from '@app/entity';
 
 import { ProjectsRepository, ProjectsTechStacksRepository } from './repository';
 import { ProjectsMembersRepository } from './members/projects-members.repository';
@@ -21,10 +21,25 @@ export class ProjectsService {
       this.connection.getCustomRepository(ProjectsRepository);
   }
 
-  public async validateProject(projectId: number): Promise<void> {
+  public async findProjectWithValidate(projectId: number): Promise<Projects> {
     const result = await this.projectsRepository.findById(projectId);
     if (!result) {
       throw new BadRequestException('존재하지 않는 프로젝트입니다.');
+    }
+    return result;
+  }
+
+  public async validateProjectOwner(
+    userId: number,
+    projectId: number,
+  ): Promise<void> {
+    const { userId: projectUserId } = await this.findProjectWithValidate(
+      projectId,
+    );
+    if (userId !== projectUserId) {
+      throw new BadRequestException(
+        '프로젝트 소유자가 아니므로 승인할 수 없습니다',
+      );
     }
   }
 

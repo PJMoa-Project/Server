@@ -26,4 +26,21 @@ export class ProjectsApplicationRepository extends Repository<ProjectsApplicatio
       .andWhere('ProjectsApplication.status = :status', { status: true })
       .getOne();
   }
+
+  public approveApplication(applicationId: number) {
+    return this.createQueryBuilder()
+      .update(ProjectsApplication)
+      .set({ applicationStatus: ApplicationStatus.APPROVAL })
+      .where('id = :applicationId', { applicationId })
+      .execute();
+  }
+
+  public findApproveApplication(
+    applicationId: number,
+  ): Promise<ProjectsApplication> {
+    return this.createQueryBuilder('ProjectsApplication')
+      .where('ProjectsApplication.id = :applicationId', { applicationId })
+      .andWhere('ProjectsApplication.status = :status', { status: true })
+      .getOne();
+  }
 }
