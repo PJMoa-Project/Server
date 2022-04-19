@@ -1,4 +1,4 @@
-import { applyDecorators, Controller, Post } from '@nestjs/common';
+import { applyDecorators, Controller, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { JwtAuth } from '@app/utils/guards';
@@ -21,4 +21,10 @@ export const ApplyProjectsParticipation = () =>
       createdRes: { description: '참가 신청 성공', schema: {} },
       bodyOptions: { type: AddProjectApplicationDto },
     }),
+  );
+
+export const ApproveApplications = () =>
+  applyDecorators(
+    Put('/:projectId/application/:applicationId/approval'),
+    JwtAuth(),
   );

@@ -1,4 +1,4 @@
-import { Body } from '@nestjs/common';
+import { Body, Param } from '@nestjs/common';
 
 import { User } from '@app/utils';
 import { UserRequestDto } from '@api/shared/dto/user-request.dto';
@@ -6,9 +6,13 @@ import { UserRequestDto } from '@api/shared/dto/user-request.dto';
 import {
   ParticipationController as Controller,
   ApplyProjectsParticipation,
+  ApproveApplications,
 } from './applications.controller.decorator';
 import { ApplicationsService } from './applications.service';
-import { AddProjectApplicationDto } from './dto';
+import {
+  AddProjectApplicationDto,
+  ApproveApplicationsParamRequestDto,
+} from './dto';
 
 @Controller()
 export class ApplicationsController {
@@ -23,5 +27,13 @@ export class ApplicationsController {
       userId,
       applyProjectsRequestDto,
     );
+  }
+
+  @ApproveApplications()
+  public approveApplications(
+    @Param()
+    approveApplicationsParamRequestDto: ApproveApplicationsParamRequestDto,
+  ) {
+    return approveApplicationsParamRequestDto;
   }
 }
