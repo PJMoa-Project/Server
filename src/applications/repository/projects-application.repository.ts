@@ -40,6 +40,7 @@ export class ProjectsApplicationRepository extends Repository<ProjectsApplicatio
   ): Promise<ProjectsApplication> {
     return this.createQueryBuilder('ProjectsApplication')
       .where('ProjectsApplication.id = :applicationId', { applicationId })
+      .andWhere('ProjectsApplication.status = :status', { status: true })
       .getOne();
   }
 }

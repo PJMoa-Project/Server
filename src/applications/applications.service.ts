@@ -5,6 +5,8 @@ import {
 } from '@nestjs/common';
 import { Connection } from 'typeorm';
 
+import { ApplicationStatus } from '@app/entity';
+
 import { ProjectsApplicationRepository } from './repository';
 import {
   AddProjectApplicationDto,
@@ -45,7 +47,7 @@ export class ApplicationsService {
     userId: number,
     { projectId, reason }: AddProjectApplicationDto,
   ) {
-    await this.projectsService.validateProject(projectId);
+    await this.projectsService.findProjectWithValidate(projectId);
     await this.validateApplication(userId, projectId);
     try {
       await this.projectsApplicationRepository.addProjectApplication(
@@ -65,7 +67,7 @@ export class ApplicationsService {
     projectId: number,
   ): Promise<void> {
     const { userId: projectUserId } =
-      await this.projectsService.validateProject(projectId);
+      await this.projectsService.findProjectWithValidate(projectId);
     if (userId !== projectUserId) {
       throw new BadRequestException(
         '프로젝트 소유자가 아니므로 승인할 수 없습니다',
@@ -73,15 +75,38 @@ export class ApplicationsService {
     }
   }
 
+  private async findApplicationUserIdWithValidate(applicationId: number) {
+    const result =
+      await this.projectsApplicationRepository.findApproveApplication(
+        applicationId,
+      );
+
+    if (!result) {
+      throw new BadRequestException('존재하지 않는 프로젝트 신청입니다');
+    }
+
+    const { applicationStatus } = result;
+
+    if (applicationStatus === ApplicationStatus.REJECT) {
+      throw new BadRequestException(
+        '이미 거절한 프로젝트 신청이기에 승인할 수 없습니다.',
+      );
+    }
+    if (applicationStatus === ApplicationStatus.APPROVAL) {
+      throw new BadRequestException('이미 승인되었습니다');
+    }
+
+    return result;
+  }
+
   public async approveApplication(
     { projectId, applicationId }: ApproveApplicationsParamRequestDto,
     userId: number,
   ) {
     await this.validateProjectOwner(userId, projectId);
+
     const { userId: applicationUserId } =
-      await this.projectsApplicationRepository.findApproveApplication(
-        applicationId,
-      );
+      await this.findApplicationUserIdWithValidate(applicationId);
     await this.projectsMembersService.validateExistedMember(
       projectId,
       applicationUserId,

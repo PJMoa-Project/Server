@@ -21,7 +21,7 @@ export class ProjectsService {
       this.connection.getCustomRepository(ProjectsRepository);
   }
 
-  public async validateProject(projectId: number): Promise<Projects> {
+  public async findProjectWithValidate(projectId: number): Promise<Projects> {
     const result = await this.projectsRepository.findById(projectId);
     if (!result) {
       throw new BadRequestException('존재하지 않는 프로젝트입니다.');
