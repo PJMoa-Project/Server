@@ -27,4 +27,11 @@ export const ApproveApplications = () =>
   applyDecorators(
     Put('/:projectId/application/:applicationId/approval'),
     JwtAuth(),
+    ApiDoc({
+      summary: '프로젝트 신청 승인 API',
+      okRes: {
+        description: '프로젝트 신청 승인 성공',
+        schema: {},
+      },
+    }),
   );
