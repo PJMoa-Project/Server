@@ -7,11 +7,13 @@ import {
   ParticipationController as Controller,
   ApplyProjectsParticipation,
   ApproveApplications,
+  CancelApplications,
 } from './applications.controller.decorator';
 import { ApplicationsService } from './applications.service';
 import {
   AddProjectApplicationDto,
   ApproveApplicationsParamRequestDto,
+  CancelApplicationsRequestDto,
 } from './dto';
 
 @Controller()
@@ -37,6 +39,17 @@ export class ApplicationsController {
   ) {
     return this.applicationsService.approveApplication(
       approveApplicationsParamRequestDto,
+      userId,
+    );
+  }
+
+  @CancelApplications()
+  public cancelApplications(
+    @Param() cancelApplicationsRequestDto: CancelApplicationsRequestDto,
+    @User() { userId }: UserRequestDto,
+  ) {
+    return this.applicationsService.cancelApplication(
+      cancelApplicationsRequestDto,
       userId,
     );
   }

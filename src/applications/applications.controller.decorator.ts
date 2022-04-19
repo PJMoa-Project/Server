@@ -35,3 +35,16 @@ export const ApproveApplications = () =>
       },
     }),
   );
+
+export const CancelApplications = () =>
+  applyDecorators(
+    Put('/application/:applicationId/cancel'),
+    JwtAuth(),
+    ApiDoc({
+      summary: '프로젝트 신청 취소 API',
+      okRes: {
+        description: '프로젝트 신청 취소 성공',
+        schema: {},
+      },
+    }),
+  );

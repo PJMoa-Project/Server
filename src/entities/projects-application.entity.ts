@@ -4,6 +4,7 @@ export enum ApplicationStatus {
   APPROVAL = 'approval',
   CHECKING = 'checking',
   REJECT = 'reject',
+  CANCEL = 'cancel',
 }
 
 @Entity('ProjectsApplication')
