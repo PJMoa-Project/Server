@@ -12,6 +12,7 @@ import {
   AddProjectApplicationDto,
   ApproveApplicationsParamRequestDto,
   CancelApplicationsRequestDto,
+  RejectApplicationsRequestDto,
 } from './dto';
 import { ProjectsService } from '../projects/projects.service';
 import { ProjectsMembersRepository } from '../projects/members/projects-members.repository';
@@ -68,10 +69,14 @@ export class ApplicationsService {
     }
   }
 
-  private validateApplication(application?: ProjectsApplication) {
+  private validateExistedApplication(application?: ProjectsApplication) {
     if (!application) {
       throw new BadRequestException('존재하지 않는 프로젝트 신청입니다');
     }
+  }
+
+  private validateApplication(application?: ProjectsApplication) {
+    this.validateExistedApplication(application);
 
     const { applicationStatus } = application;
 
@@ -153,6 +158,32 @@ export class ApplicationsService {
     this.validateCancelApplication(userId, applicationResult);
 
     await this.projectsApplicationRepository.cancelApplication(applicationId);
+    return null;
+  }
+
+  private validateRejectApplications(application?: ProjectsApplication): void {
+    this.validateExistedApplication(application);
+    const { applicationStatus } = application;
+
+    if (applicationStatus !== ApplicationStatus.CHECKING) {
+      throw new BadRequestException(
+        'checking(확인중) 상태일 때만 거절이 가능합니다',
+      );
+    }
+  }
+
+  public async rejectApplications(
+    { projectId, applicationId }: RejectApplicationsRequestDto,
+    userId: number,
+  ) {
+    await this.projectsService.validateProjectOwner(userId, projectId);
+    const applicationResult =
+      await this.projectsApplicationRepository.findApproveApplication(
+        applicationId,
+      );
+    this.validateRejectApplications(applicationResult);
+
+    await this.projectsApplicationRepository.rejectApplications(applicationId);
     return null;
   }
 }

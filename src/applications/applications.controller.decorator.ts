@@ -48,3 +48,16 @@ export const CancelApplications = () =>
       },
     }),
   );
+
+export const RejectApplications = () =>
+  applyDecorators(
+    Put('/:projectId/application/:applicationId/reject'),
+    JwtAuth(),
+    ApiDoc({
+      summary: '프로젝트 신청 거절 API',
+      okRes: {
+        description: '프로젝트 신청 거절 성공',
+        schema: {},
+      },
+    }),
+  );
