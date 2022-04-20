@@ -51,4 +51,12 @@ export class ProjectsApplicationRepository extends Repository<ProjectsApplicatio
       .where('id = :applicationId', { applicationId })
       .execute();
   }
+
+  public rejectApplications(applicationId: number) {
+    return this.createQueryBuilder()
+      .update()
+      .set({ applicationStatus: ApplicationStatus.REJECT })
+      .where('id = :applicationId', { applicationId })
+      .execute();
+  }
 }

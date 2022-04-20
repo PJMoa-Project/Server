@@ -38,7 +38,7 @@ export class ProjectsService {
     );
     if (userId !== projectUserId) {
       throw new BadRequestException(
-        '프로젝트 소유자가 아니므로 승인할 수 없습니다',
+        '프로젝트 소유자 아닙니다',
       );
     }
   }
