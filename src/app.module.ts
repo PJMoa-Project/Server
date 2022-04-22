@@ -47,6 +47,7 @@ const entities = [
       entities,
       synchronize: ENV.NODE_ENV !== 'prod',
       logging: true,
+      timezone: '+09:00',
     }),
     JwtModule,
     AuthenticationModule,
