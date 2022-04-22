@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
@@ -37,9 +38,7 @@ export class ProjectsService {
       projectId,
     );
     if (userId !== projectUserId) {
-      throw new BadRequestException(
-        '프로젝트 소유자 아닙니다',
-      );
+      throw new ForbiddenException('프로젝트 소유자 아닙니다');
     }
   }
 
