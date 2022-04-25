@@ -8,7 +8,7 @@ import {
   ApiBody,
 } from '@nestjs/swagger';
 
-interface ApiDocumentInterface {
+interface IApiDocument {
   summary?: string;
   description?: string;
   deprecated?: boolean;
@@ -24,7 +24,7 @@ export const ApiDoc = ({
   okRes = {},
   createdRes,
   bodyOptions = {},
-}: ApiDocumentInterface) =>
+}: IApiDocument) =>
   applyDecorators(
     ApiOperation({ summary, description, deprecated }),
     ApiOkResponse(okRes),

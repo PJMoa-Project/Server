@@ -1,3 +1,3 @@
-export interface ValidateUserInterface {
+export interface IUserInterface {
   userId: number;
 }

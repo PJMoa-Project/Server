@@ -15,7 +15,7 @@ import {
   CreateUserResponseDto,
   LoginUserResponseDto,
 } from './dto';
-import { ValidateUserInterface } from './type';
+import { IUserInterface } from './type';
 
 @Controller()
 export class AuthController {
@@ -28,7 +28,7 @@ export class AuthController {
   }
 
   @Login()
-  public async login(@Req() { user }: { user: ValidateUserInterface }) {
+  public async login(@Req() { user }: { user: IUserInterface }) {
     return new LoginUserResponseDto({
       accessToken: await this.authService.loginUser(user.userId),
     });

@@ -1,12 +1,12 @@
 import { BadRequestException, Inject } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { ValidateUserInterface } from '../auth/type';
+import { IUserInterface } from '../auth/type';
 
 export class AccessTokenService {
   constructor(@Inject('JwtService') private readonly jwtService: JwtService) {}
 
-  public generateAccessToken(payload: ValidateUserInterface) {
+  public generateAccessToken(payload: IUserInterface) {
     if (!payload) {
       throw new BadRequestException('잘못된 accessToken');
     }

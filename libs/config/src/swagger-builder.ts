@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-interface SwaggerBuilderConfig {
+interface ISwaggerBuilderConfig {
   title: string;
   description: string;
   version: string;
@@ -9,7 +9,7 @@ interface SwaggerBuilderConfig {
 
 export default (
   app: INestApplication,
-  { title, description, version }: SwaggerBuilderConfig,
+  { title, description, version }: ISwaggerBuilderConfig,
 ): void => {
   const ENV = process.env.NODE_ENV;
 
