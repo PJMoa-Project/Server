@@ -6,6 +6,7 @@ import {
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 import { JwtModule } from '@app/jwt';
 import {
@@ -16,6 +17,7 @@ import {
   ProjectsApplication,
 } from '@app/entity';
 import { AllExceptionsFilter } from '@app/utils/filters';
+
 
 import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
@@ -48,6 +50,10 @@ const entities = [
       synchronize: ENV.NODE_ENV !== 'prod',
       logging: true,
       timezone: '+09:00',
+    }),
+    ThrottlerModule.forRoot({
+      ttl: 5,
+      limit: 5,
     }),
     JwtModule,
     AuthenticationModule,

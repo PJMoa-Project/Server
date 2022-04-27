@@ -12,4 +12,12 @@ export class ProjectsTechStacksRepository extends Repository<ProjectsTechStacks>
       })),
     );
   }
+
+  public deleteTechStack(techStackId: number) {
+    return this.createQueryBuilder()
+      .delete()
+      .from(ProjectsTechStacks)
+      .where('id = :techStackId', { techStackId })
+      .execute();
+  }
 }
