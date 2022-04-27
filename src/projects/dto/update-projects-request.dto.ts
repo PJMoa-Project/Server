@@ -6,8 +6,8 @@ import {
   IsNumber,
   Min,
   Max,
-  IsOptional, IsArray
-} from "class-validator";
+  IsOptional,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 import { OnOffLine, ProjectType } from '@app/entity';
@@ -55,12 +55,6 @@ export class UpdateProjectsBodyRequestDto {
   @IsNotEmpty()
   @IsString()
   readonly endDate: Date;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsArray()
-  @IsString({ each: true })
-  readonly techStack: string[];
 }
 
 export class UpdateProjectsParamRequestDto {
