@@ -1,4 +1,4 @@
-import { applyDecorators, Controller, Post } from '@nestjs/common';
+import { applyDecorators, Controller, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { JwtAuth } from '@app/utils/guards';
@@ -23,5 +23,18 @@ export const CreateProject = () =>
         type: CreateProjectsResponseDto,
       },
       bodyOptions: { type: CreateProjectsBodyRequestDto },
+    }),
+  );
+
+export const UpdateProject = () =>
+  applyDecorators(
+    Put('/:projectId'),
+    JwtAuth(),
+    ApiDoc({
+      summary: '프로젝트 수정',
+      okRes: {
+        description: '프로젝트 수정 성공',
+        schema: {},
+      },
     }),
   );
