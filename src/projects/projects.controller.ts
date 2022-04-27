@@ -1,4 +1,4 @@
-import { Body } from '@nestjs/common';
+import { Body, Param } from '@nestjs/common';
 
 import { User } from '@app/utils';
 import { UserRequestDto } from '@api/shared/dto/user-request.dto';
@@ -7,8 +7,14 @@ import { ProjectsService } from './projects.service';
 import {
   ProjectsController as Controller,
   CreateProject,
+  UpdateProject,
 } from './projects.controller.decorator';
-import { CreateProjectsBodyRequestDto, CreateProjectsResponseDto } from './dto';
+import {
+  CreateProjectsBodyRequestDto,
+  CreateProjectsResponseDto,
+  UpdateProjectsParamRequestDto,
+  UpdateProjectsBodyRequestDto,
+} from './dto';
 
 @Controller()
 export class ProjectsController {
@@ -25,5 +31,19 @@ export class ProjectsController {
     );
 
     return new CreateProjectsResponseDto(result);
+  }
+
+  @UpdateProject()
+  public async updateProject(
+    @Param() updateProjectsParamRequestDto: UpdateProjectsParamRequestDto,
+    @Body() updateProjectsBodyRequestDto: UpdateProjectsBodyRequestDto,
+    @User() { userId }: UserRequestDto,
+  ) {
+    await this.projectsService.updateProject(
+      updateProjectsParamRequestDto,
+      updateProjectsBodyRequestDto,
+      userId,
+    );
+    return null;
   }
 }

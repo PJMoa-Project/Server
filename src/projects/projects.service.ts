@@ -10,7 +10,11 @@ import { OnOffLine, Projects } from '@app/entity';
 
 import { ProjectsRepository, ProjectsTechStacksRepository } from './repository';
 import { ProjectsMembersRepository } from './members/projects-members.repository';
-import { CreateProjectsBodyRequestDto } from './dto';
+import {
+  CreateProjectsBodyRequestDto,
+  UpdateProjectsBodyRequestDto,
+  UpdateProjectsParamRequestDto,
+} from './dto';
 
 @Injectable()
 export class ProjectsService {
@@ -93,5 +97,19 @@ export class ProjectsService {
     } finally {
       await queryRunner.release();
     }
+  }
+
+  public async updateProject(
+    { projectId }: UpdateProjectsParamRequestDto,
+    updateProjectsBodyRequestDto: UpdateProjectsBodyRequestDto,
+    userId: number,
+  ) {
+    await this.validateProjectOwner(userId, projectId);
+    await this.projectsRepository.updateProject(
+      projectId,
+      updateProjectsBodyRequestDto,
+    );
+
+    return null;
   }
 }
