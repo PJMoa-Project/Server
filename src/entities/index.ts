@@ -1,5 +1,5 @@
 export * from './projects.entity';
-export * from './user.entity';
+export * from './users.entity';
 export * from './projects-tech-stacks.entity';
 export * from './projects-members.entity';
 export * from './projects-application.entity';
