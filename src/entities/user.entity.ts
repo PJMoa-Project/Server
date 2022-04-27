@@ -44,6 +44,11 @@ export class User {
   })
   aboutMe: string;
 
+  @Column({
+    nullable: true,
+  })
+  profileImage: string;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
