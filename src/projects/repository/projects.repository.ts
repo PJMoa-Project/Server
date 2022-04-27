@@ -3,7 +3,7 @@ import { EntityRepository, Repository } from 'typeorm';
 
 import { Projects } from '@app/entity';
 
-import { CreateProjects } from '../dto';
+import { CreateProjects, UpdateProjectsBodyRequestDto } from '../dto';
 
 @Injectable()
 @EntityRepository(Projects)
@@ -42,10 +42,13 @@ export class ProjectsRepository extends Repository<Projects> {
       .getOne();
   }
 
-  public updateProject(projectId: number) {
+  public updateProject(
+    projectId: number,
+    { region, ...rest }: UpdateProjectsBodyRequestDto,
+  ) {
     return this.createQueryBuilder()
       .update()
-      .set({})
+      .set({ ...rest, region: region || null })
       .where('id = :projectId', { projectId })
       .execute();
   }

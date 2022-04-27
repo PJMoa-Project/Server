@@ -34,13 +34,13 @@ export class ProjectsController {
   }
 
   @UpdateProject()
-  public updateProject(
+  public async updateProject(
     @Param() updateProjectsParamRequestDto: UpdateProjectsParamRequestDto,
     @Body() updateProjectsBodyRequestDto: UpdateProjectsBodyRequestDto,
     @User() { userId }: UserRequestDto,
   ) {
-    console.log(
-      updateProjectsBodyRequestDto,
+    await this.projectsService.updateProject(
+      updateProjectsParamRequestDto,
       updateProjectsBodyRequestDto,
       userId,
     );
