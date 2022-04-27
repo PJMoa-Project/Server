@@ -12,4 +12,6 @@ export class ProjectsTechStacksRepository extends Repository<ProjectsTechStacks>
       })),
     );
   }
+
+  public updateTechStack(techStackId: number) {}
 }

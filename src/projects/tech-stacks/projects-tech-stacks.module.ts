@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
+
 import { ProjectsTechStacksRepository } from './repository';
+import { ProjectsTechStacksService } from './projects-tech-stacks.service';
 
 @Module({
-  providers: [ProjectsTechStacksRepository],
-  exports: [ProjectsTechStacksRepository],
+  providers: [ProjectsTechStacksService, ProjectsTechStacksRepository],
+  exports: [ProjectsTechStacksService, ProjectsTechStacksRepository],
 })
 export class ProjectsTechStacksModule {}
