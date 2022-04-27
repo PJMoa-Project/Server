@@ -7,6 +7,7 @@ import { ProjectsService } from './projects.service';
 import {
   ProjectsController as Controller,
   CreateProject,
+  UpdateProject,
 } from './projects.controller.decorator';
 import { CreateProjectsBodyRequestDto, CreateProjectsResponseDto } from './dto';
 
@@ -26,4 +27,7 @@ export class ProjectsController {
 
     return new CreateProjectsResponseDto(result);
   }
+
+  @UpdateProject()
+  public updateProject() {}
 }
