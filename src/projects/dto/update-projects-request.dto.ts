@@ -1,19 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsString,
-  IsNumber,
   IsNotEmpty,
+  IsString,
   IsEnum,
-  IsArray,
-  IsOptional,
+  IsNumber,
   Min,
   Max,
-} from 'class-validator';
+  IsOptional, IsArray
+} from "class-validator";
+import { Type } from 'class-transformer';
 
 import { OnOffLine, ProjectType } from '@app/entity';
 import { PROJECT_MAX_PEOPLE } from '@app/constants';
 
-export class CreateProjects {
+export class UpdateProjectsBodyRequestDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
@@ -24,12 +24,12 @@ export class CreateProjects {
   @IsString()
   readonly contents: string;
 
-  @ApiProperty({ enum: [OnOffLine] })
+  @ApiProperty()
   @IsNotEmpty()
   @IsEnum(OnOffLine)
   readonly onOffLine: OnOffLine;
 
-  @ApiProperty({ enum: [ProjectType] })
+  @ApiProperty()
   @IsNotEmpty()
   @IsEnum(ProjectType)
   readonly type: ProjectType;
@@ -42,6 +42,11 @@ export class CreateProjects {
   readonly maxPeople: number;
 
   @ApiProperty()
+  @IsOptional()
+  @IsString()
+  readonly region?: string;
+
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   readonly startDate: Date;
@@ -52,15 +57,16 @@ export class CreateProjects {
   readonly endDate: Date;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
-  readonly region?: string;
-}
-
-export class CreateProjectsBodyRequestDto extends CreateProjects {
-  @ApiProperty()
   @IsNotEmpty()
   @IsArray()
   @IsString({ each: true })
   readonly techStack: string[];
+}
+
+export class UpdateProjectsParamRequestDto {
+  @Type(() => Number)
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsNumber()
+  readonly projectId: number;
 }

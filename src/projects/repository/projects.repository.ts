@@ -41,4 +41,12 @@ export class ProjectsRepository extends Repository<Projects> {
       .andWhere('Projects.status = :status', { status: true })
       .getOne();
   }
+
+  public updateProject(projectId: number) {
+    return this.createQueryBuilder()
+      .update()
+      .set({})
+      .where('id = :projectId', { projectId })
+      .execute();
+  }
 }

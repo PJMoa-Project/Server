@@ -1,4 +1,4 @@
-import { Body } from '@nestjs/common';
+import { Body, Param } from '@nestjs/common';
 
 import { User } from '@app/utils';
 import { UserRequestDto } from '@api/shared/dto/user-request.dto';
@@ -9,7 +9,12 @@ import {
   CreateProject,
   UpdateProject,
 } from './projects.controller.decorator';
-import { CreateProjectsBodyRequestDto, CreateProjectsResponseDto } from './dto';
+import {
+  CreateProjectsBodyRequestDto,
+  CreateProjectsResponseDto,
+  UpdateProjectsParamRequestDto,
+  UpdateProjectsBodyRequestDto,
+} from './dto';
 
 @Controller()
 export class ProjectsController {
@@ -29,5 +34,16 @@ export class ProjectsController {
   }
 
   @UpdateProject()
-  public updateProject() {}
+  public updateProject(
+    @Param() updateProjectsParamRequestDto: UpdateProjectsParamRequestDto,
+    @Body() updateProjectsBodyRequestDto: UpdateProjectsBodyRequestDto,
+    @User() { userId }: UserRequestDto,
+  ) {
+    console.log(
+      updateProjectsBodyRequestDto,
+      updateProjectsBodyRequestDto,
+      userId,
+    );
+    return null;
+  }
 }
