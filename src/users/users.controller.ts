@@ -1,4 +1,14 @@
-import { Controller } from '@nestjs/common';
+import { UploadedFile } from '@nestjs/common';
 
-@Controller('users')
-export class UsersController {}
+import {
+  UsersController as Controller,
+  CreateUserProfile,
+} from './users.controller.decorator';
+
+@Controller()
+export class UsersController {
+  @CreateUserProfile()
+  public createUserProfile(@UploadedFile() file: Express.Multer.File) {
+    return file;
+  }
+}
