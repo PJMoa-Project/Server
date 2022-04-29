@@ -17,4 +17,8 @@ export class UsersService {
   public async findUserByEmail(email: string): Promise<Users> {
     return this.userRepository.findUserByEmail(email);
   }
+
+  public createUserProfile(file: Express.Multer.File, userId: number) {
+    return file;
+  }
 }
