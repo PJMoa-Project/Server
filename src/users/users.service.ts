@@ -18,7 +18,6 @@ export class UsersService {
     return this.userRepository.findUserByEmail(email);
   }
 
-  // https://medium.com/geekculture/upload-image-to-aws-s3-localstack-using-nest-typescript-1104bcb5d9ec
   public createUserProfile(file: Express.Multer.File, userId: number) {
     return file;
   }
