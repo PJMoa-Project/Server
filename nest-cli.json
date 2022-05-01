@@ -46,6 +46,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/constants/tsconfig.lib.json"
       }
+    },
+    "image": {
+      "type": "library",
+      "root": "libs/image",
+      "entryFile": "index",
+      "sourceRoot": "libs/image/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/image/tsconfig.lib.json"
+      }
     }
   },
   "compilerOptions": {

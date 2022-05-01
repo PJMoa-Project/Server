@@ -10,7 +10,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 
 import { JwtModule } from '@app/jwt';
 import {
-  User,
+  Users,
   Projects,
   ProjectsTechStacks,
   ProjectsMembers,
@@ -18,15 +18,14 @@ import {
 } from '@app/entity';
 import { AllExceptionsFilter } from '@app/utils/filters';
 
-
-import { UserModule } from './user/user.module';
+import { UsersModule } from './users/users.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ProjectsModule } from './projects/projects.module';
 import { ApplicationsModule } from './applications/applications.module';
 
 const ENV = process.env;
 const entities = [
-  User,
+  Users,
   Projects,
   ProjectsTechStacks,
   ProjectsMembers,
@@ -57,7 +56,7 @@ const entities = [
     }),
     JwtModule,
     AuthenticationModule,
-    UserModule,
+    UsersModule,
     ProjectsModule,
     ApplicationsModule,
   ],

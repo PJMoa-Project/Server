@@ -59,6 +59,12 @@
       ],
       "@app/entity/*": [
         "src/entities/*"
+      ],
+      "@app/uploadImage": [
+        "libs/upload-image/src"
+      ],
+      "@app/uploadImage/*": [
+        "libs/upload-image/src/*"
       ]
     }
   }

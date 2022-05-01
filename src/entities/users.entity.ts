@@ -7,8 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('User')
-export class User {
+@Entity('Users')
+export class Users {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -43,6 +43,11 @@ export class User {
     length: 50,
   })
   aboutMe: string;
+
+  @Column({
+    nullable: true,
+  })
+  profileImage: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
