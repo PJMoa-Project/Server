@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
 
 import { S3ConfigProvider } from '@app/config/s3-config-provider';
+import { RandomId } from '@app/utils/random-id';
 
 interface IS3Params {
   Bucket: string;
@@ -21,7 +22,11 @@ export class UploadImageService {
     const { originalname, buffer } = file;
     const s3Bucket = this.s3Provider.getBucketName();
 
-    const result = await this.uploadS3(buffer, s3Bucket, originalname);
+    const result = await this.uploadS3(
+      buffer,
+      s3Bucket,
+      RandomId.generateRandomId(originalname),
+    );
     return result;
   }
 
@@ -37,7 +42,10 @@ export class UploadImageService {
     return result;
   }
 
-  private uploadImageToS3(s3: S3, s3Params: IS3Params) {
+  private uploadImageToS3(
+    s3: S3,
+    s3Params: IS3Params,
+  ): Promise<S3.ManagedUpload.SendData> {
     return new Promise((resolve, reject) => {
       s3.upload(s3Params, (err, data) => {
         if (err) {

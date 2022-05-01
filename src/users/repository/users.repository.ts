@@ -28,4 +28,12 @@ export class UsersRepository extends Repository<Users> {
       .where('Users.email = :email', { email })
       .getOne();
   }
+
+  public setUserProfileImage(userId: number, url: string) {
+    return this.createQueryBuilder()
+      .update()
+      .set({ profileImage: url })
+      .where('id = :userId', { userId })
+      .execute();
+  }
 }

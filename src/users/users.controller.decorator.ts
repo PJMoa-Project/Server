@@ -1,14 +1,15 @@
 import {
   applyDecorators,
   Controller,
-  Post,
+  Patch,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiConsumes } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { JwtAuth } from '@app/utils/guards';
 import { multerOptions } from '@app/config/multer';
+import { ApiDoc } from '@app/config/decorators';
 
 export const UsersController = () =>
   applyDecorators(
@@ -16,9 +17,16 @@ export const UsersController = () =>
     ApiTags('users'),
   );
 
-export const CreateUserProfile = () =>
+export const SetUserProfile = () =>
   applyDecorators(
-    Post('/profile'),
+    Patch('/profile'),
     JwtAuth(),
     UseInterceptors(FileInterceptor('imageFile', multerOptions)),
+    ApiConsumes('multipart/form-data'),
+    ApiDoc({
+      summary: '유저 프로필 설정 API',
+      okRes: {
+        schema: {},
+      },
+    }),
   );

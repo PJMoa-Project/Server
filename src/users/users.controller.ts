@@ -5,7 +5,7 @@ import { UserRequestDto } from '@api/shared/dto/user-request.dto';
 
 import {
   UsersController as Controller,
-  CreateUserProfile,
+  SetUserProfile,
 } from './users.controller.decorator';
 import { UsersService } from './users.service';
 
@@ -13,11 +13,11 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @CreateUserProfile()
-  public createUserProfile(
+  @SetUserProfile()
+  public setUserProfile(
     @UploadedFile() imageFile: Express.Multer.File,
     @User() { userId }: UserRequestDto,
   ) {
-    return this.usersService.createUserProfile(imageFile, userId);
+    return this.usersService.setUserProfile(imageFile, userId);
   }
 }
