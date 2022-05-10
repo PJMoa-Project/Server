@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Connection } from 'typeorm';
 
 import { Users } from '@app/entity';
@@ -21,6 +21,9 @@ export class UsersService {
   }
 
   public async setUserProfile(file: Express.Multer.File, userId: number) {
+    if (!file) {
+      throw new NotFoundException('이미지 파일이 없습니다');
+    }
     const { Location: location } = await this.uploadImageService.uploadImage(
       file,
     );

@@ -5,6 +5,9 @@
 - MySQL
 - TypeORM
 
+## Code Convention
+- Airbnb ESLint 를 사용하고 있습니다
+
 ## Commit message
 [Conventional Commit](https://www.conventionalcommits.org/ko/v1.0.0-beta.4/) 을 따릅니다.
 
