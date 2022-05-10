@@ -20,4 +20,12 @@ export class ProjectsTechStacksRepository extends Repository<ProjectsTechStacks>
       .where('id = :techStackId', { techStackId })
       .execute();
   }
+
+  public createTechStack(projectId: number, name: string) {
+    return this.createQueryBuilder()
+      .insert()
+      .into(ProjectsTechStacks)
+      .values({ projectId, name })
+      .execute();
+  }
 }

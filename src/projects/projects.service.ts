@@ -3,6 +3,7 @@ import {
   ForbiddenException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { Connection } from 'typeorm';
 
@@ -38,10 +39,12 @@ export class ProjectsService {
     userId: number,
     projectId: number,
   ): Promise<void> {
-    const { userId: projectUserId } = await this.findProjectWithValidate(
-      projectId,
-    );
-    if (userId !== projectUserId) {
+    const result = await this.findProjectWithValidate(projectId);
+    if (!result) {
+      throw new NotFoundException('존재하지 않는 프로젝트 입니다');
+    }
+
+    if (userId !== result.userId) {
       throw new ForbiddenException('프로젝트 소유자 아닙니다');
     }
   }
