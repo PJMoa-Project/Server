@@ -1,4 +1,4 @@
-import { applyDecorators, Controller, Delete } from '@nestjs/common';
+import { applyDecorators, Controller, Delete, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { ApiDoc } from '@app/config/decorators';
@@ -7,7 +7,7 @@ import { JwtAuth } from '@app/utils/guards';
 export const ProjectsTechStacksController = () =>
   applyDecorators(
     Controller({ path: 'projects', version: '1' }),
-    ApiTags('projects'),
+    ApiTags('projects-techStacks'),
   );
 
 export const DeleteTechStack = () =>
@@ -20,5 +20,14 @@ export const DeleteTechStack = () =>
         description: '프로젝트 기술스택 삭제 성공',
         schema: {},
       },
+    }),
+  );
+
+export const AddTechStack = () =>
+  applyDecorators(
+    Post('/tech-stacks'),
+    JwtAuth(),
+    ApiDoc({
+      summary: '프로젝트 기술스택 추가',
     }),
   );

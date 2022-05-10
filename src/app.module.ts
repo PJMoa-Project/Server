@@ -22,6 +22,7 @@ import { UsersModule } from './users/users.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ProjectsModule } from './projects/projects.module';
 import { ApplicationsModule } from './applications/applications.module';
+import { ProjectsTechStacksModule } from "./tech-stacks/projects-tech-stacks.module";
 
 const ENV = process.env;
 const entities = [
@@ -58,6 +59,7 @@ const entities = [
     AuthenticationModule,
     UsersModule,
     ProjectsModule,
+    ProjectsTechStacksModule,
     ApplicationsModule,
   ],
   providers: [
