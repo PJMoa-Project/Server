@@ -22,11 +22,11 @@ export class ProjectsMembers {
   @Column()
   userId: number;
 
-  @ManyToOne((type) => Users, (users) => users.projectsMember)
+  @ManyToOne((type) => Users, (users) => users.projectsMembers)
   @JoinColumn({ name: 'userId' })
   users: Users;
 
-  @ManyToOne((type) => Projects, (projects) => projects.projectsMember)
+  @ManyToOne((type) => Projects, (projects) => projects.projectsMembers)
   @JoinColumn({ name: 'projectId' })
   projects: Projects;
 }

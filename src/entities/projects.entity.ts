@@ -94,9 +94,9 @@ export class Projects {
 
   @OneToMany(
     (type) => ProjectsMembers,
-    (projectsMember) => projectsMember.projects,
+    (projectsMembers) => projectsMembers.projects,
   )
-  projectsMember: ProjectsMembers[];
+  projectsMembers: ProjectsMembers[];
 
   @OneToMany(
     (type) => ProjectsTechStacks,

@@ -53,7 +53,17 @@ export class ProjectsRepository extends Repository<Projects> {
       .execute();
   }
 
-  // public getProjectDetail() {
-  //   return this.createQueryBuilder().
-  // }
+  public getProjectDetail(projectId: number) {
+    return this.createQueryBuilder('Projects')
+      .leftJoinAndSelect(
+        'Projects.projectsMembers',
+        'ProjectsMembers',
+        'ProjectsMembers.status = :status',
+        { status: true },
+      )
+      .leftJoinAndSelect('Projects.projectsTechStacks', 'ProjectsTechStacks')
+      .where('Projects.id = :projectId', { projectId })
+      .andWhere('Projects.status = :status', { status: true })
+      .getOne();
+  }
 }

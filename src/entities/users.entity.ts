@@ -70,7 +70,7 @@ export class Users {
     (type) => ProjectsMembers,
     (projectsMember) => projectsMember.users,
   )
-  projectsMember: ProjectsMembers[];
+  projectsMembers: ProjectsMembers[];
 
   @OneToMany(
     (type) => ProjectsApplication,

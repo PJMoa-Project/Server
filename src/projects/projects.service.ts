@@ -120,8 +120,10 @@ export class ProjectsService {
 
   public async getProjectDetail(
     userId: number,
-    getProjectsDetailParamRequestDto: GetProjectsDetailParamRequestDto,
+    { projectId }: GetProjectsDetailParamRequestDto,
   ) {
-    return getProjectsDetailParamRequestDto;
+    const result = await this.projectsRepository.getProjectDetail(projectId);
+    console.log(result);
+    return result;
   }
 }

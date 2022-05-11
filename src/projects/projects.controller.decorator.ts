@@ -4,7 +4,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { JwtAuth } from '@app/utils/guards';
 import { ApiDoc } from '@app/config/decorators';
 
-import { CreateProjectsBodyRequestDto, CreateProjectsResponseDto } from './dto';
+import { CreateProjectsBodyRequestDto, CreateProjectsResponseDto, GetProjectsDetailResponseDto } from "./dto";
 
 export const ProjectsController = () =>
   applyDecorators(
@@ -47,6 +47,7 @@ export const GetProjectDetail = () =>
       summary: '프로젝트 상세 조회',
       okRes: {
         description: '프로젝트 상세 조회 성공',
+        type: GetProjectsDetailResponseDto,
       },
     }),
   );
