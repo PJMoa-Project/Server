@@ -20,20 +20,21 @@ export class ProjectsApplicationRepository extends Repository<ProjectsApplicatio
   }
 
   public findProjectApplicationByUser(userId: number, projectId: number) {
-    return this.createQueryBuilder('ProjectsApplication')
+    const query = this.createQueryBuilder('ProjectsApplication')
       .where('ProjectsApplication.userId = :userId', { userId })
       .andWhere('ProjectsApplication.projectId = :projectId', { projectId })
-      .andWhere('ProjectsApplication.status = :status', { status: true })
-      .getOne();
+      .andWhere('ProjectsApplication.status = :status', { status: true });
+    return query.getOne();
   }
 
   public findApproveApplication(
     applicationId: number,
   ): Promise<ProjectsApplication> {
-    return this.createQueryBuilder('ProjectsApplication')
+    const query = this.createQueryBuilder('ProjectsApplication')
       .where('ProjectsApplication.id = :applicationId', { applicationId })
-      .andWhere('ProjectsApplication.status = :status', { status: true })
-      .getOne();
+      .andWhere('ProjectsApplication.status = :status', { status: true });
+
+    return query.getOne();
   }
 
   public approveApplication(applicationId: number) {

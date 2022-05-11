@@ -36,10 +36,11 @@ export class ProjectsRepository extends Repository<Projects> {
   }
 
   public findById(projectId: number): Promise<Projects> {
-    return this.createQueryBuilder('Projects')
+    const query = this.createQueryBuilder('Projects')
       .where('Projects.id = :projectId', { projectId })
-      .andWhere('Projects.status = :status', { status: true })
-      .getOne();
+      .andWhere('Projects.status = :status', { status: true });
+
+    return query.getOne();
   }
 
   public updateProject(
@@ -53,8 +54,8 @@ export class ProjectsRepository extends Repository<Projects> {
       .execute();
   }
 
-  public getProjectDetail(projectId: number) {
-    return this.createQueryBuilder('Projects')
+  public getProjectDetail(projectId: number): Promise<Projects> {
+    const query = this.createQueryBuilder('Projects')
       .leftJoinAndSelect(
         'Projects.projectsMembers',
         'ProjectsMembers',
@@ -65,7 +66,8 @@ export class ProjectsRepository extends Repository<Projects> {
       .leftJoinAndSelect('Projects.projectsLike', 'ProjectsLike')
       .leftJoinAndSelect('Projects.users', 'Users')
       .where('Projects.id = :projectId', { projectId })
-      .andWhere('Projects.status = :status', { status: true })
-      .getOne();
+      .andWhere('Projects.status = :status', { status: true });
+
+    return query.getOne();
   }
 }
