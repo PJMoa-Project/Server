@@ -19,6 +19,7 @@ export class ProjectsLikeService {
       userId,
       projectId,
     );
+
     return result !== 0;
   }
 }

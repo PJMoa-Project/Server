@@ -12,6 +12,7 @@ import { OnOffLine, Projects } from '@app/entity';
 import { ProjectsRepository } from './repository';
 import { ProjectsTechStacksRepository } from '../tech-stacks/repository';
 import { ProjectsMembersRepository } from './members/projects-members.repository';
+import { ProjectsLikeService } from './like/projects-like.service';
 import {
   CreateProjectsBodyRequestDto,
   GetProjectsDetailParamRequestDto,
@@ -26,6 +27,7 @@ export class ProjectsService {
   constructor(
     private readonly connection: Connection,
     private readonly projectsRepository: ProjectsRepository,
+    private readonly projectsLikeService: ProjectsLikeService,
   ) {
     this.projectsRepository =
       this.connection.getCustomRepository(ProjectsRepository);
@@ -164,7 +166,7 @@ export class ProjectsService {
       gitUrl,
       aboutMe,
       techStacks: this.parseTechStacks(projectsTechStacks),
-      isLike: true,
+      isLike: await this.projectsLikeService.isLikeUser(userId, projectId),
     };
   }
 }
