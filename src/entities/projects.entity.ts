@@ -6,10 +6,12 @@ import {
   UpdateDateColumn,
   ManyToOne,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 
 import {
   ProjectsApplication,
+  ProjectsLike,
   ProjectsMembers,
   ProjectsTechStacks,
   Users,
@@ -81,6 +83,7 @@ export class Projects {
   updatedAt: Date;
 
   @ManyToOne((type) => Users, (users) => users.projects)
+  @JoinColumn({ name: 'userId' })
   users: Users;
 
   @OneToMany(
@@ -91,13 +94,16 @@ export class Projects {
 
   @OneToMany(
     (type) => ProjectsMembers,
-    (projectsMember) => projectsMember.projects,
+    (projectsMembers) => projectsMembers.projects,
   )
-  projectsMember: ProjectsMembers[];
+  projectsMembers: ProjectsMembers[];
 
   @OneToMany(
     (type) => ProjectsTechStacks,
     (projectsTechStacks) => projectsTechStacks.projects,
   )
   projectsTechStacks: ProjectsTechStacks[];
+
+  @OneToMany((type) => ProjectsLike, (projectsLike) => projectsLike.projects)
+  projectsLike: ProjectsLike[];
 }

@@ -17,4 +17,11 @@ export class ProjectsMembersRepository extends Repository<ProjectsMembers> {
       .andWhere('ProjectsMembers.status = :status', { status: true })
       .getOne();
   }
+
+  public getProjectMemberCount(projectId: number): Promise<number> {
+    return this.createQueryBuilder('ProjectsMembers')
+      .where('ProjectsMembers.projectId = :projectId', { projectId })
+      .andWhere('ProjectsMembers.status = :status', { status: true })
+      .getCount();
+  }
 }

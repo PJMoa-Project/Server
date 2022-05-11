@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { Connection } from 'typeorm';
 
 import { ProjectsMembersRepository } from './projects-members.repository';
@@ -12,6 +16,16 @@ export class ProjectsMembersService {
     this.projectsMembersRepository = this.connection.getCustomRepository(
       ProjectsMembersRepository,
     );
+  }
+
+  public async validateMaxPeople(projectId: number, maxPeople: number) {
+    const result = await this.projectsMembersRepository.getProjectMemberCount(
+      projectId,
+    );
+
+    if (result >= maxPeople) {
+      throw new ForbiddenException('프로젝트가 최대 인원입니다');
+    }
   }
 
   public async validateExistedMember(

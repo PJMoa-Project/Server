@@ -24,9 +24,12 @@ export class UsersRepository extends Repository<Users> {
   }
 
   public findUserByEmail(email: string): Promise<Users> {
-    return this.createQueryBuilder('Users')
-      .where('Users.email = :email', { email })
-      .getOne();
+    const query = this.createQueryBuilder('Users').where(
+      'Users.email = :email',
+      { email },
+    );
+
+    return query.getOne();
   }
 
   public setUserProfileImage(userId: number, url: string) {

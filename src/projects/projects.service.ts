@@ -9,19 +9,25 @@ import { Connection } from 'typeorm';
 
 import { OnOffLine, Projects } from '@app/entity';
 
-import { ProjectsRepository, ProjectsTechStacksRepository } from './repository';
+import { ProjectsRepository } from './repository';
+import { ProjectsTechStacksRepository } from '../tech-stacks/repository';
 import { ProjectsMembersRepository } from './members/projects-members.repository';
+import { ProjectsLikeService } from './like/projects-like.service';
 import {
   CreateProjectsBodyRequestDto,
+  GetProjectsDetailParamRequestDto,
+  GetProjectsDetailResponseDto,
   UpdateProjectsBodyRequestDto,
   UpdateProjectsParamRequestDto,
 } from './dto';
+import { GetProjectsTechStack } from './type';
 
 @Injectable()
 export class ProjectsService {
   constructor(
     private readonly connection: Connection,
     private readonly projectsRepository: ProjectsRepository,
+    private readonly projectsLikeService: ProjectsLikeService,
   ) {
     this.projectsRepository =
       this.connection.getCustomRepository(ProjectsRepository);
@@ -114,5 +120,58 @@ export class ProjectsService {
     );
 
     return null;
+  }
+
+  private parseTechStacks(techStacks: GetProjectsTechStack[]): string[] {
+    return techStacks.map(({ name }: GetProjectsTechStack) => name);
+  }
+
+  public async getProjectDetail(
+    userId: number,
+    { projectId }: GetProjectsDetailParamRequestDto,
+  ): Promise<GetProjectsDetailResponseDto> {
+    const result = await this.projectsRepository.getProjectDetail(projectId);
+    if (!result) {
+      throw new NotFoundException('프로젝트가 존재하지 않습니다');
+    }
+
+    const {
+      projectsApplication,
+      projectsTechStacks,
+      projectsMembers,
+      projectsLike,
+      users: { name: ownerName, gitUrl, aboutMe },
+      ...projects
+    } = result;
+
+    const {
+      title,
+      contents,
+      type,
+      onOffLine,
+      region,
+      maxPeople: maxPeopleCount,
+      startDate,
+      endDate,
+    } = projects;
+
+    return {
+      projectId,
+      title,
+      contents,
+      type,
+      onOffLine,
+      region,
+      maxPeopleCount,
+      memberCount: projectsMembers.length,
+      likeCount: projectsLike.length,
+      startDate,
+      endDate,
+      ownerName,
+      gitUrl,
+      aboutMe,
+      techStacks: this.parseTechStacks(projectsTechStacks),
+      isLike: await this.projectsLikeService.isLikeUser(userId, projectId),
+    };
   }
 }

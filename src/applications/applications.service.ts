@@ -1,6 +1,6 @@
 import {
-  BadRequestException,
   Injectable,
+  BadRequestException,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { Connection } from 'typeorm';
@@ -37,7 +37,7 @@ export class ApplicationsService {
     projectId: number,
   ): Promise<void> {
     if (userId === projectUserId) {
-      throw new BadRequestException('프로젝트의 신청자와 소유자가 같습니다');
+      throw new BadRequestException('프로젝트 담당자는 신청할 수 없습니다');
     }
     const result =
       await this.projectsApplicationRepository.findProjectApplicationByUser(
@@ -53,9 +53,11 @@ export class ApplicationsService {
     userId: number,
     { projectId, reason }: AddProjectApplicationDto,
   ) {
-    const { userId: ProjectUserId } =
+    const { userId: ProjectUserId, maxPeople } =
       await this.projectsService.findProjectWithValidate(projectId);
+
     await this.validateAddApplication(userId, ProjectUserId, projectId);
+    await this.projectsMembersService.validateMaxPeople(projectId, maxPeople);
     try {
       await this.projectsApplicationRepository.addProjectApplication(
         userId,

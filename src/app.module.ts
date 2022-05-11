@@ -15,6 +15,7 @@ import {
   ProjectsTechStacks,
   ProjectsMembers,
   ProjectsApplication,
+  ProjectsLike,
 } from '@app/entity';
 import { AllExceptionsFilter } from '@app/utils/filters';
 
@@ -22,7 +23,7 @@ import { UsersModule } from './users/users.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ProjectsModule } from './projects/projects.module';
 import { ApplicationsModule } from './applications/applications.module';
-import { ProjectsTechStacksModule } from "./tech-stacks/projects-tech-stacks.module";
+import { ProjectsTechStacksModule } from './tech-stacks/projects-tech-stacks.module';
 
 const ENV = process.env;
 const entities = [
@@ -31,6 +32,7 @@ const entities = [
   ProjectsTechStacks,
   ProjectsMembers,
   ProjectsApplication,
+  ProjectsLike,
 ];
 
 @Module({

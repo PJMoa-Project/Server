@@ -8,7 +8,12 @@ import {
   OneToMany,
 } from 'typeorm';
 
-import { Projects, ProjectsApplication, ProjectsMembers } from '@app/entity';
+import {
+  Projects,
+  ProjectsApplication,
+  ProjectsLike,
+  ProjectsMembers,
+} from '@app/entity';
 
 @Entity('Users')
 export class Users {
@@ -65,11 +70,14 @@ export class Users {
     (type) => ProjectsMembers,
     (projectsMember) => projectsMember.users,
   )
-  projectsMember: ProjectsMembers[];
+  projectsMembers: ProjectsMembers[];
 
   @OneToMany(
     (type) => ProjectsApplication,
     (projectsApplication) => projectsApplication.users,
   )
   projectsApplication: ProjectsApplication[];
+
+  @OneToMany((type) => ProjectsLike, (projectsLike) => projectsLike.users)
+  projectsLike: ProjectsLike[];
 }
