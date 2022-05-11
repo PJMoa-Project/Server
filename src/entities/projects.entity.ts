@@ -105,5 +105,5 @@ export class Projects {
   projectsTechStacks: ProjectsTechStacks[];
 
   @OneToMany((type) => ProjectsLike, (projectsLike) => projectsLike.projects)
-  projectsLike: ProjectsLike;
+  projectsLike: ProjectsLike[];
 }

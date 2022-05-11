@@ -79,5 +79,5 @@ export class Users {
   projectsApplication: ProjectsApplication[];
 
   @OneToMany((type) => ProjectsLike, (projectsLike) => projectsLike.users)
-  projectsLike: ProjectsLike;
+  projectsLike: ProjectsLike[];
 }

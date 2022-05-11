@@ -62,6 +62,8 @@ export class ProjectsRepository extends Repository<Projects> {
         { status: true },
       )
       .leftJoinAndSelect('Projects.projectsTechStacks', 'ProjectsTechStacks')
+      .leftJoinAndSelect('Projects.projectsLike', 'ProjectsLike')
+      .leftJoinAndSelect('Projects.users', 'Users')
       .where('Projects.id = :projectId', { projectId })
       .andWhere('Projects.status = :status', { status: true })
       .getOne();

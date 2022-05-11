@@ -20,9 +20,9 @@ export class ProjectsLike {
 
   @ManyToOne((type) => Users, (users) => users.projectsLike)
   @JoinColumn({ name: 'userId' })
-  users: Users[];
+  users: Users;
 
   @ManyToOne((type) => Projects, (projects) => projects.projectsLike)
   @JoinColumn({ name: 'projectId' })
-  projects: Projects[];
+  projects: Projects;
 }

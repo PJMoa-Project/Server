@@ -16,6 +16,7 @@ import {
   UpdateProjectsParamRequestDto,
   UpdateProjectsBodyRequestDto,
   GetProjectsDetailParamRequestDto,
+  GetProjectsDetailResponseDto,
 } from './dto';
 
 @Controller()
@@ -59,6 +60,6 @@ export class ProjectsController {
       getProjectsDetailParamRequestDto,
     );
 
-    return result;
+    return new GetProjectsDetailResponseDto(result);
   }
 }

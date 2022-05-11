@@ -15,9 +15,11 @@ import { ProjectsMembersRepository } from './members/projects-members.repository
 import {
   CreateProjectsBodyRequestDto,
   GetProjectsDetailParamRequestDto,
+  GetProjectsDetailResponseDto,
   UpdateProjectsBodyRequestDto,
   UpdateProjectsParamRequestDto,
 } from './dto';
+import { GetProjectsTechStack } from './type';
 
 @Injectable()
 export class ProjectsService {
@@ -118,12 +120,50 @@ export class ProjectsService {
     return null;
   }
 
+  private parseTechStacks(techStacks: GetProjectsTechStack[]): string[] {
+    return techStacks.map(({ name }: GetProjectsTechStack) => name);
+  }
+
   public async getProjectDetail(
     userId: number,
     { projectId }: GetProjectsDetailParamRequestDto,
-  ) {
-    const result = await this.projectsRepository.getProjectDetail(projectId);
-    console.log(result);
-    return result;
+  ): Promise<GetProjectsDetailResponseDto> {
+    const {
+      projectsApplication,
+      projectsTechStacks,
+      projectsMembers,
+      projectsLike,
+      users: { name: ownerName, gitUrl, aboutMe },
+      ...projects
+    } = await this.projectsRepository.getProjectDetail(projectId);
+
+    const {
+      title,
+      contents,
+      type,
+      onOffLine,
+      region,
+      maxPeople: maxPeopleCount,
+      startDate,
+      endDate,
+    } = projects;
+
+    return {
+      projectId,
+      title,
+      contents,
+      type,
+      onOffLine,
+      region,
+      maxPeopleCount,
+      memberCount: projectsMembers.length,
+      likeCount: projectsLike.length,
+      startDate,
+      endDate,
+      ownerName,
+      gitUrl,
+      aboutMe,
+      techStacks: this.parseTechStacks(projectsTechStacks),
+    };
   }
 }
