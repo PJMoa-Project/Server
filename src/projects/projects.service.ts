@@ -14,6 +14,7 @@ import { ProjectsTechStacksRepository } from '../tech-stacks/repository';
 import { ProjectsMembersRepository } from './members/projects-members.repository';
 import {
   CreateProjectsBodyRequestDto,
+  GetProjectsDetailParamRequestDto,
   UpdateProjectsBodyRequestDto,
   UpdateProjectsParamRequestDto,
 } from './dto';
@@ -115,5 +116,12 @@ export class ProjectsService {
     );
 
     return null;
+  }
+
+  public async getProjectDetail(
+    userId: number,
+    getProjectsDetailParamRequestDto: GetProjectsDetailParamRequestDto,
+  ) {
+    return getProjectsDetailParamRequestDto;
   }
 }

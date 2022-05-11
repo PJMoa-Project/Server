@@ -11,6 +11,7 @@ import {
 
 import {
   ProjectsApplication,
+  ProjectsLike,
   ProjectsMembers,
   ProjectsTechStacks,
   Users,
@@ -102,4 +103,7 @@ export class Projects {
     (projectsTechStacks) => projectsTechStacks.projects,
   )
   projectsTechStacks: ProjectsTechStacks[];
+
+  @OneToMany((type) => ProjectsLike, (projectsLike) => projectsLike.projects)
+  projectsLike: ProjectsLike;
 }

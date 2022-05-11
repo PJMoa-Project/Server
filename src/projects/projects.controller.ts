@@ -51,8 +51,14 @@ export class ProjectsController {
 
   @GetProjectDetail()
   public async getProjectDetail(
+    @User() { userId }: UserRequestDto,
     @Param() getProjectsDetailParamRequestDto: GetProjectsDetailParamRequestDto,
   ) {
-    return getProjectsDetailParamRequestDto;
+    const result = await this.projectsService.getProjectDetail(
+      userId,
+      getProjectsDetailParamRequestDto,
+    );
+
+    return result;
   }
 }
