@@ -9,7 +9,8 @@ import { Connection } from 'typeorm';
 
 import { OnOffLine, Projects } from '@app/entity';
 
-import { ProjectsRepository, ProjectsTechStacksRepository } from './repository';
+import { ProjectsRepository } from './repository';
+import { ProjectsTechStacksRepository } from '../tech-stacks/repository';
 import { ProjectsMembersRepository } from './members/projects-members.repository';
 import {
   CreateProjectsBodyRequestDto,

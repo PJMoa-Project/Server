@@ -52,4 +52,8 @@ export class ProjectsRepository extends Repository<Projects> {
       .where('id = :projectId', { projectId })
       .execute();
   }
+
+  // public getProjectDetail() {
+  //   return this.createQueryBuilder().
+  // }
 }
