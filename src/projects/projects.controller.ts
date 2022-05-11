@@ -8,12 +8,14 @@ import {
   ProjectsController as Controller,
   CreateProject,
   UpdateProject,
+  GetProjectDetail,
 } from './projects.controller.decorator';
 import {
   CreateProjectsBodyRequestDto,
   CreateProjectsResponseDto,
   UpdateProjectsParamRequestDto,
   UpdateProjectsBodyRequestDto,
+  GetProjectsDetailParamRequestDto,
 } from './dto';
 
 @Controller()
@@ -45,5 +47,12 @@ export class ProjectsController {
       userId,
     );
     return null;
+  }
+
+  @GetProjectDetail()
+  public async getProjectDetail(
+    @Param() getProjectsDetailParamRequestDto: GetProjectsDetailParamRequestDto,
+  ) {
+    return getProjectsDetailParamRequestDto;
   }
 }
