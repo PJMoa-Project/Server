@@ -130,6 +130,11 @@ export class ProjectsService {
     userId: number,
     { projectId }: GetProjectsDetailParamRequestDto,
   ): Promise<GetProjectsDetailResponseDto> {
+    const result = await this.projectsRepository.getProjectDetail(projectId);
+    if (!result) {
+      throw new NotFoundException('프로젝트가 존재하지 않습니다');
+    }
+
     const {
       projectsApplication,
       projectsTechStacks,
@@ -137,7 +142,7 @@ export class ProjectsService {
       projectsLike,
       users: { name: ownerName, gitUrl, aboutMe },
       ...projects
-    } = await this.projectsRepository.getProjectDetail(projectId);
+    } = result;
 
     const {
       title,
