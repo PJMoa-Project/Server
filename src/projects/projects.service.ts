@@ -164,6 +164,7 @@ export class ProjectsService {
       gitUrl,
       aboutMe,
       techStacks: this.parseTechStacks(projectsTechStacks),
+      isLike: true,
     };
   }
 }

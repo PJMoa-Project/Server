@@ -29,6 +29,8 @@ export class GetProjectsDetailResponseDto {
 
   readonly aboutMe: string | null;
 
+  readonly isLike: boolean;
+
   readonly techStacks: string[];
 
   constructor(partial: Partial<GetProjectsDetailResponseDto>) {
