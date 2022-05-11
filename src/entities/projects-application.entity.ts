@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+
+import { Projects, Users } from '@app/entity';
 
 export enum ApplicationStatus {
   APPROVAL = 'approval',
@@ -28,4 +30,10 @@ export class ProjectsApplication {
     length: 100,
   })
   reason: string;
+
+  @ManyToOne((type) => Users, (users) => users.projectsApplication)
+  users: Users[];
+
+  @ManyToOne((type) => Projects, (projects) => projects.projectsApplication)
+  projects: Projects[];
 }

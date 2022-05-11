@@ -5,7 +5,10 @@ import {
   Index,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+
+import { Projects, ProjectsApplication, ProjectsMembers } from '@app/entity';
 
 @Entity('Users')
 export class Users {
@@ -54,4 +57,19 @@ export class Users {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
+
+  @OneToMany((type) => Projects, (projects) => projects.users)
+  projects: Projects[];
+
+  @OneToMany(
+    (type) => ProjectsMembers,
+    (projectsMember) => projectsMember.users,
+  )
+  projectsMember: ProjectsMembers[];
+
+  @OneToMany(
+    (type) => ProjectsApplication,
+    (projectsApplication) => projectsApplication.users,
+  )
+  projectsApplication: ProjectsApplication[];
 }

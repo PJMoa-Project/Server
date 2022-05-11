@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { OnOffLine, Projects, ProjectType } from '@app/entity';
+import { OnOffLine, ProjectType } from '@app/entity';
 
-export class CreateProjectsResponseDto implements Projects {
+export class CreateProjectsResponseDto {
   @ApiProperty()
   readonly id: number;
 

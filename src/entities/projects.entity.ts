@@ -4,7 +4,16 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  OneToMany,
 } from 'typeorm';
+
+import {
+  ProjectsApplication,
+  ProjectsMembers,
+  ProjectsTechStacks,
+  Users,
+} from '@app/entity';
 
 export enum OnOffLine {
   ONLINE = 'online',
@@ -70,4 +79,25 @@ export class Projects {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
+
+  @ManyToOne((type) => Users, (users) => users.projects)
+  users: Users;
+
+  @OneToMany(
+    (type) => ProjectsApplication,
+    (projectsApplication) => projectsApplication.projects,
+  )
+  projectsApplication: ProjectsApplication[];
+
+  @OneToMany(
+    (type) => ProjectsMembers,
+    (projectsMember) => projectsMember.projects,
+  )
+  projectsMember: ProjectsMembers[];
+
+  @OneToMany(
+    (type) => ProjectsTechStacks,
+    (projectsTechStacks) => projectsTechStacks.projects,
+  )
+  projectsTechStacks: ProjectsTechStacks[];
 }

@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+
+import { Projects, Users } from '@app/entity';
 
 @Entity('ProjectsMembers')
 export class ProjectsMembers {
@@ -13,4 +15,10 @@ export class ProjectsMembers {
 
   @Column()
   userId: number;
+
+  @ManyToOne((type) => Users, (users) => users.projectsMember)
+  users: Users;
+
+  @ManyToOne((type) => Projects, (projects) => projects.projectsMember)
+  projects: Projects;
 }

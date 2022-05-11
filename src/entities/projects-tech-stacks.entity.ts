@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Projects } from '@app/entity';
 
 // projects --< ProjectTechStacks
 @Entity('ProjectsTechStacks')
@@ -13,4 +14,7 @@ export class ProjectsTechStacks {
     length: 25,
   })
   name: string;
+
+  @ManyToOne((type) => Projects, (projects) => projects.projectsTechStacks)
+  projects: Projects[];
 }
