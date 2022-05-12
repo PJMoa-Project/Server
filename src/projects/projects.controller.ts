@@ -1,4 +1,4 @@
-import { Body, Param } from '@nestjs/common';
+import { Body, Param, Query } from '@nestjs/common';
 
 import { User } from '@app/utils';
 import { UserRequestDto } from '@api/shared/dto/user-request.dto';
@@ -9,6 +9,7 @@ import {
   CreateProject,
   UpdateProject,
   GetProjectDetail,
+  GetProjects,
 } from './projects.controller.decorator';
 import {
   CreateProjectsBodyRequestDto,
@@ -18,6 +19,7 @@ import {
   GetProjectsDetailParamRequestDto,
   GetProjectsDetailResponseDto,
 } from './dto';
+import { GetProjectsQueryRequestDto } from './dto/get-projects-request.dto';
 
 @Controller()
 export class ProjectsController {
@@ -61,5 +63,12 @@ export class ProjectsController {
     );
 
     return new GetProjectsDetailResponseDto(result);
+  }
+
+  @GetProjects()
+  public async getProject(
+    @Query() getProjectsQueryRequestDto: GetProjectsQueryRequestDto,
+  ) {
+    return getProjectsQueryRequestDto;
   }
 }
