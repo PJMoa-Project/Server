@@ -4,6 +4,7 @@ import { EntityRepository, Repository } from 'typeorm';
 import { Projects } from '@app/entity';
 
 import { CreateProjects, UpdateProjectsBodyRequestDto } from '../dto';
+import { IGetProjectParam } from '../type';
 
 @Injectable()
 @EntityRepository(Projects)
@@ -69,5 +70,33 @@ export class ProjectsRepository extends Repository<Projects> {
       .andWhere('Projects.status = :status', { status: true });
 
     return query.getOne();
+  }
+
+  public getProjects({
+    personnel,
+    region,
+    projectType,
+    onOffLine,
+  }: IGetProjectParam) {
+    const query = this.createQueryBuilder('Projects').leftJoinAndSelect(
+      'Projects.projectsMembers',
+      'ProjectsMembers',
+      'ProjectsMembers.status = :status',
+      { status: true },
+    );
+    if (region) {
+      query.andWhere('Projects.region = :region', { region });
+    }
+    if (personnel) {
+      query.andWhere('Projects.maxPeople >= :personnel', { personnel });
+    }
+    if (projectType) {
+      query.andWhere('Projects.type = :projectType', { projectType });
+    }
+    if (onOffLine) {
+      query.andWhere('Projects.onOffLine = :onOffLine', { onOffLine });
+    }
+
+    return query.getMany();
   }
 }

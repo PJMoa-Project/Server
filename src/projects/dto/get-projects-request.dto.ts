@@ -1,7 +1,7 @@
 import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
-import { ProjectType } from '@app/entity';
+import { OnOffLine, ProjectType } from '@app/entity';
 
 export class GetProjectsQueryRequestDto {
   @Type(() => Number)
@@ -15,5 +15,9 @@ export class GetProjectsQueryRequestDto {
 
   @IsOptional()
   @IsEnum(ProjectType)
-  readonly type?: ProjectType;
+  readonly projectType?: ProjectType;
+
+  @IsOptional()
+  @IsEnum(OnOffLine)
+  readonly onOffLine: OnOffLine;
 }
