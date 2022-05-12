@@ -3,8 +3,11 @@ import { EntityRepository, Repository } from 'typeorm';
 
 import { Projects } from '@app/entity';
 
-import { CreateProjects, UpdateProjectsBodyRequestDto } from '../dto';
-import { IGetProjectParam } from '../type';
+import {
+  CreateProjects,
+  UpdateProjectsBodyRequestDto,
+  GetProjectsQueryRequestDto,
+} from '../dto';
 
 @Injectable()
 @EntityRepository(Projects)
@@ -77,7 +80,7 @@ export class ProjectsRepository extends Repository<Projects> {
     region,
     projectType,
     onOffLine,
-  }: IGetProjectParam) {
+  }: GetProjectsQueryRequestDto) {
     const query = this.createQueryBuilder('Projects').leftJoinAndSelect(
       'Projects.projectsMembers',
       'ProjectsMembers',

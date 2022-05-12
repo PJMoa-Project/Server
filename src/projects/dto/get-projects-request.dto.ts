@@ -2,8 +2,9 @@ import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
 import { OnOffLine, ProjectType } from '@app/entity';
+import { PageRequestDto } from '@api/shared/dto';
 
-export class GetProjectsQueryRequestDto {
+export class GetProjectsQueryRequestDto extends PageRequestDto {
   @Type(() => Number)
   @IsOptional()
   @IsNumber()
@@ -19,5 +20,5 @@ export class GetProjectsQueryRequestDto {
 
   @IsOptional()
   @IsEnum(OnOffLine)
-  readonly onOffLine: OnOffLine;
+  readonly onOffLine?: OnOffLine;
 }
