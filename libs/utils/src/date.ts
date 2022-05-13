@@ -1,11 +1,11 @@
 import * as dateFns from 'date-fns';
 
 export class DateFns {
-  static now(date?: Date) {
-    return date ? new Date(date) : new Date();
+  static now() {
+    return dateFns.formatISO(new Date());
   }
 
-  static convertDateToISO(date: Date) {
-    return dateFns.formatISO(date);
+  static getDate(date: Date) {
+    return dateFns.formatISO(new Date(date));
   }
 }

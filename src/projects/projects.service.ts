@@ -6,8 +6,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Connection } from 'typeorm';
+import * as _ from 'lodash';
 
 import { OnOffLine, Projects } from '@app/entity';
+import { DateFns } from '@app/utils';
 
 import { ProjectsRepository } from './repository';
 import { ProjectsTechStacksRepository } from '../tech-stacks/repository';
@@ -17,8 +19,11 @@ import {
   CreateProjectsBodyRequestDto,
   GetProjectsDetailParamRequestDto,
   GetProjectsDetailResponseDto,
+  GetProjectsQueryRequestDto,
   UpdateProjectsBodyRequestDto,
   UpdateProjectsParamRequestDto,
+  GetProjects,
+  GetProjectsResponseDto,
 } from './dto';
 import { GetProjectsTechStack } from './type';
 
@@ -66,12 +71,21 @@ export class ProjectsService {
     }
   }
 
+  private validateDate(startDate: Date): void {
+    const projectStartDate = DateFns.getDate(startDate);
+    const now = DateFns.now();
+    if (now > projectStartDate) {
+      throw new BadRequestException('시작일은 현재시간보다 커야합니다');
+    }
+  }
+
   public async createProject(
     createProjectsBodyRequestDto: CreateProjectsBodyRequestDto,
     userId: number,
   ) {
-    const { techStack, onOffLine, region, ...rest } =
+    const { techStack, onOffLine, region, startDate, ...rest } =
       createProjectsBodyRequestDto;
+    this.validateDate(startDate);
     this.validateRegion(onOffLine, region);
 
     const queryRunner = this.connection.createQueryRunner();
@@ -87,7 +101,7 @@ export class ProjectsService {
     );
     try {
       const projects = await projectsRepository.createProject(
-        { onOffLine, region, ...rest },
+        { onOffLine, region, startDate, ...rest },
         userId,
       );
 
@@ -172,6 +186,45 @@ export class ProjectsService {
       aboutMe,
       techStacks: this.parseTechStacks(projectsTechStacks),
       isLike: await this.projectsLikeService.isLikeUser(userId, projectId),
+    };
+  }
+
+  public parseProjects(projects: Projects[]): GetProjects[] {
+    return projects.map(
+      ({
+        id: projectId,
+        title,
+        type: projectType,
+        onOffLine,
+        region,
+        projectsMembers,
+        maxPeople,
+        startDate,
+        endDate,
+      }: Projects) => ({
+        projectId,
+        title,
+        projectType,
+        onOffLine,
+        region,
+        memberCount: projectsMembers.length,
+        maxPeople,
+        startDate,
+        endDate,
+      }),
+    );
+  }
+
+  public async getProjects(
+    getProjectsQueryRequestDto: GetProjectsQueryRequestDto,
+  ): Promise<GetProjectsResponseDto> {
+    const result = await this.projectsRepository.getProjects(
+      getProjectsQueryRequestDto,
+    );
+
+    return {
+      projects: _.isEmpty(result[0]) ? null : this.parseProjects(result[0]),
+      projectCount: result[1],
     };
   }
 }

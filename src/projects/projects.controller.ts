@@ -1,7 +1,8 @@
-import { Body, Param } from '@nestjs/common';
+import { Body, Param, Query } from '@nestjs/common';
 
 import { User } from '@app/utils';
 import { UserRequestDto } from '@api/shared/dto/user-request.dto';
+import { Projects } from '@app/entity';
 
 import { ProjectsService } from './projects.service';
 import {
@@ -9,6 +10,7 @@ import {
   CreateProject,
   UpdateProject,
   GetProjectDetail,
+  GetProjects,
 } from './projects.controller.decorator';
 import {
   CreateProjectsBodyRequestDto,
@@ -17,7 +19,9 @@ import {
   UpdateProjectsBodyRequestDto,
   GetProjectsDetailParamRequestDto,
   GetProjectsDetailResponseDto,
+  GetProjectsQueryRequestDto,
 } from './dto';
+import { GetProjectsResponseDto } from './dto/get-projects-response.dto';
 
 @Controller()
 export class ProjectsController {
@@ -61,5 +65,16 @@ export class ProjectsController {
     );
 
     return new GetProjectsDetailResponseDto(result);
+  }
+
+  @GetProjects()
+  public async getProject(
+    @Query() getProjectsQueryRequestDto: GetProjectsQueryRequestDto,
+  ) {
+    const result = await this.projectsService.getProjects(
+      getProjectsQueryRequestDto,
+    );
+
+    return new GetProjectsResponseDto(result);
   }
 }

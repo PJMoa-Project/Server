@@ -3,7 +3,11 @@ import { EntityRepository, Repository } from 'typeorm';
 
 import { Projects } from '@app/entity';
 
-import { CreateProjects, UpdateProjectsBodyRequestDto } from '../dto';
+import {
+  CreateProjects,
+  UpdateProjectsBodyRequestDto,
+  GetProjectsQueryRequestDto,
+} from '../dto';
 
 @Injectable()
 @EntityRepository(Projects)
@@ -69,5 +73,37 @@ export class ProjectsRepository extends Repository<Projects> {
       .andWhere('Projects.status = :status', { status: true });
 
     return query.getOne();
+  }
+
+  public getProjects(
+    queryParam: GetProjectsQueryRequestDto,
+  ): Promise<[Projects[], number]> {
+    const { region, personnel, projectType, onOffLine } = queryParam;
+
+    const query = this.createQueryBuilder('Projects')
+      .leftJoinAndSelect(
+        'Projects.projectsMembers',
+        'ProjectsMembers',
+        'ProjectsMembers.status = :status',
+        { status: true },
+      )
+      .limit(queryParam.getLimit())
+      .offset(queryParam.getOffset());
+
+    if (region) {
+      query.andWhere('Projects.region = :region', { region });
+    }
+    if (personnel) {
+      query.andWhere('Projects.maxPeople >= :personnel', { personnel });
+    }
+    if (projectType) {
+      query.andWhere('Projects.type = :projectType', { projectType });
+    }
+    if (onOffLine) {
+      query.andWhere('Projects.onOffLine = :onOffLine', { onOffLine });
+    }
+    query.orderBy('Projects.createdAt', 'DESC');
+
+    return query.getManyAndCount();
   }
 }
