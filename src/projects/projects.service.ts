@@ -9,6 +9,7 @@ import { Connection } from 'typeorm';
 import * as _ from 'lodash';
 
 import { OnOffLine, Projects } from '@app/entity';
+import { DateFns } from '@app/utils';
 
 import { ProjectsRepository } from './repository';
 import { ProjectsTechStacksRepository } from '../tech-stacks/repository';
@@ -70,12 +71,21 @@ export class ProjectsService {
     }
   }
 
+  private validateDate(startDate: Date): void {
+    const projectStartDate = DateFns.getDate(startDate);
+    const now = DateFns.now();
+    if (now > projectStartDate) {
+      throw new BadRequestException('시작일은 현재시간보다 커야합니다');
+    }
+  }
+
   public async createProject(
     createProjectsBodyRequestDto: CreateProjectsBodyRequestDto,
     userId: number,
   ) {
-    const { techStack, onOffLine, region, ...rest } =
+    const { techStack, onOffLine, region, startDate, ...rest } =
       createProjectsBodyRequestDto;
+    this.validateDate(startDate);
     this.validateRegion(onOffLine, region);
 
     const queryRunner = this.connection.createQueryRunner();
@@ -91,7 +101,7 @@ export class ProjectsService {
     );
     try {
       const projects = await projectsRepository.createProject(
-        { onOffLine, region, ...rest },
+        { onOffLine, region, startDate, ...rest },
         userId,
       );
 
