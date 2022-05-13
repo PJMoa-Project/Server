@@ -75,18 +75,21 @@ export class ProjectsRepository extends Repository<Projects> {
     return query.getOne();
   }
 
-  public getProjects({
-    personnel,
-    region,
-    projectType,
-    onOffLine,
-  }: GetProjectsQueryRequestDto) {
-    const query = this.createQueryBuilder('Projects').leftJoinAndSelect(
-      'Projects.projectsMembers',
-      'ProjectsMembers',
-      'ProjectsMembers.status = :status',
-      { status: true },
-    );
+  public getProjects(
+    queryParam: GetProjectsQueryRequestDto,
+  ): Promise<[Projects[], number]> {
+    const { region, personnel, projectType, onOffLine } = queryParam;
+
+    const query = this.createQueryBuilder('Projects')
+      .leftJoinAndSelect(
+        'Projects.projectsMembers',
+        'ProjectsMembers',
+        'ProjectsMembers.status = :status',
+        { status: true },
+      )
+      .limit(queryParam.getLimit())
+      .offset(queryParam.getOffset());
+
     if (region) {
       query.andWhere('Projects.region = :region', { region });
     }
@@ -100,6 +103,6 @@ export class ProjectsRepository extends Repository<Projects> {
       query.andWhere('Projects.onOffLine = :onOffLine', { onOffLine });
     }
 
-    return query.getMany();
+    return query.getManyAndCount();
   }
 }

@@ -17,6 +17,7 @@ import {
   CreateProjectsBodyRequestDto,
   GetProjectsDetailParamRequestDto,
   GetProjectsDetailResponseDto,
+  GetProjectsQueryRequestDto,
   UpdateProjectsBodyRequestDto,
   UpdateProjectsParamRequestDto,
 } from './dto';
@@ -173,5 +174,9 @@ export class ProjectsService {
       techStacks: this.parseTechStacks(projectsTechStacks),
       isLike: await this.projectsLikeService.isLikeUser(userId, projectId),
     };
+  }
+
+  public getProjects(getProjectsQueryRequestDto: GetProjectsQueryRequestDto) {
+    return this.projectsRepository.getProjects(getProjectsQueryRequestDto);
   }
 }

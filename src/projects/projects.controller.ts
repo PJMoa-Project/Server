@@ -69,6 +69,10 @@ export class ProjectsController {
   public async getProject(
     @Query() getProjectsQueryRequestDto: GetProjectsQueryRequestDto,
   ) {
-    return getProjectsQueryRequestDto;
+    const result = await this.projectsService.getProjects(
+      getProjectsQueryRequestDto,
+    );
+
+    return result;
   }
 }
