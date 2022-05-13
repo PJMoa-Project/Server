@@ -9,6 +9,7 @@ import {
   ApproveApplications,
   CancelApplications,
   RejectApplications,
+  GetApplications,
 } from './applications.controller.decorator';
 import { ApplicationsService } from './applications.service';
 import {
@@ -21,6 +22,9 @@ import {
 @Controller()
 export class ApplicationsController {
   constructor(private readonly applicationsService: ApplicationsService) {}
+
+  @GetApplications()
+  public getApplications() {}
 
   @ApplyProjectsParticipation()
   public applyProjectsParticipation(

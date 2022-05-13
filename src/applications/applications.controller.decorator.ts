@@ -1,10 +1,10 @@
-import { applyDecorators, Controller, Post, Put } from '@nestjs/common';
+import { applyDecorators, Controller, Get, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { JwtAuth } from '@app/utils/guards';
 import { ApiDoc } from '@app/config/decorators';
 
-import { AddProjectApplicationDto } from './dto';
+import { AddProjectApplicationDto, GetApplicationsResponseDto } from './dto';
 
 export const ParticipationController = () =>
   applyDecorators(
@@ -12,9 +12,22 @@ export const ParticipationController = () =>
     ApiTags('Projects Participation'),
   );
 
+export const GetApplications = () =>
+  applyDecorators(
+    Get('/applications'),
+    JwtAuth(),
+    ApiDoc({
+      summary: '프로젝트 참가 신청기록 조회 API',
+      okRes: {
+        description: '프로젝트 참가 신청기록 조회 성공',
+        type: GetApplicationsResponseDto,
+      },
+    }),
+  );
+
 export const ApplyProjectsParticipation = () =>
   applyDecorators(
-    Post('/application'),
+    Post('/applications'),
     JwtAuth(),
     ApiDoc({
       summary: '프로젝트 참가 신청 API',
@@ -25,7 +38,7 @@ export const ApplyProjectsParticipation = () =>
 
 export const ApproveApplications = () =>
   applyDecorators(
-    Put('/:projectId/application/:applicationId/approval'),
+    Put('/:projectId/applications/:applicationId/approval'),
     JwtAuth(),
     ApiDoc({
       summary: '프로젝트 신청 승인 API',
@@ -38,7 +51,7 @@ export const ApproveApplications = () =>
 
 export const CancelApplications = () =>
   applyDecorators(
-    Put('/application/:applicationId/cancel'),
+    Put('/applications/:applicationId/cancel'),
     JwtAuth(),
     ApiDoc({
       summary: '프로젝트 신청 취소 API',
@@ -51,7 +64,7 @@ export const CancelApplications = () =>
 
 export const RejectApplications = () =>
   applyDecorators(
-    Put('/:projectId/application/:applicationId/reject'),
+    Put('/:projectId/applications/:applicationId/reject'),
     JwtAuth(),
     ApiDoc({
       summary: '프로젝트 신청 거절 API',
