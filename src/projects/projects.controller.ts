@@ -75,6 +75,6 @@ export class ProjectsController {
       getProjectsQueryRequestDto,
     );
 
-    return result;
+    return new GetProjectsResponseDto(result);
   }
 }

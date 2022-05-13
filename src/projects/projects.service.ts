@@ -6,6 +6,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Connection } from 'typeorm';
+import * as _ from 'lodash';
 
 import { OnOffLine, Projects } from '@app/entity';
 
@@ -212,7 +213,7 @@ export class ProjectsService {
     );
 
     return {
-      projects: this.parseProjects(result[0]),
+      projects: _.isEmpty(result[0]) ? null : this.parseProjects(result[0]),
       projectCount: result[1],
     };
   }

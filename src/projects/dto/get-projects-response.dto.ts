@@ -21,7 +21,11 @@ export class GetProjects {
 }
 
 export class GetProjectsResponseDto {
-  readonly projects: GetProjects[];
+  readonly projects: GetProjects[] | null;
 
   readonly projectCount: number;
+
+  constructor(partial: Partial<GetProjectsResponseDto>) {
+    Object.assign(this, partial);
+  }
 }

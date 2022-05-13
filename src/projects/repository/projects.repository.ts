@@ -102,6 +102,7 @@ export class ProjectsRepository extends Repository<Projects> {
     if (onOffLine) {
       query.andWhere('Projects.onOffLine = :onOffLine', { onOffLine });
     }
+    query.orderBy('Projects.createdAt', 'DESC');
 
     return query.getManyAndCount();
   }
