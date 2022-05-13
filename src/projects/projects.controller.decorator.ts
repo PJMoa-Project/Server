@@ -8,6 +8,7 @@ import {
   CreateProjectsBodyRequestDto,
   CreateProjectsResponseDto,
   GetProjectsDetailResponseDto,
+  GetProjectsResponseDto,
 } from './dto';
 
 export const ProjectsController = () =>
@@ -63,7 +64,7 @@ export const GetProjects = () =>
       summary: '프로젝트 조회',
       okRes: {
         description: '프로젝트 조회 성공',
-        // type: ,
+        type: GetProjectsResponseDto,
       },
     }),
   );
