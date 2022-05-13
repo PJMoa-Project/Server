@@ -2,6 +2,7 @@ import { Body, Param, Query } from '@nestjs/common';
 
 import { User } from '@app/utils';
 import { UserRequestDto } from '@api/shared/dto/user-request.dto';
+import { Projects } from '@app/entity';
 
 import { ProjectsService } from './projects.service';
 import {
@@ -18,8 +19,9 @@ import {
   UpdateProjectsBodyRequestDto,
   GetProjectsDetailParamRequestDto,
   GetProjectsDetailResponseDto,
+  GetProjectsQueryRequestDto,
 } from './dto';
-import { GetProjectsQueryRequestDto } from './dto/get-projects-request.dto';
+import { GetProjectsResponseDto } from './dto/get-projects-response.dto';
 
 @Controller()
 export class ProjectsController {

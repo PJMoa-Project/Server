@@ -22,4 +22,6 @@ export class GetProjects {
 
 export class GetProjectsResponseDto {
   readonly projects: GetProjects[];
+
+  readonly projectCount: number;
 }

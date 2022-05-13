@@ -20,6 +20,8 @@ import {
   GetProjectsQueryRequestDto,
   UpdateProjectsBodyRequestDto,
   UpdateProjectsParamRequestDto,
+  GetProjects,
+  GetProjectsResponseDto,
 } from './dto';
 import { GetProjectsTechStack } from './type';
 
@@ -176,7 +178,42 @@ export class ProjectsService {
     };
   }
 
-  public getProjects(getProjectsQueryRequestDto: GetProjectsQueryRequestDto) {
-    return this.projectsRepository.getProjects(getProjectsQueryRequestDto);
+  public parseProjects(projects: Projects[]): GetProjects[] {
+    return projects.map(
+      ({
+        id: projectId,
+        title,
+        type: projectType,
+        onOffLine,
+        region,
+        projectsMembers,
+        maxPeople,
+        startDate,
+        endDate,
+      }: Projects) => ({
+        projectId,
+        title,
+        projectType,
+        onOffLine,
+        region,
+        memberCount: projectsMembers.length,
+        maxPeople,
+        startDate,
+        endDate,
+      }),
+    );
+  }
+
+  public async getProjects(
+    getProjectsQueryRequestDto: GetProjectsQueryRequestDto,
+  ): Promise<GetProjectsResponseDto> {
+    const result = await this.projectsRepository.getProjects(
+      getProjectsQueryRequestDto,
+    );
+
+    return {
+      projects: this.parseProjects(result[0]),
+      projectCount: result[1],
+    };
   }
 }
