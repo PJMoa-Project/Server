@@ -6,17 +6,17 @@ export class GetApplications {
   @ApiProperty()
   readonly applicationId: number;
 
-  @ApiProperty()
-  readonly projectId: number;
-
   @ApiProperty({ enum: [ApplicationStatus] })
   readonly applicationStatus: ApplicationStatus;
 
   @ApiProperty()
-  readonly projectTitle: string;
+  readonly reason: string;
 
   @ApiProperty()
-  readonly reason: string;
+  readonly projectId: number;
+
+  @ApiProperty()
+  readonly projectTitle: string;
 }
 
 export class GetApplicationsResponseDto {

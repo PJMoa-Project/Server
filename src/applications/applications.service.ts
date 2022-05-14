@@ -4,6 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { Connection } from 'typeorm';
+import * as _ from 'lodash';
 
 import { ApplicationStatus, ProjectsApplication } from '@app/entity';
 
@@ -12,6 +13,8 @@ import {
   AddProjectApplicationDto,
   ApproveApplicationsParamRequestDto,
   CancelApplicationsRequestDto,
+  GetApplications,
+  GetApplicationsResponseDto,
   RejectApplicationsRequestDto,
 } from './dto';
 import { ProjectsService } from '../projects/projects.service';
@@ -187,5 +190,37 @@ export class ApplicationsService {
 
     await this.projectsApplicationRepository.rejectApplications(applicationId);
     return null;
+  }
+
+  private parseApplications(
+    applications: ProjectsApplication[],
+  ): GetApplications[] {
+    return applications.map(
+      ({
+        id: applicationId,
+        applicationStatus,
+        reason,
+        projectId,
+        projects: { title: projectTitle },
+      }: ProjectsApplication) => ({
+        applicationId,
+        applicationStatus,
+        reason,
+        projectId,
+        projectTitle,
+      }),
+    );
+  }
+
+  public async getApplications(
+    userId: number,
+  ): Promise<GetApplicationsResponseDto> {
+    const result = await this.projectsApplicationRepository.getApplications(
+      userId,
+    );
+
+    return {
+      applications: _.isEmpty(result) ? null : this.parseApplications(result),
+    };
   }
 }

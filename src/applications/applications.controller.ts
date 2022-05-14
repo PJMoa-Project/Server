@@ -24,7 +24,11 @@ export class ApplicationsController {
   constructor(private readonly applicationsService: ApplicationsService) {}
 
   @GetApplications()
-  public getApplications() {}
+  public async getApplications(@User() { userId }: UserRequestDto) {
+    const result = await this.applicationsService.getApplications(userId);
+
+    return result;
+  }
 
   @ApplyProjectsParticipation()
   public applyProjectsParticipation(
