@@ -17,6 +17,7 @@ import {
   ApproveApplicationsParamRequestDto,
   CancelApplicationsRequestDto,
   RejectApplicationsRequestDto,
+  GetApplicationsResponseDto,
 } from './dto';
 
 @Controller()
@@ -27,7 +28,7 @@ export class ApplicationsController {
   public async getApplications(@User() { userId }: UserRequestDto) {
     const result = await this.applicationsService.getApplications(userId);
 
-    return result;
+    return new GetApplicationsResponseDto(result);
   }
 
   @ApplyProjectsParticipation()
