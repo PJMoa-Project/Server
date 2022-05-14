@@ -9,6 +9,7 @@ import {
   ApproveApplications,
   CancelApplications,
   RejectApplications,
+  GetApplications,
 } from './applications.controller.decorator';
 import { ApplicationsService } from './applications.service';
 import {
@@ -16,11 +17,19 @@ import {
   ApproveApplicationsParamRequestDto,
   CancelApplicationsRequestDto,
   RejectApplicationsRequestDto,
+  GetApplicationsResponseDto,
 } from './dto';
 
 @Controller()
 export class ApplicationsController {
   constructor(private readonly applicationsService: ApplicationsService) {}
+
+  @GetApplications()
+  public async getApplications(@User() { userId }: UserRequestDto) {
+    const result = await this.applicationsService.getApplications(userId);
+
+    return new GetApplicationsResponseDto(result);
+  }
 
   @ApplyProjectsParticipation()
   public applyProjectsParticipation(
