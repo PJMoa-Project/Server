@@ -12,6 +12,11 @@ async function bootstrap() {
 
   cors(app);
 
+  app.enableCors({
+    origin: [/^https?:\/\/((localhost)|(127\.0\.0\.1)):3\d{3}$/],
+    methods: ['GET', 'PUT', 'POST', 'DELETE'],
+  });
+
   app.enableVersioning();
 
   swaggerBuilder(app, {

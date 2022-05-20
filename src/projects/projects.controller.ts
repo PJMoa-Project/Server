@@ -2,7 +2,6 @@ import { Body, Param, Query } from '@nestjs/common';
 
 import { User } from '@app/utils';
 import { UserRequestDto } from '@api/shared/dto/user-request.dto';
-import { Projects } from '@app/entity';
 
 import { ProjectsService } from './projects.service';
 import {
@@ -11,6 +10,7 @@ import {
   UpdateProject,
   GetProjectDetail,
   GetProjects,
+  GetMyProjects,
 } from './projects.controller.decorator';
 import {
   CreateProjectsBodyRequestDto,
@@ -20,8 +20,8 @@ import {
   GetProjectsDetailParamRequestDto,
   GetProjectsDetailResponseDto,
   GetProjectsQueryRequestDto,
+  GetProjectsResponseDto,
 } from './dto';
-import { GetProjectsResponseDto } from './dto/get-projects-response.dto';
 
 @Controller()
 export class ProjectsController {
@@ -76,5 +76,10 @@ export class ProjectsController {
     );
 
     return new GetProjectsResponseDto(result);
+  }
+
+  @GetMyProjects()
+  public getMyProjects(@User() { userId }: UserRequestDto) {
+    return userId;
   }
 }
