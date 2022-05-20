@@ -18,7 +18,7 @@ import {
   RejectApplicationsRequestDto,
 } from './dto';
 import { ProjectsService } from '../projects/projects.service';
-import { ProjectsMembersRepository } from '../projects/members/projects-members.repository';
+import { ProjectsMembersRepository } from '../projects/members/repository/projects-members.repository';
 import { ProjectsMembersService } from '../projects/members/projects-members.service';
 
 @Injectable()

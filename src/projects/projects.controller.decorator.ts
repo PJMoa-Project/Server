@@ -17,7 +17,7 @@ export const ProjectsController = () =>
     ApiTags('projects'),
   );
 
-export const GetMyProjects = () =>
+export const GetUserProjects = () =>
   applyDecorators(
     Get('/me'),
     JwtAuth(),

@@ -104,12 +104,4 @@ export class ProjectsRepository extends Repository<Projects> {
 
     return query.getManyAndCount();
   }
-
-  public getUserProjects(userId: number) {
-    const query = this.getProjectsWithMembersQuery()
-      .where('Projects.userId = :userId', { userId })
-      .orderBy('Projects.createdAt', 'DESC');
-
-    return query.getMany();
-  }
 }
