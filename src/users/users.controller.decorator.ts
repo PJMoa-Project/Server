@@ -1,6 +1,7 @@
 import {
   applyDecorators,
   Controller,
+  Get,
   Patch,
   UseInterceptors,
 } from '@nestjs/common';
@@ -27,6 +28,18 @@ export const SetUserProfile = () =>
       summary: '유저 프로필 설정 API',
       okRes: {
         schema: {},
+      },
+    }),
+  );
+
+export const GetUserProjects = () =>
+  applyDecorators(
+    Get('/projects'),
+    JwtAuth(),
+    ApiDoc({
+      summary: '내 프로젝트 조회 API',
+      okRes: {
+        // type:
       },
     }),
   );

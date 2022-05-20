@@ -5,4 +5,3 @@ export * from './get-projects-detail-request.dto';
 export * from './get-projects-detail-response.dto';
 export * from './get-projects-request.dto';
 export * from './get-projects-response.dto';
-export * from './get-user-projects-response.dto';

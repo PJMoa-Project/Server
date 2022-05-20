@@ -10,7 +10,6 @@ import {
   UpdateProject,
   GetProjectDetail,
   GetProjects,
-  GetUserProjects,
 } from './projects.controller.decorator';
 import {
   CreateProjectsBodyRequestDto,
@@ -21,7 +20,6 @@ import {
   GetProjectsDetailResponseDto,
   GetProjectsQueryRequestDto,
   GetProjectsResponseDto,
-  GetUserProjectsResponseDto,
 } from './dto';
 
 @Controller()
@@ -77,14 +75,5 @@ export class ProjectsController {
     );
 
     return new GetProjectsResponseDto(result);
-  }
-
-  @GetUserProjects()
-  public async getUserProjects(@User() { userId }: UserRequestDto) {
-    const result = await this.projectsService.getUserProject(userId);
-
-    return new GetUserProjectsResponseDto({
-      userProjects: result,
-    });
   }
 }
