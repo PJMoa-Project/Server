@@ -12,6 +12,8 @@ import { JwtAuth } from '@app/utils/guards';
 import { multerOptions } from '@app/config/multer';
 import { ApiDoc } from '@app/config/decorators';
 
+import { GetUserProjectsResponseDto } from './dto';
+
 export const UsersController = () =>
   applyDecorators(
     Controller({ path: 'users', version: '1' }),
@@ -39,7 +41,7 @@ export const GetUserProjects = () =>
     ApiDoc({
       summary: '내 프로젝트 조회 API',
       okRes: {
-        // type:
+        type: GetUserProjectsResponseDto,
       },
     }),
   );
