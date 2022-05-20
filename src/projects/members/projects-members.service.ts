@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { Connection } from 'typeorm';
 
-import { ProjectsMembersRepository } from './projects-members.repository';
+import { ProjectsMembersRepository } from './repository';
 
 @Injectable()
 export class ProjectsMembersService {

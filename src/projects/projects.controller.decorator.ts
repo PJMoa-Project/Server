@@ -17,6 +17,18 @@ export const ProjectsController = () =>
     ApiTags('projects'),
   );
 
+export const GetUserProjects = () =>
+  applyDecorators(
+    Get('/me'),
+    JwtAuth(),
+    ApiDoc({
+      summary: '내 프로젝트 조회 API',
+      okRes: {
+        // type:
+      },
+    }),
+  );
+
 export const CreateProject = () =>
   applyDecorators(
     Post(),

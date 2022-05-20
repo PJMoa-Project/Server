@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { Projects } from '@app/entity';
 
@@ -58,14 +58,17 @@ export class ProjectsRepository extends Repository<Projects> {
       .execute();
   }
 
+  private getProjectsWithMembersQuery(): SelectQueryBuilder<Projects> {
+    return this.createQueryBuilder('Projects').leftJoinAndSelect(
+      'Projects.projectsMembers',
+      'ProjectsMembers',
+      'ProjectsMembers.status = :status',
+      { status: true },
+    );
+  }
+
   public getProjectDetail(projectId: number): Promise<Projects> {
-    const query = this.createQueryBuilder('Projects')
-      .leftJoinAndSelect(
-        'Projects.projectsMembers',
-        'ProjectsMembers',
-        'ProjectsMembers.status = :status',
-        { status: true },
-      )
+    const query = this.getProjectsWithMembersQuery()
       .leftJoinAndSelect('Projects.projectsTechStacks', 'ProjectsTechStacks')
       .leftJoinAndSelect('Projects.projectsLike', 'ProjectsLike')
       .leftJoinAndSelect('Projects.users', 'Users')
@@ -80,15 +83,10 @@ export class ProjectsRepository extends Repository<Projects> {
   ): Promise<[Projects[], number]> {
     const { region, personnel, projectType, onOffLine } = queryParam;
 
-    const query = this.createQueryBuilder('Projects')
-      .leftJoinAndSelect(
-        'Projects.projectsMembers',
-        'ProjectsMembers',
-        'ProjectsMembers.status = :status',
-        { status: true },
-      )
+    const query = this.getProjectsWithMembersQuery()
       .limit(queryParam.getLimit())
-      .offset(queryParam.getOffset());
+      .offset(queryParam.getOffset())
+      .where('Projects.status = :status', { status: true });
 
     if (region) {
       query.andWhere('Projects.region = :region', { region });
