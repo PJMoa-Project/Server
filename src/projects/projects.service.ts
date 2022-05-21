@@ -8,11 +8,11 @@ import {
 import { Connection } from 'typeorm';
 import * as _ from 'lodash';
 
-import { OnOffLine, Projects, ProjectsMembers } from '@app/entity';
+import { OnOffLine, Projects } from '@app/entity';
 import { DateFns } from '@app/utils';
 
 import { ProjectsRepository } from './repository';
-import { ProjectsTechStacksRepository } from '../tech-stacks/repository';
+import { ProjectsTechStacksRepository } from './tech-stacks/repository';
 import { ProjectsMembersRepository } from './members/repository';
 import { ProjectsLikeService } from './like/projects-like.service';
 import {
@@ -24,7 +24,7 @@ import {
   UpdateProjectsParamRequestDto,
   GetProjects,
   GetProjectsResponseDto,
-  GetUserProjects,
+  DeleteProjectParamRequestDto,
 } from './dto';
 import { GetProjectsTechStack } from './type';
 
@@ -33,14 +33,10 @@ export class ProjectsService {
   constructor(
     private readonly connection: Connection,
     private readonly projectsRepository: ProjectsRepository,
-    private readonly projectsMembersRepository: ProjectsMembersRepository,
     private readonly projectsLikeService: ProjectsLikeService,
   ) {
     this.projectsRepository =
       this.connection.getCustomRepository(ProjectsRepository);
-    this.projectsMembersRepository = this.connection.getCustomRepository(
-      ProjectsMembersRepository,
-    );
   }
 
   public async findProjectWithValidate(projectId: number): Promise<Projects> {
@@ -233,30 +229,18 @@ export class ProjectsService {
     };
   }
 
-  private parseUserProjects(projects: ProjectsMembers[]): GetUserProjects[] {
-    return projects.map(
-      ({
-        projects: {
-          title: projectTitle,
-          startDate,
-          endDate,
-          userId: projectUserId,
-        },
-        projectId,
-        userId,
-      }: ProjectsMembers): GetUserProjects => ({
-        projectId,
-        projectTitle,
-        startDate,
-        endDate,
-        isProjectOwner: userId === projectUserId,
-      }),
-    );
-  }
+  public async deleteProject(
+    userId: number,
+    { projectId }: DeleteProjectParamRequestDto,
+  ): Promise<null> {
+    await this.validateProjectOwner(userId, projectId);
 
-  public async getUserProject(userId: number) {
-    const result = await this.projectsMembersRepository.getUserProjects(userId);
+    try {
+      await this.projectsRepository.deleteProject(projectId);
 
-    return _.isEmpty(result) ? null : this.parseUserProjects(result);
+      return null;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 }

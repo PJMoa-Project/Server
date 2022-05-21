@@ -23,5 +23,5 @@ export class ProjectsTechStacks {
 
   @ManyToOne((type) => Projects, (projects) => projects.projectsTechStacks)
   @JoinColumn({ name: 'projectId' })
-  projects: Projects[];
+  projects: Projects;
 }

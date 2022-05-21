@@ -29,7 +29,7 @@ export class ProjectsMembersRepository extends Repository<ProjectsMembers> {
 
   public getUserProjects(userId: number): Promise<ProjectsMembers[]> {
     const query = this.createQueryBuilder('ProjectsMembers')
-      .leftJoinAndSelect(
+      .innerJoinAndSelect(
         'ProjectsMembers.projects',
         'Projects',
         'Projects.status = :status',

@@ -1,4 +1,11 @@
-import { applyDecorators, Controller, Get, Post, Put } from '@nestjs/common';
+import {
+  applyDecorators,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { JwtAuth } from '@app/utils/guards';
@@ -15,18 +22,6 @@ export const ProjectsController = () =>
   applyDecorators(
     Controller({ path: 'projects', version: '1' }),
     ApiTags('projects'),
-  );
-
-export const GetUserProjects = () =>
-  applyDecorators(
-    Get('/me'),
-    JwtAuth(),
-    ApiDoc({
-      summary: '내 프로젝트 조회 API',
-      okRes: {
-        // type:
-      },
-    }),
   );
 
 export const CreateProject = () =>
@@ -77,6 +72,18 @@ export const GetProjects = () =>
       okRes: {
         description: '프로젝트 조회 성공',
         type: GetProjectsResponseDto,
+      },
+    }),
+  );
+
+export const DeleteProjects = () =>
+  applyDecorators(
+    Delete('/:projectId'),
+    JwtAuth(),
+    ApiDoc({
+      summary: '프로젝트 삭제',
+      okRes: {
+        schema: {},
       },
     }),
   );

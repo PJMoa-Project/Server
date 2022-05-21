@@ -10,7 +10,7 @@ import {
   UpdateProject,
   GetProjectDetail,
   GetProjects,
-  GetUserProjects,
+  DeleteProjects,
 } from './projects.controller.decorator';
 import {
   CreateProjectsBodyRequestDto,
@@ -21,7 +21,7 @@ import {
   GetProjectsDetailResponseDto,
   GetProjectsQueryRequestDto,
   GetProjectsResponseDto,
-  GetUserProjectsResponseDto,
+  DeleteProjectParamRequestDto,
 } from './dto';
 
 @Controller()
@@ -79,12 +79,14 @@ export class ProjectsController {
     return new GetProjectsResponseDto(result);
   }
 
-  @GetUserProjects()
-  public async getUserProjects(@User() { userId }: UserRequestDto) {
-    const result = await this.projectsService.getUserProject(userId);
-
-    return new GetUserProjectsResponseDto({
-      userProjects: result,
-    });
+  @DeleteProjects()
+  public deleteProject(
+    @User() { userId }: UserRequestDto,
+    @Param() deleteProjectParamRequestDto: DeleteProjectParamRequestDto,
+  ) {
+    return this.projectsService.deleteProject(
+      userId,
+      deleteProjectParamRequestDto,
+    );
   }
 }
