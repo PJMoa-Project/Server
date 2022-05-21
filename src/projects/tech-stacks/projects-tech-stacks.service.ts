@@ -6,14 +6,12 @@ import {
   CreateTechStacksRequestDto,
   DeleteTechStacksParamRequestDto,
 } from './dto';
-import { ProjectsService } from '../projects/projects.service';
 
 @Injectable()
 export class ProjectsTechStacksService {
   constructor(
     private readonly connection: Connection,
     private readonly projectsTechStacksRepository: ProjectsTechStacksRepository,
-    private readonly projectsService: ProjectsService,
   ) {
     this.projectsTechStacksRepository = this.connection.getCustomRepository(
       ProjectsTechStacksRepository,
@@ -33,8 +31,6 @@ export class ProjectsTechStacksService {
     userId: number,
     { projectId, name }: CreateTechStacksRequestDto,
   ) {
-    await this.projectsService.validateProjectOwner(userId, projectId);
-
     await this.projectsTechStacksRepository.createTechStack(projectId, name);
 
     return null;

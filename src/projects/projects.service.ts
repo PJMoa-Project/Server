@@ -12,7 +12,7 @@ import { OnOffLine, Projects } from '@app/entity';
 import { DateFns } from '@app/utils';
 
 import { ProjectsRepository } from './repository';
-import { ProjectsTechStacksRepository } from '../tech-stacks/repository';
+import { ProjectsTechStacksRepository } from './tech-stacks/repository';
 import { ProjectsMembersRepository } from './members/repository';
 import { ProjectsLikeService } from './like/projects-like.service';
 import {

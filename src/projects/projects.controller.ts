@@ -10,6 +10,7 @@ import {
   UpdateProject,
   GetProjectDetail,
   GetProjects,
+  DeleteProjects,
 } from './projects.controller.decorator';
 import {
   CreateProjectsBodyRequestDto,
