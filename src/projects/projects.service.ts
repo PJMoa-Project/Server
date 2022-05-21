@@ -24,6 +24,7 @@ import {
   UpdateProjectsParamRequestDto,
   GetProjects,
   GetProjectsResponseDto,
+  DeleteProjectParamRequestDto,
 } from './dto';
 import { GetProjectsTechStack } from './type';
 
@@ -228,7 +229,33 @@ export class ProjectsService {
     };
   }
 
-  public async deleteProject() {
-    return null;
+  public async deleteProject(
+    userId: number,
+    { projectId }: DeleteProjectParamRequestDto,
+  ): Promise<null> {
+    await this.validateProjectOwner(userId, projectId);
+
+    const queryRunner = this.connection.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    const projectsRepository =
+      queryRunner.manager.getCustomRepository(ProjectsRepository);
+    const projectsMembersRepository = queryRunner.manager.getCustomRepository(
+      ProjectsMembersRepository,
+    );
+
+    try {
+      await queryRunner.commitTransaction();
+      await projectsRepository.deleteProject(projectId);
+      await projectsMembersRepository.deleteProjectMembers(projectId);
+
+      return null;
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw new InternalServerErrorException(error);
+    } finally {
+      await queryRunner.release();
+    }
   }
 }

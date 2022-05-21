@@ -38,8 +38,8 @@ export class UsersService {
     return null;
   }
 
-  private parseUserProjects(projects: ProjectsMembers[]): GetUserProjects[] {
-    return projects.map(
+  private parseUserProjects(data: ProjectsMembers[]): GetUserProjects[] {
+    return data.map(
       ({
         projects: {
           title: projectTitle,

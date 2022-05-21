@@ -104,4 +104,12 @@ export class ProjectsRepository extends Repository<Projects> {
 
     return query.getManyAndCount();
   }
+
+  public deleteProject(projectId: number) {
+    return this.createQueryBuilder()
+      .update()
+      .set({ status: false })
+      .where('id = :projectId', { projectId })
+      .execute();
+  }
 }

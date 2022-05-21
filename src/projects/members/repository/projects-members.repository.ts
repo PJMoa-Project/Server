@@ -40,4 +40,13 @@ export class ProjectsMembersRepository extends Repository<ProjectsMembers> {
 
     return query.getMany();
   }
+
+  // NOTE: 프로젝트 삭제 후 복구 시 멤버들은 복구시킬 수 없다(프로젝트 오너만 유지)
+  public deleteProjectMembers(projectId: number) {
+    return this.createQueryBuilder()
+      .update()
+      .set({ status: false })
+      .where('projectId = :projectId', { projectId })
+      .execute();
+  }
 }

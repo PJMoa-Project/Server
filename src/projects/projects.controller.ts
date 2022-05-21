@@ -84,6 +84,9 @@ export class ProjectsController {
     @User() { userId }: UserRequestDto,
     @Param() deleteProjectParamRequestDto: DeleteProjectParamRequestDto,
   ) {
-    return deleteProjectParamRequestDto;
+    return this.projectsService.deleteProject(
+      userId,
+      deleteProjectParamRequestDto,
+    );
   }
 }
