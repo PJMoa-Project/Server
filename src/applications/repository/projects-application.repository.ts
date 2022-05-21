@@ -63,7 +63,7 @@ export class ProjectsApplicationRepository extends Repository<ProjectsApplicatio
 
   public getApplications(userId: number) {
     const query = this.createQueryBuilder('ProjectsApplication')
-      .leftJoinAndSelect(
+      .innerJoinAndSelect(
         'ProjectsApplication.projects',
         'Projects',
         'Projects.status = :status',
