@@ -227,4 +227,8 @@ export class ProjectsService {
       projectCount: result[1],
     };
   }
+
+  public async deleteProject() {
+    return null;
+  }
 }

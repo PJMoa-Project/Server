@@ -7,7 +7,7 @@ import { UploadImageService } from '@app/uploadImage';
 
 import { UsersRepository } from './repository';
 import { ProjectsMembersRepository } from '../projects/members/repository';
-import { GetUserProjects } from '../projects/dto';
+import { GetUserProjects } from './dto';
 
 @Injectable()
 export class UsersService {

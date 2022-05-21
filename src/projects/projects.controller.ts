@@ -21,6 +21,7 @@ import {
   GetProjectsDetailResponseDto,
   GetProjectsQueryRequestDto,
   GetProjectsResponseDto,
+  DeleteProjectParamRequestDto,
 } from './dto';
 
 @Controller()
@@ -76,5 +77,13 @@ export class ProjectsController {
     );
 
     return new GetProjectsResponseDto(result);
+  }
+
+  @DeleteProjects()
+  public deleteProject(
+    @User() { userId }: UserRequestDto,
+    @Param() deleteProjectParamRequestDto: DeleteProjectParamRequestDto,
+  ) {
+    return deleteProjectParamRequestDto;
   }
 }
