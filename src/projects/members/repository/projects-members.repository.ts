@@ -29,7 +29,7 @@ export class ProjectsMembersRepository extends Repository<ProjectsMembers> {
 
   public getUserProjects(userId: number): Promise<ProjectsMembers[]> {
     const query = this.createQueryBuilder('ProjectsMembers')
-      .leftJoinAndSelect(
+      .innerJoinAndSelect(
         'ProjectsMembers.projects',
         'Projects',
         'Projects.status = :status',
@@ -39,14 +39,5 @@ export class ProjectsMembersRepository extends Repository<ProjectsMembers> {
       .andWhere('ProjectsMembers.userId = :userId', { userId });
 
     return query.getMany();
-  }
-
-  // NOTE: 프로젝트 삭제 후 복구 시 멤버들은 복구시킬 수 없다(프로젝트 오너만 유지)
-  public deleteProjectMembers(projectId: number) {
-    return this.createQueryBuilder()
-      .update()
-      .set({ status: false })
-      .where('projectId = :projectId', { projectId })
-      .execute();
   }
 }

@@ -235,27 +235,12 @@ export class ProjectsService {
   ): Promise<null> {
     await this.validateProjectOwner(userId, projectId);
 
-    const queryRunner = this.connection.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-
-    const projectsRepository =
-      queryRunner.manager.getCustomRepository(ProjectsRepository);
-    const projectsMembersRepository = queryRunner.manager.getCustomRepository(
-      ProjectsMembersRepository,
-    );
-
     try {
-      await queryRunner.commitTransaction();
-      await projectsRepository.deleteProject(projectId);
-      await projectsMembersRepository.deleteProjectMembers(projectId);
+      await this.projectsRepository.deleteProject(projectId);
 
       return null;
     } catch (error) {
-      await queryRunner.rollbackTransaction();
       throw new InternalServerErrorException(error);
-    } finally {
-      await queryRunner.release();
     }
   }
 }
