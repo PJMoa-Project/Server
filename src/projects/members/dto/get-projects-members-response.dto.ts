@@ -13,7 +13,7 @@ export class GetProjectsMembers {
 
 export class GetProjectsMembersResponseDto {
   @ApiProperty({ type: [GetProjectsMembers] })
-  readonly members: GetProjectsMembers[] | null;
+  readonly members: GetProjectsMembers[];
 
   constructor(partial: Partial<GetProjectsMembersResponseDto>) {
     Object.assign(this, partial);

@@ -7,7 +7,10 @@ import {
   ProjectsMembersController as Controller,
   GetProjectMembers,
 } from './projects-members.controller.decorator';
-import { GetProjectsMembersParamRequestDto } from './dto';
+import {
+  GetProjectsMembersParamRequestDto,
+  GetProjectsMembersResponseDto,
+} from './dto';
 import { ProjectsMembersService } from './projects-members.service';
 
 @Controller()
@@ -27,6 +30,8 @@ export class ProjectsMembersController {
       getProjectsMembersParamRequestDto,
     );
 
-    return result;
+    return new GetProjectsMembersResponseDto({
+      members: result,
+    });
   }
 }
