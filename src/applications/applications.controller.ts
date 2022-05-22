@@ -10,6 +10,7 @@ import {
   CancelApplications,
   RejectApplications,
   GetApplications,
+  GetProjectApplications,
 } from './applications.controller.decorator';
 import { ApplicationsService } from './applications.service';
 import {
@@ -18,6 +19,8 @@ import {
   CancelApplicationsRequestDto,
   RejectApplicationsRequestDto,
   GetApplicationsResponseDto,
+  GetProjectsApplicationsParamRequestDto,
+  GetProjectsApplicationsResponseDto,
 } from './dto';
 
 @Controller()
@@ -74,5 +77,20 @@ export class ApplicationsController {
       rejectApplicationsRequestDto,
       userId,
     );
+  }
+
+  @GetProjectApplications()
+  public async getProjectApplications(
+    @User() { userId }: UserRequestDto,
+    @Param()
+    getProjectsApplicationsParamRequestDto: GetProjectsApplicationsParamRequestDto,
+  ) {
+    const result = await this.applicationsService.getProjectsApplications(
+      getProjectsApplicationsParamRequestDto,
+    );
+
+    return new GetProjectsApplicationsResponseDto({
+      data: result,
+    });
   }
 }

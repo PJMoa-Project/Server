@@ -4,7 +4,11 @@ import { ApiTags } from '@nestjs/swagger';
 import { JwtAuth } from '@app/utils/guards';
 import { ApiDoc } from '@app/config/decorators';
 
-import { AddProjectApplicationDto, GetApplicationsResponseDto } from './dto';
+import {
+  AddProjectApplicationDto,
+  GetApplicationsResponseDto,
+  GetProjectsApplicationsResponseDto,
+} from './dto';
 
 export const ParticipationController = () =>
   applyDecorators(
@@ -71,6 +75,18 @@ export const RejectApplications = () =>
       okRes: {
         description: '프로젝트 신청 거절 성공',
         schema: {},
+      },
+    }),
+  );
+
+export const GetProjectApplications = () =>
+  applyDecorators(
+    Get('/:projectId/applications'),
+    JwtAuth(),
+    ApiDoc({
+      summary: '내 프로젝트 신청 내역 조회',
+      okRes: {
+        type: GetProjectsApplicationsResponseDto,
       },
     }),
   );
