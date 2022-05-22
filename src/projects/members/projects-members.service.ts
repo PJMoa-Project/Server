@@ -6,6 +6,7 @@ import {
 import { Connection } from 'typeorm';
 
 import { ProjectsMembersRepository } from './repository';
+import { GetProjectsMembersParamRequestDto } from './dto';
 
 @Injectable()
 export class ProjectsMembersService {
@@ -40,5 +41,12 @@ export class ProjectsMembersService {
     if (result) {
       throw new BadRequestException('이미 프로젝트에 속한 멤버입니다');
     }
+  }
+
+  public async getProjectMembers(
+    userId: number,
+    { projectId }: GetProjectsMembersParamRequestDto,
+  ) {
+    return projectId;
   }
 }

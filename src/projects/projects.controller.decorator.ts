@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { JwtAuth } from '@app/utils/guards';
+import { JwtAuth, Throttler } from '@app/utils/guards';
 import { ApiDoc } from '@app/config/decorators';
 
 import {
@@ -67,6 +67,7 @@ export const GetProjectDetail = () =>
 export const GetProjects = () =>
   applyDecorators(
     Get(),
+    Throttler(),
     ApiDoc({
       summary: '프로젝트 조회',
       okRes: {

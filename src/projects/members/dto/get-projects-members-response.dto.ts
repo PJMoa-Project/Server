@@ -8,7 +8,7 @@ export class GetProjectsMembers {
   readonly imageUrl: string;
 
   @ApiProperty()
-  readonly isOwner: boolean;
+  readonly isProjectOwner: boolean;
 }
 
 export class GetProjectsMembersResponseDto {
