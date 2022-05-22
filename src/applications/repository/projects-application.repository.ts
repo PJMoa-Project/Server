@@ -84,7 +84,10 @@ export class ProjectsApplicationRepository extends Repository<ProjectsApplicatio
         { status: true },
       )
       .where('ProjectsApplication.status = :status', { status: true })
-      .andWhere('ProjectsApplication.projectId = :projectId', { projectId });
+      .andWhere('ProjectsApplication.projectId = :projectId', { projectId })
+      .andWhere('ProjectsApplication.applicationStatus IN (:applications)', {
+        applications: [ApplicationStatus.CHECKING, ApplicationStatus.APPROVAL],
+      });
 
     return query.getMany();
   }
