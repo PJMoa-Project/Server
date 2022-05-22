@@ -49,6 +49,12 @@ export class ProjectsMembersRepository extends Repository<ProjectsMembers> {
         'Users.status = :status',
         { status: true },
       )
+      .innerJoinAndSelect(
+        'ProjectsMembers.projects',
+        'Projects',
+        'Projects.status = :status',
+        { status: true },
+      )
       .where('ProjectsMembers.status = :status', { status: true })
       .andWhere('ProjectsMembers.projectId = :projectId', { projectId });
 
