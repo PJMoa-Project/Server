@@ -15,6 +15,7 @@ import {
   CancelApplicationsRequestDto,
   GetApplications,
   GetApplicationsResponseDto,
+  GetProjectsApplicationsParamRequestDto,
   RejectApplicationsRequestDto,
 } from './dto';
 import { ProjectsService } from '../projects/projects.service';
@@ -222,5 +223,16 @@ export class ApplicationsService {
     return {
       applications: _.isEmpty(result) ? null : this.parseApplications(result),
     };
+  }
+
+  public async getProjectsApplications({
+    projectId,
+  }: GetProjectsApplicationsParamRequestDto) {
+    const result =
+      await this.projectsApplicationRepository.getProjectApplications(
+        projectId,
+      );
+
+    return result;
   }
 }

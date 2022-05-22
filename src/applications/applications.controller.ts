@@ -10,6 +10,7 @@ import {
   CancelApplications,
   RejectApplications,
   GetApplications,
+  GetProjectApplications,
 } from './applications.controller.decorator';
 import { ApplicationsService } from './applications.service';
 import {
@@ -18,6 +19,7 @@ import {
   CancelApplicationsRequestDto,
   RejectApplicationsRequestDto,
   GetApplicationsResponseDto,
+  GetProjectsApplicationsParamRequestDto,
 } from './dto';
 
 @Controller()
@@ -73,6 +75,17 @@ export class ApplicationsController {
     return this.applicationsService.rejectApplications(
       rejectApplicationsRequestDto,
       userId,
+    );
+  }
+
+  @GetProjectApplications()
+  public getProjectApplications(
+    @User() { userId }: UserRequestDto,
+    @Param()
+    getProjectsApplicationsParamRequestDto: GetProjectsApplicationsParamRequestDto,
+  ) {
+    return this.applicationsService.getProjectsApplications(
+      getProjectsApplicationsParamRequestDto,
     );
   }
 }

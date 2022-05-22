@@ -74,4 +74,18 @@ export class ProjectsApplicationRepository extends Repository<ProjectsApplicatio
 
     return query.getMany();
   }
+
+  public getProjectApplications(projectId: number) {
+    const query = this.createQueryBuilder('ProjectsApplication')
+      .innerJoinAndSelect(
+        'ProjectsApplication.users',
+        'Users',
+        'Users.status = :status',
+        { status: true },
+      )
+      .where('ProjectsApplication.status = :status', { status: true })
+      .andWhere('ProjectsApplication.projectId = :projectId', { projectId });
+
+    return query.getMany();
+  }
 }
