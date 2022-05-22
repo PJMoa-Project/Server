@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { ApplicationStatus } from '@app/entity';
 
-class GetApplications {
+class GetApplication {
   @ApiProperty()
   readonly id: number;
 
@@ -13,7 +13,7 @@ class GetApplications {
   readonly status: ApplicationStatus;
 }
 
-class GetApplicationUsers {
+class GetApplicationUser {
   @ApiProperty()
   readonly id: number;
 
@@ -24,15 +24,19 @@ class GetApplicationUsers {
   readonly gitUrl: string;
 }
 
-class GetProjectsApplications {
-  @ApiProperty({ type: GetApplications })
-  readonly applications: GetApplications;
+export class GetProjectsApplications {
+  @ApiProperty({ type: GetApplication })
+  readonly applications: GetApplication;
 
-  @ApiProperty({ type: GetApplicationUsers })
-  readonly users: GetApplicationUsers;
+  @ApiProperty({ type: GetApplicationUser })
+  readonly users: GetApplicationUser;
 }
 
 export class GetProjectsApplicationsResponseDto {
   @ApiProperty({ type: [GetProjectsApplications] })
-  readonly data: GetProjectsApplications[];
+  readonly data: GetProjectsApplications[] | null;
+
+  constructor(partial: Partial<GetProjectsApplicationsResponseDto>) {
+    Object.assign(this, partial);
+  }
 }

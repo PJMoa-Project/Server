@@ -15,6 +15,7 @@ import {
   CancelApplicationsRequestDto,
   GetApplications,
   GetApplicationsResponseDto,
+  GetProjectsApplications,
   GetProjectsApplicationsParamRequestDto,
   RejectApplicationsRequestDto,
 } from './dto';
@@ -225,14 +226,40 @@ export class ApplicationsService {
     };
   }
 
+  private parseProjectApplications(
+    data: ProjectsApplication[],
+  ): GetProjectsApplications[] {
+    return data.map(
+      ({
+        id: applicationId,
+        reason,
+        applicationStatus,
+        users: { id: userId, name, gitUrl },
+      }: ProjectsApplication): GetProjectsApplications => ({
+        applications: {
+          id: applicationId,
+          reason,
+          status: applicationStatus,
+        },
+        users: {
+          id: userId,
+          name,
+          gitUrl,
+        },
+      }),
+    );
+  }
+
   public async getProjectsApplications({
     projectId,
-  }: GetProjectsApplicationsParamRequestDto) {
+  }: GetProjectsApplicationsParamRequestDto): Promise<
+    GetProjectsApplications[] | null
+  > {
     const result =
       await this.projectsApplicationRepository.getProjectApplications(
         projectId,
       );
 
-    return result;
+    return _.isEmpty(result) ? null : this.parseProjectApplications(result);
   }
 }

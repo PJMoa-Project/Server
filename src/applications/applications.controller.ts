@@ -20,6 +20,7 @@ import {
   RejectApplicationsRequestDto,
   GetApplicationsResponseDto,
   GetProjectsApplicationsParamRequestDto,
+  GetProjectsApplicationsResponseDto,
 } from './dto';
 
 @Controller()
@@ -79,13 +80,17 @@ export class ApplicationsController {
   }
 
   @GetProjectApplications()
-  public getProjectApplications(
+  public async getProjectApplications(
     @User() { userId }: UserRequestDto,
     @Param()
     getProjectsApplicationsParamRequestDto: GetProjectsApplicationsParamRequestDto,
   ) {
-    return this.applicationsService.getProjectsApplications(
+    const result = await this.applicationsService.getProjectsApplications(
       getProjectsApplicationsParamRequestDto,
     );
+
+    return new GetProjectsApplicationsResponseDto({
+      data: result,
+    });
   }
 }
