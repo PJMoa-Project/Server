@@ -40,4 +40,24 @@ export class ProjectsMembersRepository extends Repository<ProjectsMembers> {
 
     return query.getMany();
   }
+
+  public getMembers(projectId: number): Promise<ProjectsMembers[]> {
+    const query = this.createQueryBuilder('ProjectsMembers')
+      .innerJoinAndSelect(
+        'ProjectsMembers.users',
+        'Users',
+        'Users.status = :status',
+        { status: true },
+      )
+      .innerJoinAndSelect(
+        'ProjectsMembers.projects',
+        'Projects',
+        'Projects.status = :status',
+        { status: true },
+      )
+      .where('ProjectsMembers.status = :status', { status: true })
+      .andWhere('ProjectsMembers.projectId = :projectId', { projectId });
+
+    return query.getMany();
+  }
 }
