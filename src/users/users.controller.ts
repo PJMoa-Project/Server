@@ -12,8 +12,8 @@ import {
 import { UsersService } from './users.service';
 import {
   GetUserProjectsResponseDto,
-  GetUserIntroduceParamRequestDto,
-} from './dto';
+  GetUserIntroduceParamRequestDto, GetUserIntroduceResponseDto
+} from "./dto";
 
 @Controller()
 export class UsersController {
@@ -44,6 +44,8 @@ export class UsersController {
       getUserIntroduceParamRequestDto,
     );
 
-    return result;
+    return new GetUserIntroduceResponseDto({
+      user: result,
+    });
   }
 }
