@@ -7,7 +7,7 @@ import { UploadImageService } from '@app/uploadImage';
 
 import { UsersRepository } from './repository';
 import { ProjectsMembersRepository } from '../projects/members/repository';
-import { GetUserProjects } from './dto';
+import { GetUserIntroduceParamRequestDto, GetUserProjects } from './dto';
 
 @Injectable()
 export class UsersService {
@@ -63,5 +63,17 @@ export class UsersService {
     const result = await this.projectsMembersRepository.getUserProjects(userId);
 
     return _.isEmpty(result) ? null : this.parseUserProjects(result);
+  }
+
+  private parseUserIntroduce(user: Users) {}
+
+  public async getUserIntroduce({ userId }: GetUserIntroduceParamRequestDto) {
+    const result = await this.userRepository.getUserById(userId);
+
+    if (!result) {
+      throw new NotFoundException('존재하지 않는 유저입니다');
+    }
+
+    return result;
   }
 }
