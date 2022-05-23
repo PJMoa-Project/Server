@@ -1,4 +1,4 @@
-import { UploadedFile } from '@nestjs/common';
+import { Param, UploadedFile } from '@nestjs/common';
 
 import { User } from '@app/utils';
 import { UserRequestDto } from '@api/shared/dto/user-request.dto';
@@ -7,9 +7,13 @@ import {
   UsersController as Controller,
   SetUserProfile,
   GetUserProjects,
+  GetUserIntroduce,
 } from './users.controller.decorator';
 import { UsersService } from './users.service';
-import { GetUserProjectsResponseDto } from './dto';
+import {
+  GetUserProjectsResponseDto,
+  GetUserIntroduceParamRequestDto, GetUserIntroduceResponseDto
+} from "./dto";
 
 @Controller()
 export class UsersController {
@@ -29,6 +33,19 @@ export class UsersController {
 
     return new GetUserProjectsResponseDto({
       userProjects: result,
+    });
+  }
+
+  @GetUserIntroduce()
+  public async getUserIntroduce(
+    @Param() getUserIntroduceParamRequestDto: GetUserIntroduceParamRequestDto,
+  ) {
+    const result = await this.usersService.getUserIntroduce(
+      getUserIntroduceParamRequestDto,
+    );
+
+    return new GetUserIntroduceResponseDto({
+      user: result,
     });
   }
 }

@@ -39,4 +39,12 @@ export class UsersRepository extends Repository<Users> {
       .where('id = :userId', { userId })
       .execute();
   }
+
+  public getUserById(userId: number): Promise<Users> {
+    const query = this.createQueryBuilder('Users').where('Users.id = :userId', {
+      userId,
+    });
+
+    return query.getOne();
+  }
 }

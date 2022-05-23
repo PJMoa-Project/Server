@@ -8,7 +8,7 @@ import {
 import { ApiTags, ApiConsumes } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-import { JwtAuth } from '@app/utils/guards';
+import { JwtAuth, Throttler } from '@app/utils/guards';
 import { multerOptions } from '@app/config/multer';
 import { ApiDoc } from '@app/config/decorators';
 
@@ -43,5 +43,14 @@ export const GetUserProjects = () =>
       okRes: {
         type: GetUserProjectsResponseDto,
       },
+    }),
+  );
+
+export const GetUserIntroduce = () =>
+  applyDecorators(
+    Get('/:userId/introduce'),
+    Throttler(),
+    ApiDoc({
+      summary: '유저 소개 조회 API',
     }),
   );
