@@ -2,9 +2,13 @@ FROM node:16-alpine
 
 WORKDIR /app
 
-COPY . .
+COPY package.json /app
 
-RUN yarn --frozen-lockfile && yarn build
+RUN yarn --frozen-lockfile
+
+COPY . /app
+
+RUN yarn build
 
 EXPOSE 3000
 
