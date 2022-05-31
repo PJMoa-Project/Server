@@ -6,6 +6,7 @@ import cors from '@app/config/cors';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  console.log(`Running in :${process.env.NODE_ENV}`);
   const app = await NestFactory.create(AppModule, {
     logger: ['error', 'warn'],
   });
