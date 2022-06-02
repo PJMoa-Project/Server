@@ -16,7 +16,7 @@ export class OauthController {
   @KakaoCallback()
   public kakaoCallback(@Req() req: any, @Res() res: Response) {
     console.log(req.user);
-    res.redirect('https://www.op.gg/');
+    // res.json(req.user);
     return null;
   }
 }

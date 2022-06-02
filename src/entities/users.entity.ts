@@ -6,6 +6,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 
 import {
@@ -13,6 +15,7 @@ import {
   ProjectsApplication,
   ProjectsLike,
   ProjectsMembers,
+  Oauth,
 } from '@app/entity';
 
 @Entity('Users')
@@ -62,6 +65,10 @@ export class Users {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
+
+  @OneToOne((type) => Oauth, (oauth) => oauth.users)
+  @JoinColumn()
+  oauth: Oauth;
 
   @OneToMany((type) => Projects, (projects) => projects.users)
   projects: Projects[];
