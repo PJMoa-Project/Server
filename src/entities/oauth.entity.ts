@@ -8,7 +8,7 @@ import {
 import { Users } from '@app/entity';
 
 export enum OauthProviderType {
-  KAKAO = 'KAKAO',
+  KAKAO = 'kakao',
 }
 
 @Entity('Oauth')

@@ -24,7 +24,15 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
      * 만약 로그인 된 유저라면 바로 로그인 진행
      */
     try {
-      done(null, profile._json);
+      const {
+        provider,
+        id,
+        _json: { kakao_account: userInfo },
+      } = profile;
+      // 기존 oauth 테이블을 id 기준으로 조회해서 있는 사용자일 경우 userId 를 return 한다.
+      // 고객을 생성한 뒤, 해당 내용을 return 한다.
+      console.log(userInfo);
+      done(null, profile);
     } catch (error) {
       done(error, null);
     }

@@ -8,6 +8,10 @@ import {
 
 @Controller()
 export class OauthController {
+  private callback() {
+
+  }
+
   @KakaoLogin()
   public kakaoLogin() {
     return null;
@@ -16,7 +20,7 @@ export class OauthController {
   @KakaoCallback()
   public kakaoCallback(@Req() req: any, @Res() res: Response) {
     console.log(req.user);
-    // res.json(req.user);
+    res.json(req.user);
     return null;
   }
 }
