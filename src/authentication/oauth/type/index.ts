@@ -1,5 +1,11 @@
-import { Users } from '@app/entity';
+import { OauthProviderType } from '@app/entity';
 
-export interface IUser {
-  user: Users | null;
+export interface IOauth {
+  oauth: {
+    id: string;
+    provider: OauthProviderType;
+    email?: string;
+    userId?: number;
+  };
+  isCreate: boolean;
 }
