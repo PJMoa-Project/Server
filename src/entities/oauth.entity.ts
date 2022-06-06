@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToOne,
   PrimaryColumn,
 } from 'typeorm';
@@ -28,6 +29,7 @@ export class Oauth {
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  @OneToOne((type) => Users, (users) => users.oauth)
+  @OneToOne(() => Users, (users) => users.oauth)
+  @JoinColumn({ name: 'userId' })
   users: Users;
 }

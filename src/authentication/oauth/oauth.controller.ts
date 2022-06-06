@@ -1,4 +1,5 @@
 import { Req, Res } from '@nestjs/common';
+import { Response } from 'express';
 
 import {
   OauthController as Controller,
@@ -8,19 +9,14 @@ import {
 
 @Controller()
 export class OauthController {
-  private callback() {
-
-  }
-
   @KakaoLogin()
   public kakaoLogin() {
     return null;
   }
 
   @KakaoCallback()
-  public kakaoCallback(@Req() req: any, @Res() res: Response) {
-    console.log(req.user);
-    res.json(req.user);
+  public kakaoCallback(@Req() { user }: { user: any }, @Res() res: Response) {
+    res.json(user);
     return null;
   }
 }

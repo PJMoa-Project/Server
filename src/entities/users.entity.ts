@@ -7,7 +7,6 @@ import {
   UpdateDateColumn,
   OneToMany,
   OneToOne,
-  JoinColumn,
 } from 'typeorm';
 
 import {
@@ -26,39 +25,45 @@ export class Users {
   @Column('boolean', { default: true })
   status: boolean;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   @Index({ unique: true })
-  email: string;
+  email: string | null;
 
-  @Column('text')
-  password: string;
+  @Column('text', {
+    nullable: true,
+  })
+  password: string | null;
 
   @Column({
+    nullable: true,
     length: 10,
   })
-  name: string;
+  name: string | null;
 
   @Column({
+    nullable: true,
     length: 11,
   })
   @Index({ unique: true })
-  mobile: string;
+  mobile: string | null;
 
   @Column({
     nullable: true,
   })
-  gitUrl: string;
+  gitUrl: string | null;
 
   @Column({
     nullable: true,
     length: 50,
   })
-  aboutMe: string;
+  aboutMe: string | null;
 
   @Column({
     nullable: true,
   })
-  profileImage: string;
+  profileImage: string | null;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
@@ -66,25 +71,21 @@ export class Users {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @OneToOne((type) => Oauth, (oauth) => oauth.users)
-  @JoinColumn()
+  @OneToOne(() => Oauth, (oauth) => oauth.users)
   oauth: Oauth;
 
-  @OneToMany((type) => Projects, (projects) => projects.users)
+  @OneToMany(() => Projects, (projects) => projects.users)
   projects: Projects[];
 
-  @OneToMany(
-    (type) => ProjectsMembers,
-    (projectsMember) => projectsMember.users,
-  )
+  @OneToMany(() => ProjectsMembers, (projectsMember) => projectsMember.users)
   projectsMembers: ProjectsMembers[];
 
   @OneToMany(
-    (type) => ProjectsApplication,
+    () => ProjectsApplication,
     (projectsApplication) => projectsApplication.users,
   )
   projectsApplication: ProjectsApplication[];
 
-  @OneToMany((type) => ProjectsLike, (projectsLike) => projectsLike.users)
+  @OneToMany(() => ProjectsLike, (projectsLike) => projectsLike.users)
   projectsLike: ProjectsLike[];
 }

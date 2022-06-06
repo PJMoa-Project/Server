@@ -3,9 +3,14 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
 import { Strategy, Profile } from 'passport-kakao';
 
+import { OauthService } from '../oauth.service';
+
 @Injectable()
 export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
-  constructor(private readonly configService: ConfigService) {
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly oauthService: OauthService,
+  ) {
     super({
       clientID: configService.get('KAKAO_REST_API_KEY'),
       callbackURL: configService.get('KAKAO_OAUTH_URL'),
@@ -27,11 +32,15 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
       const {
         provider,
         id,
-        _json: { kakao_account: userInfo },
+        _json: { kakao_account: kakaoUserInfo },
       } = profile;
-      // 기존 oauth 테이블을 id 기준으로 조회해서 있는 사용자일 경우 userId 를 return 한다.
+
+      const oauthResult = await this.oauthService.getOauth(String(id));
       // 고객을 생성한 뒤, 해당 내용을 return 한다.
-      console.log(userInfo);
+      if (!oauthResult) {
+        done(null, profile);
+      }
+      const { userId } = oauthResult;
       done(null, profile);
     } catch (error) {
       done(error, null);

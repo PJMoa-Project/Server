@@ -14,7 +14,7 @@ export class OauthRepository extends Repository<Oauth> {
     });
   }
 
-  public getOauth(id: string) {
+  public getOauth(id: string): Promise<Oauth | null> {
     const query = this.createQueryBuilder('Oauth').where('Oauth.id = :id', {
       id,
     });
