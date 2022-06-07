@@ -16,6 +16,7 @@ import {
   ProjectsMembers,
   ProjectsApplication,
   ProjectsLike,
+  Oauth,
 } from '@app/entity';
 import { AllExceptionsFilter } from '@app/utils/filters';
 
@@ -32,6 +33,7 @@ const entities = [
   ProjectsMembers,
   ProjectsApplication,
   ProjectsLike,
+  Oauth,
 ];
 
 @Module({
@@ -47,10 +49,10 @@ const entities = [
       username: ENV.DB_USERNAME,
       password: ENV.DB_PASSWORD,
       database: ENV.DB_NAME,
-      entities,
       synchronize: ENV.NODE_ENV !== 'prod',
       logging: true,
       timezone: '+09:00',
+      entities,
     }),
     ThrottlerModule.forRoot({
       ttl: 5,

@@ -4,3 +4,4 @@ export * from './projects-tech-stacks.entity';
 export * from './projects-members.entity';
 export * from './projects-application.entity';
 export * from './projects-like.entity';
+export * from './oauth.entity';
