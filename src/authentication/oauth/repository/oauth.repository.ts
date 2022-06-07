@@ -6,7 +6,15 @@ import { Oauth, OauthProviderType } from '@app/entity';
 @Injectable()
 @EntityRepository(Oauth)
 export class OauthRepository extends Repository<Oauth> {
-  public createOauth(id: string, userId: number, provider: OauthProviderType) {
+  public createOauth({
+    id,
+    userId,
+    provider,
+  }: {
+    id: string;
+    userId: number;
+    provider: OauthProviderType;
+  }) {
     return this.insert({
       id,
       userId,

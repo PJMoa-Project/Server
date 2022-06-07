@@ -23,7 +23,14 @@ export class UsersRepository extends Repository<Users> {
     return this.save(user);
   }
 
-  public findUserByEmail(email: string): Promise<Users> {
+  public createUserWithOauth(email: string) {
+    const user = new Users();
+    user.email = email;
+
+    return this.save(user);
+  }
+
+  public findUserByEmail(email: string): Promise<Users | null> {
     const query = this.createQueryBuilder('Users').where(
       'Users.email = :email',
       { email },

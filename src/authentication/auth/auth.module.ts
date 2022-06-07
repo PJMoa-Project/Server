@@ -12,5 +12,6 @@ import { TokenModule } from '../token/token.module';
   imports: [UsersModule, PassportModule, TokenModule],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
+  exports: [AuthService],
 })
 export class AuthModule {}

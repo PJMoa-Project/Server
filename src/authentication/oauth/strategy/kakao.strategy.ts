@@ -40,7 +40,7 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
       const oauthId = String(id);
       const oauthResult = await this.oauthService.getOauth(oauthId);
 
-      // NOTE: 카카오를 통해 로그인하지 않은 경우
+      // NOTE: 카카오를 통해 회원가입한 기록이 없을 경우
       if (!oauthResult) {
         const data: IOauth = {
           oauth: {
@@ -53,13 +53,14 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
         done(null, data);
       }
 
-      // NOTE: 카카오를 통해 로그인한 경우
+      // NOTE: 카카오를 통해 회원가입을 한 기록이 있을 경우
       const { userId } = oauthResult;
       const data: IOauth = {
         oauth: {
           id: oauthId,
           provider: OauthProviderType.KAKAO,
           userId,
+          email: kakaoUserInfo?.email,
         },
         isCreate: false,
       };
