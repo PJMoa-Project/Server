@@ -1,7 +1,6 @@
 import { applyDecorators, Controller, Get } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import { ApiDoc } from '@app/config/decorators';
 import { JwtAuth } from '@app/utils/guards';
 
 import { GetProjectsMembersResponseDto } from './dto';
@@ -16,10 +15,6 @@ export const GetProjectMembers = () =>
   applyDecorators(
     Get('/:projectId/members'),
     JwtAuth(),
-    ApiDoc({
-      summary: '프로젝트 멤버 조회 API',
-      okRes: {
-        type: GetProjectsMembersResponseDto,
-      },
-    }),
+    ApiOperation({ summary: '프로젝트 멤버 조회 API' }),
+    ApiOkResponse({ type: GetProjectsMembersResponseDto }),
   );

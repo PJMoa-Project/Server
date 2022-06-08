@@ -1,8 +1,15 @@
 import { applyDecorators, Controller, Delete, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 
-import { ApiDoc } from '@app/config/decorators';
 import { JwtAuth } from '@app/utils/guards';
+
+import { CreateTechStacksRequestDto } from './dto';
 
 export const ProjectsTechStacksController = () =>
   applyDecorators(
@@ -14,12 +21,10 @@ export const DeleteTechStack = () =>
   applyDecorators(
     Delete('/tech-stacks/:techStackId'),
     JwtAuth(),
-    ApiDoc({
-      summary: '프로젝트 기술스택 삭제',
-      okRes: {
-        description: '프로젝트 기술스택 삭제 성공',
-        schema: {},
-      },
+    ApiOperation({ summary: '프로젝트 기술스택 삭제' }),
+    ApiOkResponse({
+      description: '프로젝트 기술스택 삭제 성공',
+      schema: {},
     }),
   );
 
@@ -27,7 +32,9 @@ export const AddTechStack = () =>
   applyDecorators(
     Post('/tech-stacks'),
     JwtAuth(),
-    ApiDoc({
-      summary: '프로젝트 기술스택 추가',
+    ApiOperation({ summary: '프로젝트 기술스택 추가' }),
+    ApiBody({ type: CreateTechStacksRequestDto }),
+    ApiCreatedResponse({
+      schema: {},
     }),
   );
